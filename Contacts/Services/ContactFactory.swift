@@ -18,8 +18,6 @@ enum ContactFactoryError: Error {
 // Factories
 
 protocol ContactFactory {
-  
-  var contacts : [Contact] {get set}
   func getContacts(completionHandler: @escaping (Result<[Contact], Error>) -> Void)
   func add(contact: Contact, completionHandler: (Result<Bool, Error>) -> Void)
   func delete(contact: Contact,  completionHandler: (Result<Bool, Error>) -> Void)

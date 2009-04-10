@@ -30,8 +30,8 @@ class CLDPUILocalizedIndexedCollation {
   
   init(_ repository: ContactFactory) {
     self.repository = repository
-    objects = repository.contacts
-    populateSection()
+    objects = []
+//    populateSection()
   }
   
   // MARK: - Private functions

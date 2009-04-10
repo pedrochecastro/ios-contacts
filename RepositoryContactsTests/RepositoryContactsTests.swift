@@ -247,10 +247,5 @@ class RepositoryContactsTests: XCTestCase {
     wait(for: [exp1,exp2,exp3], timeout: 6)
     
   }
-  
-  func testContactPropertyToGetContacts(){
     
-  }
-    
-
 }

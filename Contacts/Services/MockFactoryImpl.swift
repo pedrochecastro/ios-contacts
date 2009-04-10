@@ -15,21 +15,6 @@ final class MockFactoryImpl : ContactFactory {
   private var fakeContacts: [Contact] = []
   
   let mockError: ContactFactoryError? = nil
-  var contacts: [Contact] {
-    get {
-      var contacts: [Contact] = []
-      getContacts { (result) in
-        switch result {
-        case .success(let data):
-          contacts = data
-        case .failure:
-          contacts = []
-        }
-      }
-      return contacts
-    }
-    set {}
-  }
 
   
   func getContacts(completionHandler: @escaping (Result<[Contact], Error>) -> Void) {
@@ -88,7 +73,7 @@ final class MockFactoryImpl : ContactFactory {
   }
   
   func contains(contact: Contact) -> Bool {
-        return contacts.contains(contact)
+        return fakeContacts.contains(contact)
   }
 
 }
