@@ -8,13 +8,15 @@
 
 import UIKit
 
-class MainViewController: UITableViewController {
+class ContactViewController: UITableViewController {
     
     let contactList = ContactList()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        // UI
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -22,7 +24,7 @@ class MainViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem",
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
                                                  for: indexPath)
         
         if let label = cell.viewWithTag(1000) as? UILabel {
