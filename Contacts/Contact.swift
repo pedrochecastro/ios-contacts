@@ -34,6 +34,9 @@ class ContactList {
         }
         
     }
+    public func add(contact: Contact) {
+        contactList.append(contact)
+    }
     
     public func numberOfContacts() -> Int {
         return contactList.count

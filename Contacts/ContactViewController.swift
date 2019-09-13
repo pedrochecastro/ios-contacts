@@ -34,5 +34,33 @@ class ContactViewController: UITableViewController {
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
+    }
+
+
+// MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addNewContact" {
+            if let newContactVC = segue.destination as? NewContactViewController {
+                newContactVC.delegate = self
+                newContactVC.contactList = contactList
+            }
+        }
+    }
+    
+}
+
+
+extension ContactViewController: NewContacViewControllerDelegate {
+    func newContacViewController(_ controller: NewContactViewController, didFinishAdding contact: Contact) {
+         navigationController?.popViewController(animated: true)
+         let rowIndex = contactList.numberOfContacts() - 1
+         let indexPath = IndexPath(row: rowIndex, section: 0)
+         tableView.insertRows(at: [indexPath], with: .automatic)
+    }
+    
+    
 }
 
