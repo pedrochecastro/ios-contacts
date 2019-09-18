@@ -42,7 +42,11 @@ class ContactList {
         return contactList.count
     }
     
-    public func getContactBy(position: Int) -> Contact{
-        return contactList[position]
+    public func getContact(index: Int) -> Contact{
+        return contactList[index]
+    }
+    
+    public func removeContact(index: Int) {
+        contactList.remove(at: index)
     }
 }

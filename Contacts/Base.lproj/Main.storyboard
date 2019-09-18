@@ -26,7 +26,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GPM-Rf-J95">
-                                            <rect key="frame" x="20" y="11" width="374" height="21"/>
+                                            <rect key="frame" x="20" y="11" width="374" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -34,7 +34,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="GPM-Rf-J95" firstAttribute="top" secondItem="1ma-M8-zqu" secondAttribute="top" constant="11" id="C5C-gW-sBV"/>
-                                        <constraint firstAttribute="bottom" secondItem="GPM-Rf-J95" secondAttribute="bottom" constant="11.5" id="N0N-wu-u8x"/>
+                                        <constraint firstAttribute="bottom" secondItem="GPM-Rf-J95" secondAttribute="bottom" priority="750" constant="11" id="N0N-wu-u8x"/>
                                         <constraint firstAttribute="trailing" secondItem="GPM-Rf-J95" secondAttribute="trailing" constant="20" symbolic="YES" id="Wrp-PR-2jQ"/>
                                         <constraint firstItem="GPM-Rf-J95" firstAttribute="leading" secondItem="1ma-M8-zqu" secondAttribute="leading" constant="20" symbolic="YES" id="cFh-70-gQS"/>
                                     </constraints>

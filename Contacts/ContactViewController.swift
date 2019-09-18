@@ -17,7 +17,10 @@ class ContactViewController: UITableViewController {
         
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
+        
     }
+    
+// MARK: - Table View
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactList.numberOfContacts()
@@ -28,12 +31,19 @@ class ContactViewController: UITableViewController {
                                                  for: indexPath)
         
         if let label = cell.viewWithTag(1000) as? UILabel {
-            let contact = contactList.getContactBy(position: indexPath.row)
+            let contact = contactList.getContact(index: indexPath.row)
             label.text = contact.name
         }
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        contactList.removeContact(index: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+    
+    
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
