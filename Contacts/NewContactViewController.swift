@@ -10,6 +10,7 @@ import UIKit
 
 protocol NewContacViewControllerDelegate: class {
     func newContacViewController(_ controller: NewContactViewController, didFinishAdding contact: Contact)
+    func newContactViewController(_ controller: NewContactViewController, didFinishEdditing contact: Contact)
 }
 
 
@@ -18,6 +19,7 @@ class NewContactViewController: UITableViewController {
     
     weak var delegate: NewContacViewControllerDelegate?
     weak var contactList: ContactList?
+    weak var editedContact: Contact?
     
     
     @IBOutlet weak var textField: UITextField!
@@ -25,11 +27,22 @@ class NewContactViewController: UITableViewController {
     
     
     @IBAction func done(_ sender: Any) {
+        
+        if let _ = contactList {
      
-        if let textFieldText = textField.text {
-            let newContact = Contact(name: textFieldText)
-            contactList?.add(contact: newContact)
-            delegate?.newContacViewController(self, didFinishAdding: newContact)
+            if let textFieldText = textField.text {
+                let newContact = Contact(name: textFieldText)
+                contactList?.add(contact: newContact)
+                delegate?.newContacViewController(self, didFinishAdding: newContact)
+            }
+        }
+        else if let editedContact = editedContact {
+            
+            if let textFieldText = textField.text {
+                editedContact.name = textFieldText
+                delegate?.newContactViewController(self, didFinishEdditing: editedContact)
+            }
+            
         }
         
     }
@@ -43,6 +56,10 @@ class NewContactViewController: UITableViewController {
         
         // UI
         navigationItem.largeTitleDisplayMode = .never
+        if let editContact = editedContact {
+            navigationItem.title = "Edit Contact"
+            textField.text = editContact.name
+        }
         
         //Delegates
         textField.delegate = self
@@ -62,12 +79,6 @@ class NewContactViewController: UITableViewController {
 
 
 extension NewContactViewController: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return false
-    }
-
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let oldText = textField.text, let stringRange = Range(range,  in:   oldText) else {

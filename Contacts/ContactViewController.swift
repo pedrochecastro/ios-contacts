@@ -43,13 +43,11 @@ class ContactViewController: UITableViewController {
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
-    
-    
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return nil
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        performSegue(withIdentifier: "editContact", sender: contactList.getContact(index: indexPath.row))
     }
-
-
+    
 // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addNewContact" {
@@ -57,13 +55,26 @@ class ContactViewController: UITableViewController {
                 newContactVC.delegate = self
                 newContactVC.contactList = contactList
             }
+        } else if segue.identifier == "editContact" {
+            if let newContactVC = segue.destination as? NewContactViewController {
+                newContactVC.delegate = self
+                newContactVC.editedContact = sender as? Contact
+            }
         }
+
     }
     
 }
 
 
 extension ContactViewController: NewContacViewControllerDelegate {
+    func newContactViewController(_ controller: NewContactViewController, didFinishEdditing contact: Contact) {
+        if let rowIndex = contactList.getContactIndex(contact: contact){
+            tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
     func newContacViewController(_ controller: NewContactViewController, didFinishAdding contact: Contact) {
          navigationController?.popViewController(animated: true)
          let rowIndex = contactList.numberOfContacts() - 1

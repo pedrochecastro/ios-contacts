@@ -8,9 +8,9 @@
 
 import Foundation
 
-class Contact {
+class Contact : NSObject {
     
-    let name: String
+    var name: String
     
     init(name: String) {
         self.name = name
@@ -20,7 +20,7 @@ class Contact {
 class ContactList {
     
     var contactList: [Contact] = []
-    private let contactsNames  =
+    private var contactsNames  =
         ["Steve Jobs",
          "Bill Gates",
          "Sundar Pichay",
@@ -46,7 +46,17 @@ class ContactList {
         return contactList[index]
     }
     
+    public func getContactIndex(contact: Contact) -> Int? {
+       return  contactList.firstIndex(of: contact)
+    }
+    
     public func removeContact(index: Int) {
         contactList.remove(at: index)
+    }
+    
+    public func edit(contact:Contact, nameEdited: String) {
+        if let index = getContactIndex(contact: contact) {
+            contactList[index].name = nameEdited
+        }
     }
 }

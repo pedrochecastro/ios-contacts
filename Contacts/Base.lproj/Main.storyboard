@@ -53,12 +53,15 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="co5-qL-PA4" kind="show" identifier="editContact" id="hoY-Hh-htI"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Adx-au-XPy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="788.40579710144937" y="-103.125"/>
         </scene>
-        <!--Nuevo Contacto-->
+        <!--New Contact-->
         <scene sceneID="1yv-6Y-d1y">
             <objects>
                 <tableViewController id="co5-qL-PA4" customClass="NewContactViewController" customModule="Contacts" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,6 +85,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="done:" destination="co5-qL-PA4" eventType="editingDidEndOnExit" id="9Wk-c7-H9c"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -94,7 +100,7 @@
                             <outlet property="delegate" destination="co5-qL-PA4" id="sv4-bO-nUg"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Nuevo Contacto" id="XTf-6H-G3a">
+                    <navigationItem key="navigationItem" title="New Contact" id="XTf-6H-G3a">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="y3H-4K-7jK">
                             <connections>
                                 <action selector="cancelNewContact" destination="co5-qL-PA4" id="FJD-co-aRp"/>
@@ -113,7 +119,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88K-ul-fQC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1824.6376811594205" y="-123.21428571428571"/>
+            <point key="canvasLocation" x="1833" y="-103"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9Zk-21-XKc">
@@ -134,4 +140,7 @@
             <point key="canvasLocation" x="-121.73913043478262" y="-103.125"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="hoY-Hh-htI"/>
+    </inferredMetricsTieBreakers>
 </document>
