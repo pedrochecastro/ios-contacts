@@ -8,16 +8,16 @@
 
 import UIKit
 
-protocol NewContacViewControllerDelegate: class {
-    func newContacViewController(_ controller: NewContactViewController, didFinishAdding contact: Contact)
-    func newContactViewController(_ controller: NewContactViewController, didFinishEdditing contact: Contact)
+protocol ContactEditionViewControllerDelegate: class {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact)
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact)
 }
 
 
 
-class NewContactViewController: UITableViewController {
+class ContactEditionViewController: UITableViewController {
     
-    weak var delegate: NewContacViewControllerDelegate?
+    weak var delegate: ContactEditionViewControllerDelegate?
     weak var contactList: ContactList?
     weak var editedContact: Contact?
     
@@ -33,21 +33,21 @@ class NewContactViewController: UITableViewController {
             if let textFieldText = textField.text {
                 let newContact = Contact(name: textFieldText)
                 contactList?.add(contact: newContact)
-                delegate?.newContacViewController(self, didFinishAdding: newContact)
+                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
             }
         }
         else if let editedContact = editedContact {
             
             if let textFieldText = textField.text {
                 editedContact.name = textFieldText
-                delegate?.newContactViewController(self, didFinishEdditing: editedContact)
+                delegate?.contactEditionViewController(self, didFinishEdditing: editedContact)
             }
             
         }
         
     }
     
-    @IBAction func cancelNewContact() {
+    @IBAction func cancelContactEdition() {
         navigationController?.popViewController(animated: true)
     }
 
@@ -78,7 +78,7 @@ class NewContactViewController: UITableViewController {
 }
 
 
-extension NewContactViewController: UITextFieldDelegate {
+extension ContactEditionViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let oldText = textField.text, let stringRange = Range(range,  in:   oldText) else {

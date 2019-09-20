@@ -11,9 +11,11 @@ import Foundation
 class Contact : NSObject {
     
     var name: String
+    var phoneNumber: String
     
-    init(name: String) {
+    init(name: String, phoneNumber: String = "") {
         self.name = name
+        self.phoneNumber = phoneNumber
     }
 }
 
@@ -21,16 +23,16 @@ class ContactList {
     
     var contactList: [Contact] = []
     private var contactsNames  =
-        ["Steve Jobs",
-         "Bill Gates",
-         "Sundar Pichay",
-         "Larry Page",
-         "Elon Musk",
+        [Contact(name: "Steve Jobs", phoneNumber: "+43987654878"),
+         Contact(name: "Bill Gates", phoneNumber: "+43987654878"),
+         Contact(name: "Sundar Pichay", phoneNumber: "+43987654878"),
+         Contact(name: "Larry Page", phoneNumber: "+43987654878"),
+         Contact(name: "Elon Musk", phoneNumber: "+43987654878")
         ]
     
     init() {
         contactsNames.forEach {
-            contactList.append(Contact(name: $0))
+            contactList.append(Contact(name: $0.name, phoneNumber: $0.phoneNumber))
         }
         
     }

@@ -6,13 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Contacts-->
+        <!--ContactsList-->
         <scene sceneID="amS-QG-zCJ">
             <objects>
-                <tableViewController id="Nw8-bF-bhN" customClass="ContactViewController" customModule="Contacts" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Nw8-bF-bhN" userLabel="ContactsList" customClass="ContactsListViewController" customModule="Contacts" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="4LS-h7-5tt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -54,17 +55,42 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="co5-qL-PA4" kind="show" identifier="editContact" id="hoY-Hh-htI"/>
+                        <segue destination="RSf-qM-S1A" kind="show" identifier="detailContact" id="23s-qh-bf7"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Adx-au-XPy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="788.40579710144937" y="-103.125"/>
         </scene>
-        <!--New Contact-->
+        <!--Detail-->
+        <scene sceneID="aVH-Zf-VBZ">
+            <objects>
+                <viewController id="RSf-qM-S1A" customClass="ContactDetailViewController" customModule="Contacts" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1xI-OY-5JF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="uFJ-45-Zv3"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Detail" id="e0w-N1-5Ar">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Fv7-Jl-LYO">
+                            <connections>
+                                <action selector="editContact:" destination="RSf-qM-S1A" id="Oj5-Vc-KFD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="co5-qL-PA4" kind="show" identifier="editContact" id="iLw-dM-6Xw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WzV-kM-pV8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="792.75362318840587" y="618.75"/>
+        </scene>
+        <!--ContactsEdition-->
         <scene sceneID="1yv-6Y-d1y">
             <objects>
-                <tableViewController id="co5-qL-PA4" customClass="NewContactViewController" customModule="Contacts" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="co5-qL-PA4" userLabel="ContactsEdition" customClass="ContactEditionViewController" customModule="Contacts" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="yl7-gI-iz9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,7 +129,7 @@
                     <navigationItem key="navigationItem" title="New Contact" id="XTf-6H-G3a">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="y3H-4K-7jK">
                             <connections>
-                                <action selector="cancelNewContact" destination="co5-qL-PA4" id="FJD-co-aRp"/>
+                                <action selector="cancelContactEdition" destination="co5-qL-PA4" id="FJD-co-aRp"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="ZmM-Md-gwh">
@@ -141,6 +167,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hoY-Hh-htI"/>
+        <segue reference="iLw-dM-6Xw"/>
     </inferredMetricsTieBreakers>
 </document>

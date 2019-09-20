@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactViewController: UITableViewController {
+class ContactsListViewController: UITableViewController {
     
     let contactList = ContactList()
 
@@ -45,20 +45,26 @@ class ContactViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
-        performSegue(withIdentifier: "editContact", sender: contactList.getContact(index: indexPath.row))
+        performSegue(withIdentifier: "detailContact", sender: contactList.getContact(index: indexPath.row))
     }
     
 // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addNewContact" {
-            if let newContactVC = segue.destination as? NewContactViewController {
-                newContactVC.delegate = self
-                newContactVC.contactList = contactList
+            if let contactEditionVC = segue.destination as? ContactEditionViewController {
+                contactEditionVC.delegate = self
+                contactEditionVC.contactList = contactList
             }
-        } else if segue.identifier == "editContact" {
-            if let newContactVC = segue.destination as? NewContactViewController {
-                newContactVC.delegate = self
-                newContactVC.editedContact = sender as? Contact
+        }
+        else if segue.identifier == "editContact" {
+            if let contactEditionVC = segue.destination as? ContactEditionViewController {
+                contactEditionVC.delegate = self
+                contactEditionVC.editedContact = sender as? Contact
+            }
+        }
+        else if segue.identifier == "detailContact" {
+            if let contactDetail = segue.destination as? ContactDetailViewController {
+                
             }
         }
 
@@ -67,15 +73,15 @@ class ContactViewController: UITableViewController {
 }
 
 
-extension ContactViewController: NewContacViewControllerDelegate {
-    func newContactViewController(_ controller: NewContactViewController, didFinishEdditing contact: Contact) {
+extension ContactsListViewController: ContactEditionViewControllerDelegate {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
         if let rowIndex = contactList.getContactIndex(contact: contact){
             tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
         }
         navigationController?.popViewController(animated: true)
     }
     
-    func newContacViewController(_ controller: NewContactViewController, didFinishAdding contact: Contact) {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
          navigationController?.popViewController(animated: true)
          let rowIndex = contactList.numberOfContacts() - 1
          let indexPath = IndexPath(row: rowIndex, section: 0)
