@@ -44,7 +44,6 @@ class ContactsListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
         performSegue(withIdentifier: "detailContact", sender: contactList.getContact(index: indexPath.row))
     }
     
@@ -63,7 +62,8 @@ class ContactsListViewController: UITableViewController {
             }
         }
         else if segue.identifier == "detailContact" {
-            if let contactDetail = segue.destination as? ContactDetailViewController {
+            if let contactDetailVC = segue.destination as? ContactDetailViewController {
+                contactDetailVC.contact = sender as? Contact
                 
             }
         }

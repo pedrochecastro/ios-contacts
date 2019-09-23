@@ -8,9 +8,15 @@
 
 import UIKit
 
-class ContactDetailViewController: UIViewController {
+
+
+class ContactDetailViewController: UITableViewController {
 
     
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var phoneLabel: UILabel!
+    
+    var contact : Contact?
     
     @IBAction func editContact(_ sender: Any) {
         performSegue(withIdentifier: "editContact", sender: nil)
@@ -20,6 +26,11 @@ class ContactDetailViewController: UIViewController {
         
         //UI
         navigationController?.navigationBar.prefersLargeTitles = false
+        
+        if let contact = contact {
+            nameLabel.text = contact.name
+            phoneLabel.text = contact.phoneNumber
+        }
     }
     
 
