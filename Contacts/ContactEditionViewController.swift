@@ -22,7 +22,8 @@ class ContactEditionViewController: UITableViewController {
     weak var editedContact: Contact?
     
     
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
     
@@ -30,21 +31,22 @@ class ContactEditionViewController: UITableViewController {
         
         if let _ = contactList {
      
-            if let textFieldText = textField.text {
-                let newContact = Contact(name: textFieldText)
+            if let name = nameTextField.text,
+               let phoneNumber = phoneTextField.text {
+                let newContact = Contact(name: name, phoneNumber: phoneNumber)
                 contactList?.add(contact: newContact)
                 delegate?.contactEditionViewController(self, didFinishAdding: newContact)
             }
         }
         else if let editedContact = editedContact {
             
-            if let textFieldText = textField.text {
-                editedContact.name = textFieldText
+            if let name = nameTextField.text,
+               let phoneNumber = phoneTextField.text {
+                editedContact.name = name
+                editedContact.phoneNumber = phoneNumber
                 delegate?.contactEditionViewController(self, didFinishEdditing: editedContact)
             }
-            
         }
-        
     }
     
     @IBAction func cancelContactEdition() {
@@ -58,15 +60,15 @@ class ContactEditionViewController: UITableViewController {
         navigationItem.largeTitleDisplayMode = .never
         if let editContact = editedContact {
             navigationItem.title = "Edit Contact"
-            textField.text = editContact.name
+            nameTextField.text = editContact.name
         }
         
         //Delegates
-        textField.delegate = self
+        nameTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        textField.becomeFirstResponder()
+        nameTextField.becomeFirstResponder()
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
