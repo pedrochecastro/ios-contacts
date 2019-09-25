@@ -33,10 +33,34 @@ class ContactDetailViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
+    }
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editContact" {
+            if let contactEditionVC = segue.destination as? ContactEditionViewController {
+                contactEditionVC.delegate = self
+                contactEditionVC.editedContact = contact
+            }
+        }
         
     }
     
 
+}
+
+extension ContactDetailViewController: ContactEditionViewControllerDelegate {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
+        
+    }
+    
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
+         navigationController?.popViewController(animated: true)
+         nameLabel.text = contact.name
+         phoneLabel.text = contact.phoneNumber
+    }
+    
+    
 }

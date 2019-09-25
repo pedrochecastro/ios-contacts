@@ -55,12 +55,6 @@ class ContactsListViewController: UITableViewController {
                 contactEditionVC.contactList = contactList
             }
         }
-        else if segue.identifier == "editContact" {
-            if let contactEditionVC = segue.destination as? ContactEditionViewController {
-                contactEditionVC.delegate = self
-                contactEditionVC.editedContact = sender as? Contact
-            }
-        }
         else if segue.identifier == "detailContact" {
             if let contactDetailVC = segue.destination as? ContactDetailViewController {
                 contactDetailVC.contact = sender as? Contact

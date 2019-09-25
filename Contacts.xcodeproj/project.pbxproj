@@ -62,8 +62,8 @@
 			children = (
 				CFAC29DB23257EBE0055DCFA /* AppDelegate.swift */,
 				CFAC29DD23257EBE0055DCFA /* ContactsListViewController.swift */,
-				CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */,
 				CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */,
+				CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */,
 				CF69E1AE2327C972009A0547 /* Contact.swift */,
 				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
 				CFAC29E223257EBF0055DCFA /* Assets.xcassets */,

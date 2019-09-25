@@ -61,10 +61,12 @@ class ContactEditionViewController: UITableViewController {
         if let editContact = editedContact {
             navigationItem.title = "Edit Contact"
             nameTextField.text = editContact.name
+            phoneTextField.text = editContact.phoneNumber
         }
         
         //Delegates
         nameTextField.delegate = self
+        phoneTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
