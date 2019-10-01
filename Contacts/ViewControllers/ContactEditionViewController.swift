@@ -9,17 +9,17 @@
 import UIKit
 
 protocol ContactEditionViewControllerDelegate: class {
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact)
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact)
+    func contactEditionViewController(didFinishAdding contact: Contact)
+    func contactEditionViewController(didFinishEdditing contact: Contact)
 }
 
 
 
 class ContactEditionViewController: UITableViewController {
     
-    weak var delegate: ContactEditionViewControllerDelegate?
-    weak var contactList: ContactList?
+    let multiDelegate = MulticastDelegate<ContactEditionViewControllerDelegate>()
     weak var editedContact: Contact?
+    weak var contactList: ContactList?
     
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -35,7 +35,12 @@ class ContactEditionViewController: UITableViewController {
                let phoneNumber = phoneTextField.text {
                 let newContact = Contact(name: name, phoneNumber: phoneNumber)
                 contactList?.add(contact: newContact)
-                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
+                
+                multiDelegate.invokeDelegates { contactEdition in
+                    contactEdition.contactEditionViewController(didFinishAdding: newContact)
+                }
+                
+//                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
             }
         }
         else if let editedContact = editedContact {
@@ -44,7 +49,10 @@ class ContactEditionViewController: UITableViewController {
                let phoneNumber = phoneTextField.text {
                 editedContact.name = name
                 editedContact.phoneNumber = phoneNumber
-                delegate?.contactEditionViewController(self, didFinishEdditing: editedContact)
+                multiDelegate.invokeDelegates { contactEdition in
+                    contactEdition.contactEditionViewController(didFinishEdditing: editedContact)
+                }
+//                delegate?.contactEditionViewController(self, didFinishEdditing: editedContact)
             }
         }
     }

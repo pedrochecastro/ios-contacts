@@ -21,7 +21,7 @@ class ContactsListViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        
     }
     
 // MARK: - Table View
@@ -55,13 +55,14 @@ class ContactsListViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addNewContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController {
-                contactEditionVC.delegate = self
+                contactEditionVC.multiDelegate.addDelegate(self)
                 contactEditionVC.contactList = contactList
             }
         }
         else if segue.identifier == "detailContact" {
             if let contactDetailVC = segue.destination as? ContactDetailViewController {
                 contactDetailVC.contact = sender as? Contact
+                contactDetailVC.editionContactListDelegate = self
                 
             }
         }
@@ -72,18 +73,19 @@ class ContactsListViewController: UITableViewController {
 
 
 extension ContactsListViewController: ContactEditionViewControllerDelegate {
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
+    
+    func contactEditionViewController(didFinishAdding contact: Contact) {
+        navigationController?.popViewController(animated: true)
+        let rowIndex = contactList.numberOfContacts() - 1
+        let indexPath = IndexPath(row: rowIndex, section: 0)
+        tableView.insertRows(at: [indexPath], with: .automatic)
+    }
+    
+    func contactEditionViewController( didFinishEdditing contact: Contact) {
         if let rowIndex = contactList.getContactIndex(contact: contact){
             tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
         }
         navigationController?.popViewController(animated: true)
-    }
-    
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
-         navigationController?.popViewController(animated: true)
-         let rowIndex = contactList.numberOfContacts() - 1
-         let indexPath = IndexPath(row: rowIndex, section: 0)
-         tableView.insertRows(at: [indexPath], with: .automatic)
     }
     
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF0A4C022343BF09004AB372 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */; };
 		CF0C0D3C2334F51A00B551A7 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */; };
 		CF405880232A63A800B30F8A /* ContactEditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */; };
 		CF69E1AF2327C972009A0547 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF69E1AE2327C972009A0547 /* Contact.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
 		CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEditionViewController.swift; sourceTree = "<group>"; };
 		CF69E1AE2327C972009A0547 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
@@ -41,6 +43,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF0A4BFE2343BDDF004AB372 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CF69E1AE2327C972009A0547 /* Contact.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CF0A4BFF2343BE1B004AB372 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CFAC29DD23257EBE0055DCFA /* ContactsListViewController.swift */,
+				CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */,
+				CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CF0A4C002343BE6C004AB372 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
+				CFAC29E223257EBF0055DCFA /* Assets.xcassets */,
+				CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */,
+				CFAC29E723257EBF0055DCFA /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CF0A4C032343BF97004AB372 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		CFAC29CF23257EBE0055DCFA = {
 			isa = PBXGroup;
 			children = (
@@ -61,14 +100,10 @@
 			isa = PBXGroup;
 			children = (
 				CFAC29DB23257EBE0055DCFA /* AppDelegate.swift */,
-				CFAC29DD23257EBE0055DCFA /* ContactsListViewController.swift */,
-				CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */,
-				CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */,
-				CF69E1AE2327C972009A0547 /* Contact.swift */,
-				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
-				CFAC29E223257EBF0055DCFA /* Assets.xcassets */,
-				CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */,
-				CFAC29E723257EBF0055DCFA /* Info.plist */,
+				CF0A4BFE2343BDDF004AB372 /* Model */,
+				CF0A4BFF2343BE1B004AB372 /* ViewControllers */,
+				CF0A4C002343BE6C004AB372 /* Resources */,
+				CF0A4C032343BF97004AB372 /* Helper */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -149,6 +184,7 @@
 				CFAC29DE23257EBE0055DCFA /* ContactsListViewController.swift in Sources */,
 				CF405880232A63A800B30F8A /* ContactEditionViewController.swift in Sources */,
 				CFAC29DC23257EBE0055DCFA /* AppDelegate.swift in Sources */,
+				CF0A4C022343BF09004AB372 /* MulticastDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +332,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DSC2P3NCP;
-				INFOPLIST_FILE = Contacts/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Contacts/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -314,7 +350,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DSC2P3NCP;
-				INFOPLIST_FILE = Contacts/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Contacts/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

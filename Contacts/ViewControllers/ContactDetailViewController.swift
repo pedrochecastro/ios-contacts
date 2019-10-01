@@ -17,6 +17,7 @@ class ContactDetailViewController: UITableViewController {
     @IBOutlet weak var phoneLabel: UILabel!
     
     var contact : Contact?
+    weak var editionContactListDelegate: ContactsListViewController?
     
     @IBAction func editContact(_ sender: Any) {
         performSegue(withIdentifier: "editContact", sender: nil)
@@ -40,8 +41,10 @@ class ContactDetailViewController: UITableViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editContact" {
-            if let contactEditionVC = segue.destination as? ContactEditionViewController {
-                contactEditionVC.delegate = self
+            if let contactEditionVC = segue.destination as? ContactEditionViewController,
+                let editionContactListDelegate = editionContactListDelegate {
+                contactEditionVC.multiDelegate.addDelegate(editionContactListDelegate)
+                contactEditionVC.multiDelegate.addDelegate(self)
                 contactEditionVC.editedContact = contact
             }
         }
@@ -52,12 +55,11 @@ class ContactDetailViewController: UITableViewController {
 }
 
 extension ContactDetailViewController: ContactEditionViewControllerDelegate {
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
+    func contactEditionViewController( didFinishAdding contact: Contact) {
         
     }
     
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
-         navigationController?.popViewController(animated: true)
+    func contactEditionViewController( didFinishEdditing contact: Contact) {
          nameLabel.text = contact.name
          phoneLabel.text = contact.phoneNumber
     }
