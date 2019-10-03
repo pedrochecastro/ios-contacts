@@ -55,10 +55,7 @@ class ContactDetailViewController: UITableViewController {
 }
 
 extension ContactDetailViewController: ContactEditionViewControllerDelegate {
-    func contactEditionViewController( didFinishAdding contact: Contact) {
-        
-    }
-    
+  
     func contactEditionViewController( didFinishEdditing contact: Contact) {
          nameLabel.text = contact.name
          phoneLabel.text = contact.phoneNumber

@@ -14,7 +14,6 @@ protocol ContactEditionViewControllerDelegate: class {
 }
 
 
-
 class ContactEditionViewController: UITableViewController {
     
     let multiDelegate = MulticastDelegate<ContactEditionViewControllerDelegate>()
@@ -106,5 +105,14 @@ extension ContactEditionViewController: UITextFieldDelegate {
 
         return true
 
+    }
+}
+
+extension ContactEditionViewControllerDelegate {
+    func contactEditionViewController(didFinishAdding contact: Contact) {
+        
+    }
+    func contactEditionViewController(didFinishEdditing contact: Contact) {
+        
     }
 }
