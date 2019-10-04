@@ -18,6 +18,9 @@ class ContactsListViewController: UITableViewController {
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        // Observers
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDidUpdateContactList(notification:)), name: .didUpdateContactList, object: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,7 +58,7 @@ class ContactsListViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addNewContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController {
-                contactEditionVC.multiDelegate.addDelegate(self)
+                contactEditionVC.delegate = self
                 contactEditionVC.contactList = contactList
             }
         }
@@ -69,19 +72,32 @@ class ContactsListViewController: UITableViewController {
 
     }
     
+// MARK: - Custom Methods
+    
+    @objc func handleDidUpdateContactList(notification: Notification){
+        if let userInfo = notification.userInfo  {
+            if let contact = userInfo["contact"] as? Contact {
+                if let rowIndex = contactList.getContactIndex(contact: contact) {
+                    tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
+                }
+            }
+        }
+        
+    }
+    
 }
 
 
 extension ContactsListViewController: ContactEditionViewControllerDelegate {
     
-    func contactEditionViewController(didFinishAdding contact: Contact) {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
         navigationController?.popViewController(animated: true)
         let rowIndex = contactList.numberOfContacts() - 1
         let indexPath = IndexPath(row: rowIndex, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
     
-    func contactEditionViewController( didFinishEdditing contact: Contact) {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
         if let rowIndex = contactList.getContactIndex(contact: contact){
             tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
         }

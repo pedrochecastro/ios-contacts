@@ -9,14 +9,14 @@
 import UIKit
 
 protocol ContactEditionViewControllerDelegate: class {
-    func contactEditionViewController(didFinishAdding contact: Contact)
-    func contactEditionViewController(didFinishEdditing contact: Contact)
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact)
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact)
 }
 
 
 class ContactEditionViewController: UITableViewController {
     
-    let multiDelegate = MulticastDelegate<ContactEditionViewControllerDelegate>()
+    weak var delegate: ContactEditionViewControllerDelegate?
     weak var editedContact: Contact?
     weak var contactList: ContactList?
     
@@ -35,11 +35,7 @@ class ContactEditionViewController: UITableViewController {
                 let newContact = Contact(name: name, phoneNumber: phoneNumber)
                 contactList?.add(contact: newContact)
                 
-                multiDelegate.invokeDelegates { contactEdition in
-                    contactEdition.contactEditionViewController(didFinishAdding: newContact)
-                }
-                
-//                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
+                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
             }
         }
         else if let editedContact = editedContact {
@@ -48,10 +44,11 @@ class ContactEditionViewController: UITableViewController {
                let phoneNumber = phoneTextField.text {
                 editedContact.name = name
                 editedContact.phoneNumber = phoneNumber
-                multiDelegate.invokeDelegates { contactEdition in
-                    contactEdition.contactEditionViewController(didFinishEdditing: editedContact)
-                }
-//                delegate?.contactEditionViewController(self, didFinishEdditing: editedContact)
+               
+                delegate?.contactEditionViewController(self, didFinishEdditing: editedContact)
+                
+                // Notification Model change
+                NotificationCenter.default.post(name: .didUpdateContactList, object: nil, userInfo: ["contact": editedContact])
             }
         }
     }
@@ -109,10 +106,10 @@ extension ContactEditionViewController: UITextFieldDelegate {
 }
 
 extension ContactEditionViewControllerDelegate {
-    func contactEditionViewController(didFinishAdding contact: Contact) {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
         
     }
-    func contactEditionViewController(didFinishEdditing contact: Contact) {
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
         
     }
 }

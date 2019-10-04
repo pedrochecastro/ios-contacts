@@ -11,6 +11,7 @@
 		CF0C0D3C2334F51A00B551A7 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */; };
 		CF405880232A63A800B30F8A /* ContactEditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */; };
 		CF69E1AF2327C972009A0547 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF69E1AE2327C972009A0547 /* Contact.swift */; };
+		CF6AF1D12347582E00D5E3DA /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6AF1D02347582E00D5E3DA /* Notification.Name.swift */; };
 		CFAC29DC23257EBE0055DCFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAC29DB23257EBE0055DCFA /* AppDelegate.swift */; };
 		CFAC29DE23257EBE0055DCFA /* ContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAC29DD23257EBE0055DCFA /* ContactsListViewController.swift */; };
 		CFAC29E123257EBE0055DCFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAC29DF23257EBE0055DCFA /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
 		CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEditionViewController.swift; sourceTree = "<group>"; };
 		CF69E1AE2327C972009A0547 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		CF6AF1D02347582E00D5E3DA /* Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.Name.swift; sourceTree = "<group>"; };
 		CFAC29D823257EBE0055DCFA /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAC29DB23257EBE0055DCFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAC29DD23257EBE0055DCFA /* ContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		CF6AF1D22347583F00D5E3DA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CF6AF1D02347582E00D5E3DA /* Notification.Name.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		CFAC29CF23257EBE0055DCFA = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +114,7 @@
 				CF0A4BFF2343BE1B004AB372 /* ViewControllers */,
 				CF0A4C002343BE6C004AB372 /* Resources */,
 				CF0A4C032343BF97004AB372 /* Helper */,
+				CF6AF1D22347583F00D5E3DA /* Extensions */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -185,6 +196,7 @@
 				CF405880232A63A800B30F8A /* ContactEditionViewController.swift in Sources */,
 				CFAC29DC23257EBE0055DCFA /* AppDelegate.swift in Sources */,
 				CF0A4C022343BF09004AB372 /* MulticastDelegate.swift in Sources */,
+				CF6AF1D12347582E00D5E3DA /* Notification.Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

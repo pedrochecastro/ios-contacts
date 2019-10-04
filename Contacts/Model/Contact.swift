@@ -33,6 +33,7 @@ class ContactList {
     init() {
         contactsNames.forEach {
             contactList.append(Contact(name: $0.name, phoneNumber: $0.phoneNumber))
+            
         }
         
     }
