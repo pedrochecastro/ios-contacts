@@ -18,6 +18,7 @@ class ContactDetailViewController: UITableViewController {
     
     var contact : Contact?
     weak var editionContactListDelegate: ContactsListViewController?
+    var editionActionHandler: ((Contact) -> Void)?
     
     @IBAction func editContact(_ sender: Any) {
         performSegue(withIdentifier: "editContact", sender: nil)
@@ -42,9 +43,9 @@ class ContactDetailViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController {
-//                let editionContactListDelegate = editionContactListDelegate {
                 contactEditionVC.delegate = self
-                contactEditionVC.editedContact = contact
+                contactEditionVC.contact = contact
+                contactEditionVC.editionActionHandler = editionActionHandler
             }
         }
         

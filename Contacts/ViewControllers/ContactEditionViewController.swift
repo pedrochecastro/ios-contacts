@@ -17,8 +17,9 @@ protocol ContactEditionViewControllerDelegate: class {
 class ContactEditionViewController: UITableViewController {
     
     weak var delegate: ContactEditionViewControllerDelegate?
-    weak var editedContact: Contact?
+    weak var contact: Contact?
     weak var contactList: ContactList?
+    var editionActionHandler: ((Contact) -> Void)?
     
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -38,17 +39,19 @@ class ContactEditionViewController: UITableViewController {
                 delegate?.contactEditionViewController(self, didFinishAdding: newContact)
             }
         }
-        else if let editedContact = editedContact {
+        else if let contact = contact {
             
             if let name = nameTextField.text,
                let phoneNumber = phoneTextField.text {
-                editedContact.name = name
-                editedContact.phoneNumber = phoneNumber
+                contact.name = name
+                contact.phoneNumber = phoneNumber
                
-                delegate?.contactEditionViewController(self, didFinishEdditing: editedContact)
+                delegate?.contactEditionViewController(self, didFinishEdditing: contact)
                 
-                // Notification Model change
-                NotificationCenter.default.post(name: .didUpdateContactList, object: nil, userInfo: ["contact": editedContact])
+                // Comunication with ContactList with a closure for updating list
+                if let editionActionHandler = editionActionHandler {
+                    editionActionHandler(contact)
+                }
             }
         }
     }
@@ -62,7 +65,7 @@ class ContactEditionViewController: UITableViewController {
         
         // UI
         navigationItem.largeTitleDisplayMode = .never
-        if let editContact = editedContact {
+        if let editContact = contact {
             navigationItem.title = "Edit Contact"
             nameTextField.text = editContact.name
             phoneTextField.text = editContact.phoneNumber
@@ -77,8 +80,15 @@ class ContactEditionViewController: UITableViewController {
         nameTextField.becomeFirstResponder()
     }
     
+    // MARK: - TableView
+    
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
+    }
+    
+    // MARK: - Custom Methods
+    func editedContact(handler: @escaping(Contact) -> Void) {
+        editionActionHandler = handler
     }
     
 

@@ -18,9 +18,6 @@ class ContactsListViewController: UITableViewController {
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        // Observers
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDidUpdateContactList(notification:)), name: .didUpdateContactList, object: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,6 +63,11 @@ class ContactsListViewController: UITableViewController {
             if let contactDetailVC = segue.destination as? ContactDetailViewController {
                 contactDetailVC.contact = sender as? Contact
                 contactDetailVC.editionContactListDelegate = self
+                contactDetailVC.editionActionHandler = { contact in
+                    if let rowIndex = self.contactList.getContactIndex(contact: contact){
+                        self.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
+                    }
+                }
                 
             }
         }
@@ -74,16 +76,6 @@ class ContactsListViewController: UITableViewController {
     
 // MARK: - Custom Methods
     
-    @objc func handleDidUpdateContactList(notification: Notification){
-        if let userInfo = notification.userInfo  {
-            if let contact = userInfo["contact"] as? Contact {
-                if let rowIndex = contactList.getContactIndex(contact: contact) {
-                    tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
-                }
-            }
-        }
-        
-    }
     
 }
 
