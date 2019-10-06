@@ -42,25 +42,19 @@ class ContactDetailViewController: UITableViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editContact" {
-            if let contactEditionVC = segue.destination as? ContactEditionViewController {
-                contactEditionVC.delegate = self
+            if let contactEditionVC = segue.destination as? ContactEditionViewController,
+                let editionActionHandler = editionActionHandler {
                 contactEditionVC.contact = contact
-                contactEditionVC.editionActionHandler = editionActionHandler
+                contactEditionVC.editionsActionsHandler.append(editionActionHandler)
+                contactEditionVC.editionsActionsHandler.append({ contact in
+                    self.nameLabel.text = contact.name
+                    self.phoneLabel.text = contact.phoneNumber
+                    self.navigationController?.popViewController(animated: true)
+                })
             }
         }
         
     }
     
 
-}
-
-extension ContactDetailViewController: ContactEditionViewControllerDelegate {
-  
-    func contactEditionViewController( _ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
-         nameLabel.text = contact.name
-         phoneLabel.text = contact.phoneNumber
-         navigationController?.popViewController(animated: true)
-    }
-    
-    
 }

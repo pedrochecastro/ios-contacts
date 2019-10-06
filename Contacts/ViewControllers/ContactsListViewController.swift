@@ -88,14 +88,5 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
         let indexPath = IndexPath(row: rowIndex, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
-    
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
-        if let rowIndex = contactList.getContactIndex(contact: contact){
-            tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
-        }
-        navigationController?.popViewController(animated: true)
-    }
-    
-    
 }
 

@@ -10,7 +10,6 @@ import UIKit
 
 protocol ContactEditionViewControllerDelegate: class {
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact)
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact)
 }
 
 
@@ -19,7 +18,7 @@ class ContactEditionViewController: UITableViewController {
     weak var delegate: ContactEditionViewControllerDelegate?
     weak var contact: Contact?
     weak var contactList: ContactList?
-    var editionActionHandler: ((Contact) -> Void)?
+    var editionsActionsHandler: [((Contact) -> Void)] = []
     
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -45,12 +44,12 @@ class ContactEditionViewController: UITableViewController {
                let phoneNumber = phoneTextField.text {
                 contact.name = name
                 contact.phoneNumber = phoneNumber
-               
-                delegate?.contactEditionViewController(self, didFinishEdditing: contact)
                 
-                // Comunication with ContactList with a closure for updating list
-                if let editionActionHandler = editionActionHandler {
-                    editionActionHandler(contact)
+                // Call to all viewcontroller  with edition handlers
+                if !editionsActionsHandler.isEmpty {
+                    editionsActionsHandler.forEach {
+                        $0(contact)
+                    }
                 }
             }
         }
@@ -88,7 +87,7 @@ class ContactEditionViewController: UITableViewController {
     
     // MARK: - Custom Methods
     func editedContact(handler: @escaping(Contact) -> Void) {
-        editionActionHandler = handler
+        editionsActionsHandler.append(handler)
     }
     
 
@@ -112,14 +111,5 @@ extension ContactEditionViewController: UITextFieldDelegate {
 
         return true
 
-    }
-}
-
-extension ContactEditionViewControllerDelegate {
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
-        
-    }
-    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishEdditing contact: Contact) {
-        
     }
 }
