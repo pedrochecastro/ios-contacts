@@ -27,7 +27,8 @@ class ContactDetailViewController: UITableViewController {
         super.viewDidLoad()
         
         //UI
-        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
+        tableView.allowsSelection = false
         
         if let contact = contact {
             nameLabel.text = contact.name
