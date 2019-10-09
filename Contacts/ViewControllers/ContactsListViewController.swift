@@ -32,12 +32,9 @@ class ContactsListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
-                                                 for: indexPath)
-        
-        if let label = cell.viewWithTag(1000) as? UILabel {
-            let contact = contactList.getContact(index: indexPath.row)
-            label.text = contact.name
-        }
+                                                 for: indexPath) as! CustomCell
+        let contact = contactList.getContact(index: indexPath.row)
+        cell.nameLabel.text = contact.name
         
         return cell
     }
