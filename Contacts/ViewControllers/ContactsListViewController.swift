@@ -10,7 +10,7 @@ import UIKit
 
 class ContactsListViewController: UITableViewController {
     
-    let contactList = ContactList()
+    let contactList = ContactList(Repository.local.contacts)
 
     override func viewDidLoad() {
         super.viewDidLoad()

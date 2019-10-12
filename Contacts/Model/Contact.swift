@@ -22,21 +22,13 @@ class Contact : NSObject {
 class ContactList {
     
     var contactList: [Contact] = []
-    private var contactsNames  =
-        [Contact(name: "Steve Jobs", phoneNumber: "+43987654878"),
-         Contact(name: "Bill Gates", phoneNumber: "+43987654878"),
-         Contact(name: "Sundar Pichay", phoneNumber: "+43987654878"),
-         Contact(name: "Larry Page", phoneNumber: "+43987654878"),
-         Contact(name: "Elon Musk", phoneNumber: "+43987654878")
-        ]
     
-    init() {
-        contactsNames.forEach {
-            contactList.append(Contact(name: $0.name, phoneNumber: $0.phoneNumber))
-            
-        }
-        
+    init() {}
+    
+    init(_ contacts: [Contact]) {
+        contactList = contacts
     }
+    
     public func add(contact: Contact) {
         contactList.append(contact)
     }
@@ -62,4 +54,12 @@ class ContactList {
             contactList[index].name = nameEdited
         }
     }
+}
+
+extension Contact : Comparable {
+    static func < (lhs: Contact, rhs: Contact) -> Bool {
+        return lhs.name < rhs.name
+    }
+    
+    
 }
