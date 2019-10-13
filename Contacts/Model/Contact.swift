@@ -31,6 +31,7 @@ class ContactList {
     
     public func add(contact: Contact) {
         contactList.append(contact)
+        contactList.sort()
     }
     
     public func numberOfContacts() -> Int {
