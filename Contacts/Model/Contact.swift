@@ -21,40 +21,100 @@ class Contact : NSObject {
 
 class ContactList {
     
-    var contactList: [Contact] = []
+    var contactList: [String:[Contact]] = [:]
+   
     
     init() {}
     
     init(_ contacts: [Contact]) {
-        contactList = contacts
+        let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
+        
+        aToZ.forEach {
+            contactList[$0] = [Contact]()
+        }
+        
+        contacts.forEach {
+            add(contact: $0)
+        }
+        
     }
     
-    public func add(contact: Contact) {
-        contactList.append(contact)
-        contactList.sort()
+    public func numberOfSections() -> Int {
+        var sections = 0
+        contactList.forEach {
+            if $0.value.count != 0 {
+                sections += 1
+            }
+        }
+        return sections
     }
     
     public func numberOfContacts() -> Int {
-        return contactList.count
+        return contactList.values.count
     }
     
-    public func getContact(index: Int) -> Contact{
-        return contactList[index]
-    }
-    
-    public func getContactIndex(contact: Contact) -> Int? {
-       return  contactList.firstIndex(of: contact)
-    }
-    
-    public func removeContact(index: Int) {
-        contactList.remove(at: index)
-    }
-    
-    public func edit(contact:Contact, nameEdited: String) {
-        if let index = getContactIndex(contact: contact) {
-            contactList[index].name = nameEdited
+    public func add(contact: Contact) {
+        let letterKey = String(contact.name.prefix(1))
+        if var contactsByKey = contactList[letterKey] {
+            contactsByKey.append(contact)
+            contactList[letterKey] = contactsByKey
         }
     }
+    
+    
+    
+    public func getContact(_ indexPath: IndexPath) -> Contact?{
+        print(indexPath)
+        
+        let contactKeys = sectionTitle()
+
+        if let contacts = contactList[contactKeys[indexPath.section]] {
+            return contacts[0]
+        }
+        return nil
+    }
+    
+    func sectionTitle() -> [String] {
+        let filtered = contactList.filter { !$0.value.isEmpty }
+        return Array(filtered.keys).sorted(by: <)
+    }
+    
+    func namesBySection(sectionTitle: String) -> [Contact] {
+        return contactList[sectionTitle] ?? []
+    }
+    
+    
+    public func calculateOffset(letter: String) -> Int{
+        let aToZ = (0..<26).map({String(UnicodeScalar("a".unicodeScalars.first!.value + $0) ?? "😡")})
+        return (aToZ.firstIndex(of: letter))!
+    }
+    
+   
+    
+    public func getContactIndexPath(contact: Contact) -> IndexPath? {
+        let letterKey = String(contact.name.prefix(1))
+        let contacts = contactList[letterKey]!
+        let section = 0
+        let row = 0
+        return  IndexPath(row: row, section: section)
+    }
+    
+//    public func calculateKey(indexpath: IndexPath) -> String {
+//        let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
+//        return aToZ[indexpath.section]
+//    }
+
+    
+//    public func removeContact(contact: Contact ) {
+//        let letterKey = String(contact.name.prefix(1))
+//        _ = contactList.remove(at index: contactList[letterKey, contact.name])
+//    }
+    
+//    public func edit(contact:Contact, nameEdited: String) {
+//        if let index = getContactIndex(contact: contact) {
+//            contactList[index].name = nameEdited
+//        }
+//    }
 }
 
 extension Contact : Comparable {

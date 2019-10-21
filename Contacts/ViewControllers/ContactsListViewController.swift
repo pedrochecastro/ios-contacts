@@ -11,6 +11,7 @@ import UIKit
 class ContactsListViewController: UITableViewController {
     
     let contactList = ContactList(Repository.local.contacts)
+    let a = 5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,26 +27,28 @@ class ContactsListViewController: UITableViewController {
     
 // MARK: - Table View
     
+  
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactList.numberOfContacts()
+        let a = contactList.numberOfSections()
+        return a
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
                                                  for: indexPath) as! CustomCell
-        let contact = contactList.getContact(index: indexPath.row)
-        cell.nameLabel.text = contact.name
+        let contact = contactList.getContact(indexPath)
+        cell.nameLabel.text = contact?.name
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        contactList.removeContact(index: indexPath.row)
+//      contactList.removeContact(index: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "detailContact", sender: contactList.getContact(index: indexPath.row))
+        performSegue(withIdentifier: "detailContact", sender: contactList.getContact(indexPath))
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -66,9 +69,9 @@ class ContactsListViewController: UITableViewController {
                 contactDetailVC.contact = sender as? Contact
                 contactDetailVC.editionContactListDelegate = self
                 contactDetailVC.editionActionHandler = { contact in
-                    if let rowIndex = self.contactList.getContactIndex(contact: contact){
-                        self.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
-                    }
+//                    if let rowIndex = self.contactList.getContactIndexPath(contact: contact){
+//                        self.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
+//                    }
                 }
                 
             }
@@ -86,10 +89,10 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
     
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
         navigationController?.popViewController(animated: true)
-        if let rowIndex = contactList.getContactIndex(contact: contact) {
-            let indexPath = IndexPath(row: rowIndex, section: 0)
-            tableView.insertRows(at: [indexPath], with: .automatic)
-        }
+//        if let rowIndex = contactList.getContactIndex(contact: contact) {
+//            let indexPath = IndexPath(row: rowIndex, section: 0)
+//            tableView.insertRows(at: [indexPath], with: .automatic)
+//        }
     }
 }
 
