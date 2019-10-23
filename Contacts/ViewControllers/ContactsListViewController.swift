@@ -10,7 +10,7 @@ import UIKit
 
 class ContactsListViewController: UITableViewController {
     
-    let contactList = ContactList()
+    let contactList = ContactList(Repository.local.contacts)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +27,9 @@ class ContactsListViewController: UITableViewController {
 // MARK: - Table View
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return contactList.sectionsTitlesHeader.count
+        return contactList.sectionsTitlesHeader().count
     }
     
-  
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactList.getContactList(by:section).count
     }
@@ -39,7 +38,6 @@ class ContactsListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
                                                  for: indexPath) as! CustomCell
         let contacts = contactList.getContactList(by: indexPath.section)
-        print("Indexpath \(indexPath) ")
         let contact = contacts[indexPath.row]
         cell.nameLabel.text = contact.name
         
@@ -56,7 +54,7 @@ class ContactsListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "detailContact", sender: contactList.getContact(indexPath))
+//        performSegue(withIdentifier: "detailContact", sender: contactList.getContact(indexPath))
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

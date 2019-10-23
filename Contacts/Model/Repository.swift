@@ -23,9 +23,6 @@ protocol ContactFactory {
     
   }
 
-
-
-
 final class LocalFactory : ContactFactory {
     
     func contacts(filteredBy: FilterContact) -> [Contact] {
@@ -39,7 +36,8 @@ final class LocalFactory : ContactFactory {
                     Contact(name: "Bill Gates", phoneNumber: "+43987654878"),
                     Contact(name: "Sundar Pichay", phoneNumber: "+43987654878"),
                     Contact(name: "Larry Page", phoneNumber: "+43987654878"),
-                    Contact(name: "Elon Musk", phoneNumber: "+43987654878")
+                    Contact(name: "Elon Musk", phoneNumber: "+43987654878"),
+                    Contact(name: "Satia Nadella", phoneNumber: "+43789578943")
                 ].sorted()
         }
     }
