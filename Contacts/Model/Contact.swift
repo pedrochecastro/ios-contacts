@@ -22,6 +22,17 @@ class Contact : NSObject {
 class ContactList {
     
     var contactList: [String:[Contact]] = [:]
+    
+    var sectionsTitlesHeader = ["B","E","L","S"]
+    
+    var BcontactList : [Contact] = [Contact(name: "Bill Gates", phoneNumber: "+43987654878"),]
+    
+    var EcontactList: [Contact] = [Contact(name: "Elon Musk", phoneNumber: "+43987654878"),]
+    
+    var LcontactListt: [Contact] = [Contact(name: "Larry Page", phoneNumber: "+43987654878"),]
+    
+    var ScontactList: [Contact] = [Contact(name: "Steve Jobs", phoneNumber: "+43987654878"),
+                                   Contact(name: "Sundar Pichay", phoneNumber: "+43987654878")]
    
     
     init() {}
@@ -37,6 +48,27 @@ class ContactList {
             add(contact: $0)
         }
         
+    }
+    
+    
+    public func getSectionTitle(by section: Int) -> String {
+        return sectionsTitlesHeader[section]
+    }
+    
+    public func getContactList(by section: Int) -> [Contact] {
+        
+        switch section {
+        case 0:
+            return BcontactList
+        case 1:
+            return EcontactList
+        case 2:
+            return LcontactListt
+        case 3:
+            return ScontactList
+        default:
+            return []
+        }
     }
     
     public func numberOfSections() -> Int {

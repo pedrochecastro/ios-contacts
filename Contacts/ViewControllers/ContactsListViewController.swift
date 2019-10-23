@@ -10,8 +10,7 @@ import UIKit
 
 class ContactsListViewController: UITableViewController {
     
-    let contactList = ContactList(Repository.local.contacts)
-    let a = 5
+    let contactList = ContactList()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,19 +26,28 @@ class ContactsListViewController: UITableViewController {
     
 // MARK: - Table View
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return contactList.sectionsTitlesHeader.count
+    }
+    
   
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let a = contactList.numberOfSections()
-        return a
+        return contactList.getContactList(by:section).count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
                                                  for: indexPath) as! CustomCell
-        let contact = contactList.getContact(indexPath)
-        cell.nameLabel.text = contact?.name
+        let contacts = contactList.getContactList(by: indexPath.section)
+        print("Indexpath \(indexPath) ")
+        let contact = contacts[indexPath.row]
+        cell.nameLabel.text = contact.name
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return contactList.getSectionTitle(by: section)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
