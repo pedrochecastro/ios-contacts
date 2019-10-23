@@ -37,7 +37,8 @@ final class LocalFactory : ContactFactory {
                     Contact(name: "Sundar Pichay", phoneNumber: "+43987654878"),
                     Contact(name: "Larry Page", phoneNumber: "+43987654878"),
                     Contact(name: "Elon Musk", phoneNumber: "+43987654878"),
-                    Contact(name: "Satia Nadella", phoneNumber: "+43789578943")
+                    Contact(name: "Satia Nadella", phoneNumber: "+43789578943"),
+                    Contact(name: "Joan Boluda", phoneNumber: "+43789578943"),
                 ].sorted()
         }
     }

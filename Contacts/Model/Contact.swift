@@ -57,15 +57,32 @@ class ContactList {
         } else { return [] }
     }
     
-    public func numberOfContacts() -> Int {
-        return contactList.values.count
+    public func getContact(by indexpath: IndexPath) -> Contact {
+        let contacts = getContactList(by: indexpath.section)
+        return contacts[indexpath.row]
     }
+    
+    public func getIndexPath(from contact: Contact) -> IndexPath {
+        //key
+         let key = String(contact.name.prefix(1))
+        //Section
+        let section = (sectionsTitlesHeader().firstIndex(of: key))!
+        //Row
+            let contacts = contactList[key]!
+            let row = contacts.firstIndex(of: contact)!
+            return IndexPath(row: row, section: section)
+    }
+    
+//    public func numberOfContacts() -> Int {
+//        return contactList.values.count
+//    }
     
     public func add(contact: Contact) {
         let letterKey = String(contact.name.prefix(1))
         if var contactsByKey = contactList[letterKey] {
             contactsByKey.append(contact)
             contactList[letterKey] = contactsByKey
+            var a = 5
         }
     }
 }

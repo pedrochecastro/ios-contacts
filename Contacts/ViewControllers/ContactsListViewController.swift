@@ -54,7 +54,8 @@ class ContactsListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        performSegue(withIdentifier: "detailContact", sender: contactList.getContact(indexPath))
+        let contact = contactList.getContact(by: indexPath)
+        performSegue(withIdentifier: "detailContact", sender: contact)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -95,10 +96,9 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
     
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
         navigationController?.popViewController(animated: true)
-//        if let rowIndex = contactList.getContactIndex(contact: contact) {
-//            let indexPath = IndexPath(row: rowIndex, section: 0)
-//            tableView.insertRows(at: [indexPath], with: .automatic)
-//        }
+        let indexPath = contactList.getIndexPath(from: contact) 
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        //// TODO - Update section
     }
 }
 
