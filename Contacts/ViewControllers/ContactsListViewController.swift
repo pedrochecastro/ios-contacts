@@ -27,7 +27,8 @@ class ContactsListViewController: UITableViewController {
 // MARK: - Table View
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return contactList.sectionsTitlesHeader().count
+        let a = contactList.sectionsTitlesHeader().count
+        return a
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,14 +92,18 @@ class ContactsListViewController: UITableViewController {
     
 }
 
-
 extension ContactsListViewController: ContactEditionViewControllerDelegate {
     
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
         navigationController?.popViewController(animated: true)
-        let indexPath = contactList.getIndexPath(from: contact) 
+        let indexPath = contactList.getIndexPath(from: contact)
+        tableView.beginUpdates()
+        if contactList.updateSection {
+            tableView.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
+            contactList.updateSection = false
+        }
         tableView.insertRows(at: [indexPath], with: .automatic)
-        //// TODO - Update section
+        tableView.endUpdates()
     }
 }
 

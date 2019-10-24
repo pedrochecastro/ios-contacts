@@ -22,6 +22,7 @@ class Contact : NSObject {
 class ContactList {
     
     var contactList: [String:[Contact]] = [:]
+    var updateSection = false
     
     init() {}
     
@@ -72,17 +73,16 @@ class ContactList {
             let row = contacts.firstIndex(of: contact)!
             return IndexPath(row: row, section: section)
     }
-    
-//    public func numberOfContacts() -> Int {
-//        return contactList.values.count
-//    }
-    
+        
     public func add(contact: Contact) {
         let letterKey = String(contact.name.prefix(1))
+        if !sectionsTitlesHeader().contains(letterKey) {
+            updateSection = true
+        }
+        
         if var contactsByKey = contactList[letterKey] {
             contactsByKey.append(contact)
             contactList[letterKey] = contactsByKey
-            var a = 5
         }
     }
 }
