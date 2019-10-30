@@ -50,8 +50,14 @@ class ContactsListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//      contactList.removeContact(index: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        let contact = contactList.getContact(by: indexPath)
+        contactList.remove(contact: contact)
+        if contactList.deleteSection {
+            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+            contactList.deleteSection = false
+        } else {
+             tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

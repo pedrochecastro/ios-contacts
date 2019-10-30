@@ -23,6 +23,7 @@ class ContactList {
     
     var contactList: [String:[Contact]] = [:]
     var updateSection = false
+    var deleteSection = false
     
     init() {}
     
@@ -66,7 +67,7 @@ class ContactList {
     public func getIndexPath(from contact: Contact) -> IndexPath {
         //key
          let key = String(contact.name.prefix(1))
-        //Section
+        //Section A..Z
         let section = (sectionsTitlesHeader().firstIndex(of: key))!
         //Row
             let contacts = contactList[key]!
@@ -75,15 +76,28 @@ class ContactList {
     }
         
     public func add(contact: Contact) {
-        let letterKey = String(contact.name.prefix(1))
-        if !sectionsTitlesHeader().contains(letterKey) {
+        let key = String(contact.name.prefix(1))
+        if !sectionsTitlesHeader().contains(key) {
             updateSection = true
         }
         
-        if var contactsByKey = contactList[letterKey] {
-            contactsByKey.append(contact)
-            contactList[letterKey] = contactsByKey
+        if var contacts = contactList[key] {
+            contacts.append(contact)
+            contactList[key] = contacts
         }
+    }
+    
+    public func remove(contact: Contact) {
+        //key
+        let key = String(contact.name.prefix(1))
+
+        var contacts = contactList[key]!
+        if contacts.count == 1 {
+            deleteSection = true
+        }
+        let index = contacts.firstIndex(of: contact)!
+        contacts.remove(at: index)
+        contactList[key] = contacts
     }
 }
 
