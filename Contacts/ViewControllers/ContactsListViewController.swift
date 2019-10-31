@@ -83,9 +83,8 @@ class ContactsListViewController: UITableViewController {
                 contactDetailVC.contact = sender as? Contact
                 contactDetailVC.editionContactListDelegate = self
                 contactDetailVC.editionActionHandler = { contact in
-//                    if let rowIndex = self.contactList.getContactIndexPath(contact: contact){
-//                        self.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
-//                    }
+                let indexPath = self.contactList.getIndexPath(from: contact)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
                 
             }
