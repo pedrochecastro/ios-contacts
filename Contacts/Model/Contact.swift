@@ -36,6 +36,7 @@ class ContactList {
         
         contacts.forEach {
             add(contact: $0)
+            updateSection = false
         }
         
     }
@@ -83,7 +84,7 @@ class ContactList {
         
         if var contacts = contactList[key] {
             contacts.append(contact)
-            contactList[key] = contacts
+            contactList[key] = contacts.sorted()
         }
     }
     
