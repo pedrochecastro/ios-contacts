@@ -29,18 +29,33 @@ enum ValidatorType {
 enum ValidatorFactory {
     static func validatorFor(type: ValidatorType) -> ValidatorConvertible {
         switch type {
-            case .name: return NameValidator()
-            case .phone: return PhoneValidator()
-            case .requiredField(let fieldName): return RequiredFieldValidator(fieldName)
+        case .name: return NameValidator()
+        case .phone: return PhoneValidator()
+        case .requiredField(let fieldName): return RequiredFieldValidator(fieldName)
         }
     }
 }
 
 struct NameValidator : ValidatorConvertible{
-    // Only letters
+    // Only letters and whitespaces
     func validated(_ value: String) throws -> String {
-     //Regex Pattern
-      return ""
+        guard value.count >= 3 else {
+            throw ValidationError("Username must contain more than three characters" )
+        }
+        guard value.count < 18 else {
+            throw ValidationError("Username shoudn't conain more than 18 characters" )
+        }
+        
+        do {
+            // If Regex match we find a no number character
+            let a = try NSRegularExpression(pattern: "[^A-Za-z\\s]+", options: .caseInsensitive).firstMatch(in: value, options:[], range: NSRange(location: 0, length: value.count))
+            if a != nil {
+                throw ValidationError("Invalid contact name, username should not contain numbers or special characters")
+            }
+        } catch {
+            throw ValidationError("Invalid username, username should not contain numbers or special characters")
+        }
+        return value
     }
     
 }
@@ -48,8 +63,17 @@ struct NameValidator : ValidatorConvertible{
 struct PhoneValidator: ValidatorConvertible {
     // Only 9 numbers
     func validated(_ value: String) throws -> String {
-        //Regex pattern
-     return ""
+        guard value.count == 9 else {
+            throw ValidationError("Phone must contain 9 digits" )
+        }
+        do {
+            if try NSRegularExpression(pattern: "[0-9]").firstMatch(in: value, options: [], range: NSRange(location: 0, length: value.count)) == nil {
+                 throw ValidationError("Phone must contain 9 digits" )
+            }
+        } catch {
+             throw ValidationError("Phone must contain 9 digits" )
+        }
+        return value
     }
 }
 
@@ -70,3 +94,4 @@ struct RequiredFieldValidator: ValidatorConvertible {
     
     
 }
+

@@ -28,37 +28,38 @@ class ContactEditionViewController: UITableViewController {
     
     @IBAction func done(_ sender: Any) {
         
+        validate()
         
-        if let _ = contactList {
-
-            if let name = nameTextField.text,
-               let phoneNumber = phoneTextField.text {
-                let newContact = Contact(name: name, phoneNumber: phoneNumber)
-                contactList?.add(contact: newContact)
-                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
-            }
-        }
-        else if let contact = contact {
-
-            if let name = nameTextField.text,
-               let phoneNumber = phoneTextField.text {
-                contact.name = name
-                contact.phoneNumber = phoneNumber
-
-                // Call to all viewcontroller  with edition handlers
-                if !editionsActionsHandler.isEmpty {
-                    editionsActionsHandler.forEach {
-                        $0(contact)
-                    }
-                }
-            }
-        }
+        //        if let _ = contactList {
+        //
+        //            if let name = nameTextField.text,
+        //               let phoneNumber = phoneTextField.text {
+        //                let newContact = Contact(name: name, phoneNumber: phoneNumber)
+        //                contactList?.add(contact: newContact)
+        //                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
+        //            }
+        //        }
+        //        else if let contact = contact {
+        //
+        //            if let name = nameTextField.text,
+        //               let phoneNumber = phoneTextField.text {
+        //                contact.name = name
+        //                contact.phoneNumber = phoneNumber
+        //
+        //                // Call to all viewcontroller  with edition handlers
+        //                if !editionsActionsHandler.isEmpty {
+        //                    editionsActionsHandler.forEach {
+        //                        $0(contact)
+        //                    }
+        //                }
+        //            }
+        //        }
     }
     
     @IBAction func cancelContactEdition() {
         navigationController?.popViewController(animated: true)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -89,7 +90,42 @@ class ContactEditionViewController: UITableViewController {
     func editedContact(handler: @escaping(Contact) -> Void) {
         editionsActionsHandler.append(handler)
     }
-
+    
+    func validate () {
+        do {
+            
+            let name = try nameTextField.validatedText(validationType: ValidatorType.name)
+            let phone = try phoneTextField.validatedText(validationType: ValidatorType.phone)
+            
+            if let _ = contactList {
+                let newContact = Contact(name: name, phoneNumber: phone)
+                contactList?.add(contact: newContact)
+                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
+            }
+            else if let contact = contact {
+                contact.name = name
+                contact.phoneNumber = phone
+                
+                // Call to all viewcontroller  with edition handlers
+                if !editionsActionsHandler.isEmpty {
+                    editionsActionsHandler.forEach {
+                        $0(contact)
+                    }
+                }
+            }
+            
+        } catch(let error) {
+            showAlert(for:(error as! ValidationError).message)
+        }
+    }
+    
+    func showAlert(for alert: String) {
+        let alertController = UIAlertController(title: nil, message: alert, preferredStyle: UIAlertController.Style.alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(alertAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
 }
 
 
@@ -99,15 +135,16 @@ extension ContactEditionViewController: UITextFieldDelegate {
         guard let oldText = textField.text, let stringRange = Range(range,  in:   oldText) else {
             return false
         }
-
+        
         let newText = oldText.replacingCharacters(in: stringRange, with:   string)
         if newText.isEmpty {
             doneBarButton.isEnabled = false
         } else {
             doneBarButton.isEnabled = true
         }
-
+        
         return true
-
+        
     }
 }
+
