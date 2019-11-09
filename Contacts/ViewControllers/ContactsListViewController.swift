@@ -70,6 +70,10 @@ class ContactsListViewController: UITableViewController {
         return indexPath
     }
     
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return contactList.sectionsTitlesHeader()
+    }
+    
 // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addNewContact" {
