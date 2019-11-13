@@ -21,28 +21,32 @@ class Contact : NSObject {
 
 class ContactList {
     
-    var contactList: [String:[Contact]] = [:]
+    var contactsDB: [String:[Contact]] = [:]
+    var contacts: [String:[Contact]] = [:]
+
     var updateSection = false
     var deleteSection = false
-    
+  
     init() {}
     
     init(_ contacts: [Contact]) {
         let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
         
         aToZ.forEach {
-            contactList[$0] = [Contact]()
+            self.contacts[$0] = [Contact]()
         }
         
         contacts.forEach {
             add(contact: $0)
             updateSection = false
         }
+      
+      self.contactsDB = self.contacts
         
     }
     
     public func sectionsTitlesHeader() -> [String] {
-        let filtered = contactList.filter { !$0.value.isEmpty }
+        let filtered = contacts.filter { !$0.value.isEmpty }
         return Array(filtered.keys).sorted(by: <)
     }
     
@@ -55,7 +59,7 @@ class ContactList {
         
         let key = sectionsTitlesHeader()[section]
         
-        if let contacts = contactList[key] {
+        if let contacts = contacts[key] {
             return contacts
         } else { return [] }
     }
@@ -64,6 +68,21 @@ class ContactList {
         let contacts = getContactList(by: indexpath.section)
         return contacts[indexpath.row]
     }
+  
+    public func getContact(by name: String) -> Contact? {
+      //key
+      let key = String(name.prefix(1))
+  
+      //Find Contact
+      var contact: Contact?
+      let contacts = self.contacts[key]!
+      contacts.forEach {
+        if $0.name == name {
+            contact = $0
+        }
+      }
+      return contact
+    }
     
     public func getIndexPath(from contact: Contact) -> IndexPath {
         //key
@@ -71,7 +90,7 @@ class ContactList {
         //Section A..Z
         let section = (sectionsTitlesHeader().firstIndex(of: key))!
         //Row
-            let contacts = contactList[key]!
+            let contacts = self.contacts[key]!
             let row = contacts.firstIndex(of: contact)!
             return IndexPath(row: row, section: section)
     }
@@ -82,9 +101,9 @@ class ContactList {
             updateSection = true
         }
         
-        if var contacts = contactList[key] {
+        if var contacts = contacts[key] {
             contacts.append(contact)
-            contactList[key] = contacts.sorted()
+            self.contacts[key] = contacts.sorted()
         }
     }
     
@@ -92,14 +111,27 @@ class ContactList {
         //key
         let key = String(contact.name.prefix(1))
 
-        var contacts = contactList[key]!
+        var contacts = self.contacts[key]!
         if contacts.count == 1 {
             deleteSection = true
         }
         let index = contacts.firstIndex(of: contact)!
         contacts.remove(at: index)
-        contactList[key] = contacts
+        self.contacts[key] = contacts
     }
+  
+    public func setFilter(txt: String){
+      
+      if let contact = getContact(by: txt) {
+        self.contacts = [String(contact.name.prefix(1)):[contact]]
+      }
+      
+    }
+  
+    public func removeFilter() {
+        self.contacts = contactsDB
+    }
+  
 }
 
 extension Contact : Comparable {

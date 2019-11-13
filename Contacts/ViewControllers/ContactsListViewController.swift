@@ -116,3 +116,23 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
     }
 }
 
+// Search Bar Delegate
+extension ContactsListViewController:UISearchBarDelegate {
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    guard let txt = searchBar.text else {
+      return
+    }
+    contactList.setFilter(txt: txt)
+    searchBar.resignFirstResponder()
+    tableView.reloadData()
+  }
+  
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//    query = ""
+//    searchBar.text = nil
+//    searchBar.resignFirstResponder()
+//    refresh()
+//    collectionView.reloadData()
+  }
+}
+
