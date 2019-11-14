@@ -11,6 +11,7 @@ import UIKit
 class ContactsListViewController: UITableViewController {
     
     let contactList = ContactList(Repository.local.contacts)
+    var filtered = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,21 +119,32 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
 
 // Search Bar Delegate
 extension ContactsListViewController:UISearchBarDelegate {
+  
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     guard let txt = searchBar.text else {
       return
     }
     contactList.setFilter(txt: txt)
     searchBar.resignFirstResponder()
+    searchBar.showsCancelButton = true
+    if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+      cancelButton.isEnabled = true
+    }
     tableView.reloadData()
   }
   
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//    query = ""
-//    searchBar.text = nil
-//    searchBar.resignFirstResponder()
-//    refresh()
-//    collectionView.reloadData()
+    searchBar.text = nil
+    contactList.removeFilter()
+    searchBar.showsCancelButton = false
+    tableView.reloadData()
   }
+
+  func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+    print("searchBarShouldEndEditing")
+    searchBar.showsCancelButton = false
+    return true
+  }
+  
 }
 
