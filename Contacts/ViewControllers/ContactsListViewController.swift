@@ -118,7 +118,7 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
 }
 
 // Search Bar Delegate
-extension ContactsListViewController:UISearchBarDelegate {
+extension ContactsListViewController: UISearchBarDelegate {
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     guard let txt = searchBar.text else {
@@ -127,23 +127,27 @@ extension ContactsListViewController:UISearchBarDelegate {
     contactList.setFilter(txt: txt)
     searchBar.resignFirstResponder()
     searchBar.showsCancelButton = true
+    
     if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
       cancelButton.isEnabled = true
     }
+    if let searchField = searchBar.value(forKey: "searchField") as? UIControl {
+      searchField.isEnabled = false
+    }
+    
+    
     tableView.reloadData()
   }
   
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     searchBar.text = nil
     contactList.removeFilter()
+    if let searchField = searchBar.value(forKey: "searchField") as? UIControl {
+      searchField.isEnabled = true
+    }
+    
     searchBar.showsCancelButton = false
     tableView.reloadData()
-  }
-
-  func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-    print("searchBarShouldEndEditing")
-    searchBar.showsCancelButton = false
-    return true
   }
   
 }
