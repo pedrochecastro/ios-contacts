@@ -120,6 +120,12 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
 // Search Bar Delegate
 extension ContactsListViewController: UISearchBarDelegate {
   
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
+      searchField.clearButtonMode = UITextField.ViewMode.never
+    }
+  }
+  
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     guard let txt = searchBar.text else {
       return
