@@ -12,6 +12,11 @@ class Contact : NSObject {
     
     var name: String
     var phoneNumber: String
+  
+  override init() {
+    name = ""
+    phoneNumber = ""
+  }
     
     init(name: String, phoneNumber: String = "") {
         self.name = name
@@ -124,6 +129,8 @@ class ContactList {
       
       if let contact = getContact(by: txt) {
         self.contacts = [String(contact.name.prefix(1)):[contact]]
+      } else {
+        self.contacts = [" ": [Contact()]]
       }
       
     }
