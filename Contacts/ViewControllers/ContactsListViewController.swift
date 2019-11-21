@@ -28,11 +28,18 @@ class ContactsListViewController: UITableViewController {
 // MARK: - Table View
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        let a = contactList.sectionsTitlesHeader().count
-        return a
+        let numberOfSections = contactList.sectionsTitlesHeader().count
+        let emptySection = contactList.sectionsTitlesHeader()[0]
+      
+        if (numberOfSections == 1 && emptySection == " ") {
+          setEmptyView(title: "Not Found", message: "Try again")
+          return 0
+        }
+        return numberOfSections
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      
         return contactList.getContactList(by:section).count
     }
 
@@ -140,7 +147,6 @@ extension ContactsListViewController: UISearchBarDelegate {
     if let searchField = searchBar.value(forKey: "searchField") as? UIControl {
       searchField.isEnabled = false
     }
-    
     
     tableView.reloadData()
   }
