@@ -158,6 +158,8 @@ extension ContactsListViewController: UISearchBarDelegate {
       searchField.isEnabled = true
     }
     
+    restore()
+    
     searchBar.showsCancelButton = false
     tableView.reloadData()
   }
