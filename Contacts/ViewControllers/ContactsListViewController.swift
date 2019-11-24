@@ -9,9 +9,11 @@
 import UIKit
 
 class ContactsListViewController: UITableViewController {
+  
     
-    let contactList = ContactList(Repository.local.contacts)
-    var filtered = false
+  @IBOutlet weak var searchBar: UISearchBar!
+  let contactList = ContactList(Repository.local.contacts)
+  var filtered = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +34,11 @@ class ContactsListViewController: UITableViewController {
         let emptySection = contactList.sectionsTitlesHeader()[0]
       
         if (numberOfSections == 1 && emptySection == " ") {
-          setEmptyView(title: "Not Found", message: "Try again")
+          setEmptyView(title: "Not Found", completion: ({() -> () in
+              self.restarSearch()
+            })
+          )
+          
           return 0
         }
         return numberOfSections
@@ -105,6 +111,17 @@ class ContactsListViewController: UITableViewController {
     }
     
 // MARK: - Custom Methods
+  
+  func restarSearch() {
+    self.searchBar.text = nil
+    self.contactList.removeFilter()
+    if let searchField = self.searchBar.value(forKey: "searchField") as? UIControl {
+      searchField.isEnabled = true
+    }
+    self.restore()
+    self.searchBar.showsCancelButton = false
+    tableView.reloadData()
+  }
     
     
 }
@@ -141,9 +158,10 @@ extension ContactsListViewController: UISearchBarDelegate {
     searchBar.resignFirstResponder()
     searchBar.showsCancelButton = true
     
-    if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
-      cancelButton.isEnabled = true
-    }
+//    if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+//      cancelButton.isHidden = true
+//    }
+    searchBar.showsCancelButton = false
     if let searchField = searchBar.value(forKey: "searchField") as? UIControl {
       searchField.isEnabled = false
     }
@@ -152,16 +170,7 @@ extension ContactsListViewController: UISearchBarDelegate {
   }
   
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-    searchBar.text = nil
-    contactList.removeFilter()
-    if let searchField = searchBar.value(forKey: "searchField") as? UIControl {
-      searchField.isEnabled = true
-    }
-    
-    restore()
-    
-    searchBar.showsCancelButton = false
-    tableView.reloadData()
+    restarSearch()
   }
   
 }

@@ -9,27 +9,29 @@
 import UIKit
 
 extension UITableViewController {
-  func setEmptyView(title: String, message: String) {
+  func setEmptyView(title: String, completion: @escaping ()->()) {
     let emptyView = UIView(frame: CGRect(x: self.tableView.center.x, y: self.tableView.center.y, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
     let titleLabel = UILabel()
-    let messageLabel = UILabel()
+    let button = UIButton(type: UIButton.ButtonType.system)
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    messageLabel.translatesAutoresizingMaskIntoConstraints = false
+    button.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.textColor = UIColor.black
     titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-    messageLabel.textColor = UIColor.lightGray
-    messageLabel.font = UIFont(name: "HelveticaNeue-Regular", size: 17)
+//    button.setTitleColor(UIColor.black, for: .normal)
+//    button.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
     emptyView.addSubview(titleLabel)
-    emptyView.addSubview(messageLabel)
+    emptyView.addSubview(button)
     titleLabel.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor).isActive = true
     titleLabel.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor).isActive = true
-    messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
-    messageLabel.leftAnchor.constraint(equalTo: emptyView.leftAnchor, constant: 20).isActive = true
-    messageLabel.rightAnchor.constraint(equalTo: emptyView.rightAnchor, constant: -20).isActive = true
+    button.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
+    button.leftAnchor.constraint(equalTo: emptyView.leftAnchor, constant: 20).isActive = true
+    button.rightAnchor.constraint(equalTo: emptyView.rightAnchor, constant: -20).isActive = true
+//    button.addTarget(self, action: #selector(completion()), for: .touchUpInside)
+    button.actionHandle(controlEvents: .touchUpInside, ForAction: completion)
     titleLabel.text = title
-    messageLabel.text = message
-    messageLabel.numberOfLines = 0
-    messageLabel.textAlignment = .center
+    //Buttom
+    button.setTitle("Try Again", for: .normal)
+   
     // The only tricky part is here:
     self.tableView.backgroundView = emptyView
     self.tableView.separatorStyle = .none
@@ -38,4 +40,5 @@ extension UITableViewController {
     self.tableView.backgroundView = nil
     self.tableView.separatorStyle = .singleLine
   }
+
 }
