@@ -125,14 +125,15 @@ class ContactList {
         self.contacts[key] = contacts
     }
   
-    public func setFilter(txt: String){
+    public func setFilter(txt: String) -> Bool{
       
       if let contact = getContact(by: txt) {
         self.contacts = [String(contact.name.prefix(1)):[contact]]
+        return true
       } else {
         self.contacts = [" ": [Contact()]]
+        return false
       }
-      
     }
   
     public func removeFilter() {

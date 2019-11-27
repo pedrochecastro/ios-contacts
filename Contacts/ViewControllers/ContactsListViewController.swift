@@ -14,12 +14,17 @@ class ContactsListViewController: UITableViewController {
   @IBOutlet weak var searchBar: UISearchBar!
   let contactList = ContactList(Repository.local.contacts)
   var filtered = false
-
+  @IBAction func cancel(_ sender: Any) {
+    restarSearch()
+  }
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
+        // Toolbar
+        navigationController?.isToolbarHidden = true
         
     }
     
@@ -121,6 +126,8 @@ class ContactsListViewController: UITableViewController {
     self.restore()
     self.searchBar.showsCancelButton = false
     tableView.reloadData()
+    navigationController?.isToolbarHidden = true
+
   }
     
     
@@ -154,7 +161,7 @@ extension ContactsListViewController: UISearchBarDelegate {
     guard let txt = searchBar.text else {
       return
     }
-    contactList.setFilter(txt: txt)
+    let contactsFound = contactList.setFilter(txt: txt)
     searchBar.resignFirstResponder()
     searchBar.showsCancelButton = true
     
@@ -164,6 +171,13 @@ extension ContactsListViewController: UISearchBarDelegate {
     searchBar.showsCancelButton = false
     if let searchField = searchBar.value(forKey: "searchField") as? UIControl {
       searchField.isEnabled = false
+    }
+    // Show toolbar
+    // Toolbar
+    if contactsFound {
+      navigationController?.isToolbarHidden = false
+    } else {
+      navigationController?.isToolbarHidden = true
     }
     
     tableView.reloadData()

@@ -61,6 +61,14 @@
                             <outlet property="delegate" destination="Nw8-bF-bhN" id="xIy-58-qm9"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="VtP-mc-q0Q"/>
+                        <barButtonItem systemItem="cancel" id="0Yi-hC-aWc">
+                            <connections>
+                                <action selector="cancel:" destination="Nw8-bF-bhN" id="xat-cZ-ZTu"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Contacts" id="zg2-CT-ipQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="b4h-rd-ong">
                             <connections>
@@ -68,6 +76,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchBar" destination="guW-yy-RVW" id="Z6t-AV-mza"/>
                         <segue destination="pNk-qZ-rrT" kind="show" identifier="detailContact" id="X3x-em-lcy"/>
