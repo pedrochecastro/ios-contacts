@@ -28,6 +28,7 @@ class ContactList {
     
     var contactsDB: [String:[Contact]] = [:]
     var contacts: [String:[Contact]] = [:]
+    var allContacts: [Contact] = []
 
     var updateSection = false
     var deleteSection = false
@@ -35,6 +36,8 @@ class ContactList {
     init() {}
     
     init(_ contacts: [Contact]) {
+      
+        allContacts = contacts
         let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
         
         aToZ.forEach {
@@ -49,6 +52,21 @@ class ContactList {
       self.contactsDB = self.contacts
         
     }
+  
+     private func mapToDictionary(contacts: [Contact])  {
+        let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
+  
+        aToZ.forEach {
+        self.contacts[$0] = [Contact]()
+        }
+  
+        contacts.forEach {
+        add(contact: $0)
+        updateSection = false
+        }
+    }
+    
+    
     
     public func sectionsTitlesHeader() -> [String] {
         let filtered = contacts.filter { !$0.value.isEmpty }
@@ -74,19 +92,8 @@ class ContactList {
         return contacts[indexpath.row]
     }
   
-    public func getContact(by name: String) -> Contact? {
-      //key
-      let key = String(name.prefix(1))
-  
-      //Find Contact
-      var contact: Contact?
-      let contacts = self.contacts[key]!
-      contacts.forEach {
-        if $0.name == name {
-            contact = $0
-        }
-      }
-      return contact
+    public func getContacts(by name: String) -> [Contact] {
+      return allContacts.filter { $0.name.contains(name) }
     }
     
     public func getIndexPath(from contact: Contact) -> IndexPath {
@@ -127,19 +134,19 @@ class ContactList {
   
     public func setFilter(txt: String) -> Bool{
       
-      if let contact = getContact(by: txt) {
-        self.contacts = [String(contact.name.prefix(1)):[contact]]
-        return true
-      } else {
+      let contactsFounded = getContacts(by: txt)
+      if contactsFounded.isEmpty {
         self.contacts = [" ": [Contact()]]
         return false
+      } else {
+        mapToDictionary(contacts: contactsFounded)
+        return true
       }
     }
   
     public func removeFilter() {
         self.contacts = contactsDB
     }
-  
 }
 
 extension Contact : Comparable {
