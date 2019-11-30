@@ -23,9 +23,8 @@ class ContactsListViewController: UITableViewController {
         
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
-        // Toolbar
-        navigationController?.isToolbarHidden = true
-        
+      
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,16 +35,6 @@ class ContactsListViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         let numberOfSections = contactList.sectionsTitlesHeader().count
-        let emptySection = contactList.sectionsTitlesHeader()[0]
-      
-        if (numberOfSections == 1 && emptySection == " ") {
-          setEmptyView(title: "Not Found", completion: ({() -> () in
-              self.restarSearch()
-            })
-          )
-          
-          return 0
-        }
         return numberOfSections
     }
     
@@ -158,34 +147,36 @@ extension ContactsListViewController: UISearchBarDelegate {
   }
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    guard let txt = searchBar.text else {
-      return
-    }
-    let contactsFound = contactList.setFilter(txt: txt)
-    searchBar.resignFirstResponder()
-    searchBar.showsCancelButton = true
-    
-//    if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
-//      cancelButton.isHidden = true
-//    }
-    searchBar.showsCancelButton = false
-    if let searchField = searchBar.value(forKey: "searchField") as? UIControl {
-      searchField.isEnabled = false
-    }
-    // Show toolbar
-    // Toolbar
-    if contactsFound {
-      navigationController?.isToolbarHidden = false
-    } else {
-      navigationController?.isToolbarHidden = true
-    }
-    
-    tableView.reloadData()
+  // We search while texting
   }
   
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     restarSearch()
   }
   
+  func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    var textBefore = searchBar.text!
+    var currentText : String {
+       return (textBefore as NSString).replacingCharacters(in: range, with: text)
+    }
+    if !currentText.isEmpty {
+      let contactsFound = contactList.setFilter(txt: currentText)
+
+      if !contactsFound {
+          setEmptyView(title: "Not Found", completion: ({() -> () in
+            self.restarSearch()
+          })
+        )
+      } else {
+        restore()
+      }
+    } else {
+      restarSearch()
+    }
+    tableView.reloadData()
+
+    return true
+  
+  }
 }
 

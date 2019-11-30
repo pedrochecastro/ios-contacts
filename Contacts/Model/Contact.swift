@@ -136,7 +136,7 @@ class ContactList {
       
       let contactsFounded = getContacts(by: txt)
       if contactsFounded.isEmpty {
-        self.contacts = [" ": [Contact()]]
+        self.contacts = [:]
         return false
       } else {
         mapToDictionary(contacts: contactsFounded)
