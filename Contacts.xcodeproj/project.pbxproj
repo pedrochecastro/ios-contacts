@@ -132,9 +132,17 @@
 				CF0A4C002343BE6C004AB372 /* Resources */,
 				CF0A4C032343BF97004AB372 /* Helper */,
 				CF6AF1D22347583F00D5E3DA /* Extensions */,
-				CF5D7CBE234B74B9003FACEB /* CustomCell.swift */,
+				CFF533CF239A827A001BB606 /* Cells */,
 			);
 			path = Contacts;
+			sourceTree = "<group>";
+		};
+		CFF533CF239A827A001BB606 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CF5D7CBE234B74B9003FACEB /* CustomCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -28,7 +28,7 @@ class ContactEditionViewController: UITableViewController {
     
     @IBAction func done(_ sender: Any) {
         
-        validate()
+        //validate()
         
         //        if let _ = contactList {
         //
@@ -67,13 +67,13 @@ class ContactEditionViewController: UITableViewController {
         navigationItem.largeTitleDisplayMode = .never
         if let editContact = contact {
             navigationItem.title = "Edit Contact"
-            nameTextField.text = editContact.name
-            phoneTextField.text = editContact.phoneNumber
+            nameTextField?.text = editContact.name
+            phoneTextField?.text = editContact.phoneNumber
         }
         
         //Delegates
-        nameTextField.delegate = self
-        phoneTextField.delegate = self
+        nameTextField?.delegate = self
+        phoneTextField?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
