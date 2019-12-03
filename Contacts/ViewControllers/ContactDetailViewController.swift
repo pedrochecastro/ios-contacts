@@ -31,8 +31,8 @@ class ContactDetailViewController: UITableViewController {
         tableView.allowsSelection = false
         
         if let contact = contact {
-            nameLabel.text = contact.name
-            phoneLabel.text = contact.phoneNumber
+            nameLabel?.text = contact.name
+            phoneLabel?.text = contact.phoneNumber
         }
     }
     
