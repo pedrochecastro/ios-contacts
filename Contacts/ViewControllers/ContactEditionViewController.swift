@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 protocol ContactEditionViewControllerDelegate: class {
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact)
@@ -21,11 +22,16 @@ class ContactEditionViewController: UITableViewController {
     var editionsActionsHandler: [((Contact) -> Void)] = []
     
     
+  
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
-    
-    
+    @IBOutlet weak var contactImage: UIImageView!
+  
+  @IBAction func addContactImage(_ sender: Any) {
+    launchPhotolibrary()
+  }
+  
     @IBAction func done(_ sender: Any) {
         
         //validate()
@@ -125,6 +131,17 @@ class ContactEditionViewController: UITableViewController {
         alertController.addAction(alertAction)
         present(alertController, animated: true, completion: nil)
     }
+  
+  func launchPhotolibrary() {
+    
+    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+      let myPickerController = UIImagePickerController()
+      myPickerController.delegate = self
+      myPickerController.sourceType = .photoLibrary
+      self.present(myPickerController, animated: true, completion: nil)
+    }
+    
+  }
     
 }
 
@@ -146,5 +163,23 @@ extension ContactEditionViewController: UITextFieldDelegate {
         return true
         
     }
+}
+
+extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    // Handle image
+    
+    if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+      self.contactImage.image = image
+    } else{
+      print("Something went wrong in  image")
+    }
+    
+  
+    // Dismiss de photolibrary
+    self.dismiss(animated: true, completion: nil)
+  }
+  
 }
 

@@ -234,6 +234,9 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EeW-wg-xlf">
                                                             <rect key="frame" x="103.5" y="50.5" width="93" height="30"/>
                                                             <state key="normal" title="Add Picture..."/>
+                                                            <connections>
+                                                                <action selector="addContactImage:" destination="co5-qL-PA4" eventType="touchUpInside" id="Lrg-nu-AKM"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                 </stackView>
@@ -333,6 +336,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="contactImage" destination="m7J-Zu-nuv" id="2NV-cQ-bUZ"/>
                         <outlet property="doneBarButton" destination="ZmM-Md-gwh" id="EGT-Wd-OPH"/>
                         <outlet property="nameTextField" destination="4TJ-70-wFb" id="v0L-cc-M0x"/>
                         <outlet property="phoneTextField" destination="8z4-jK-LPw" id="YbQ-Qs-EKU"/>
