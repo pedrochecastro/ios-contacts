@@ -32,6 +32,24 @@ class ContactEditionViewController: UITableViewController {
     launchPhotolibrary()
   }
   
+  
+  @IBAction func shareContact(_ sender: Any) {
+    // text to share
+    let text = "This is some text that I want to share."
+    
+    // set up activity view controller
+    let textToShare = [ text ]
+    let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities:  )
+    activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+    
+    // exclude some activity types from the list (optional)
+    activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
+    
+    // present the view controller
+    self.present(activityViewController, animated: true, completion: nil)
+    
+  }
+  
     @IBAction func done(_ sender: Any) {
         
         //validate()

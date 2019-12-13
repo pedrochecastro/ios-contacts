@@ -311,6 +311,9 @@
                                                     <rect key="frame" x="-3" y="14" width="194" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Share Contact..."/>
+                                                    <connections>
+                                                        <action selector="shareContact:" destination="co5-qL-PA4" eventType="touchUpInside" id="ccZ-Ce-Ifc"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
