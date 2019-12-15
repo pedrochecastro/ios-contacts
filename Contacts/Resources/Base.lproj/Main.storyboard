@@ -116,9 +116,14 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="XeW-ja-fud">
                                                     <rect key="frame" x="147" y="4" width="80" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <gestureRecognizers/>
                                                 </imageView>
                                             </subviews>
+                                            <connections>
+                                                <outletCollection property="gestureRecognizers" destination="o3q-8W-KEa" appends="YES" id="ttt-87-5bK"/>
+                                            </connections>
                                         </tableViewCellContentView>
+                                        <gestureRecognizers/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="60" id="0Md-nL-Sph">
                                         <rect key="frame" x="0.0" y="125" width="375" height="60"/>
@@ -204,6 +209,11 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JNd-u5-KCQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="o3q-8W-KEa">
+                    <connections>
+                        <action selector="tapImage:" destination="pNk-qZ-rrT" id="g80-f2-iG5"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="786.39999999999998" y="657.12143928035982"/>
         </scene>

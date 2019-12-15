@@ -6,12 +6,13 @@
 //  Copyright © 2019 checastro.com. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class Contact : NSObject {
     
     var name: String
     var phoneNumber: String
+    var contactImage: UIImage?
   
   override init() {
     name = ""

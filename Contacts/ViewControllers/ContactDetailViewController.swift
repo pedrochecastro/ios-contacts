@@ -15,7 +15,12 @@ class ContactDetailViewController: UITableViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
-    
+  
+  
+  @IBAction func tapImage(_ sender: Any) {
+    print("Tapped...")
+  }
+  
     var contact : Contact?
     weak var editionContactListDelegate: ContactsListViewController?
     var editionActionHandler: ((Contact) -> Void)?
