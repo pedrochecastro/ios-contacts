@@ -119,9 +119,6 @@
                                                     <gestureRecognizers/>
                                                 </imageView>
                                             </subviews>
-                                            <connections>
-                                                <outletCollection property="gestureRecognizers" destination="o3q-8W-KEa" appends="YES" id="ttt-87-5bK"/>
-                                            </connections>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
                                     </tableViewCell>
@@ -209,11 +206,6 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JNd-u5-KCQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="o3q-8W-KEa">
-                    <connections>
-                        <action selector="tapImage:" destination="pNk-qZ-rrT" id="g80-f2-iG5"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="786.39999999999998" y="657.12143928035982"/>
         </scene>

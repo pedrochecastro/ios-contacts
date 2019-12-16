@@ -17,13 +17,12 @@ class ContactDetailViewController: UITableViewController {
     @IBOutlet weak var phoneLabel: UILabel!
   
   
-  @IBAction func tapImage(_ sender: Any) {
-    print("Tapped...")
-  }
   
     var contact : Contact?
     weak var editionContactListDelegate: ContactsListViewController?
     var editionActionHandler: ((Contact) -> Void)?
+    private var picker = UIImagePickerController()
+
     
     @IBAction func editContact(_ sender: Any) {
         performSegue(withIdentifier: "editContact", sender: nil)
@@ -61,6 +60,5 @@ class ContactDetailViewController: UITableViewController {
         }
         
     }
-    
-
+  
 }
