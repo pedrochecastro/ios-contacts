@@ -54,30 +54,30 @@ class ContactEditionViewController: UITableViewController {
         
         //validate()
         
-        //        if let _ = contactList {
-        //
-        //            if let name = nameTextField.text,
-        //               let phoneNumber = phoneTextField.text {
-        //                let newContact = Contact(name: name, phoneNumber: phoneNumber)
-        //                contactList?.add(contact: newContact)
-        //                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
-        //            }
-        //        }
-        //        else if let contact = contact {
-        //
-        //            if let name = nameTextField.text,
-        //               let phoneNumber = phoneTextField.text {
-        //                contact.name = name
-        //                contact.phoneNumber = phoneNumber
-        //
-        //                // Call to all viewcontroller  with edition handlers
-        //                if !editionsActionsHandler.isEmpty {
-        //                    editionsActionsHandler.forEach {
-        //                        $0(contact)
-        //                    }
-        //                }
-        //            }
-        //        }
+                if let _ = contactList {
+        
+                    if let name = nameTextField.text,
+                       let phoneNumber = phoneTextField.text {
+                        let newContact = Contact(name: name, phoneNumber: phoneNumber)
+                        contactList?.add(contact: newContact)
+                        delegate?.contactEditionViewController(self, didFinishAdding: newContact)
+                    }
+                }
+                else if let contact = contact {
+        
+                    if let name = nameTextField.text,
+                       let phoneNumber = phoneTextField.text {
+                        contact.name = name
+                        contact.phoneNumber = phoneNumber
+        
+                        // Call to all viewcontroller  with edition handlers
+                        if !editionsActionsHandler.isEmpty {
+                            editionsActionsHandler.forEach {
+                                $0(contact)
+                            }
+                        }
+                    }
+                }
     }
     
     @IBAction func cancelContactEdition() {
@@ -93,6 +93,9 @@ class ContactEditionViewController: UITableViewController {
             navigationItem.title = "Edit Contact"
             nameTextField?.text = editContact.name
             phoneTextField?.text = editContact.phoneNumber
+            if let customImage = editContact.contactImage {
+              contactImage.image = customImage
+            }
         }
         
         //Delegates
@@ -189,7 +192,8 @@ extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavig
     // Handle image
     
     if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-      self.contactImage.image = image
+      contact?.contactImage = image
+      contactImage.image = contact?.contactImage
     } else{
       print("Something went wrong in  image")
     }
