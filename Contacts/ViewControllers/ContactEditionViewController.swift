@@ -198,6 +198,7 @@ extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavig
       print("Something went wrong in  image")
     }
     
+    doneBarButton.isEnabled = true
   
     // Dismiss de photolibrary
     self.dismiss(animated: true, completion: nil)
