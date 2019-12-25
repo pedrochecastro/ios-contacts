@@ -27,6 +27,7 @@ class ContactEditionViewController: UITableViewController {
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var contactImage: UIImageView!
+    @IBOutlet weak var addEditButton: UIButton!
   
   @IBAction func addContactImage(_ sender: Any) {
     launchPhotolibrary()
@@ -93,8 +94,10 @@ class ContactEditionViewController: UITableViewController {
             navigationItem.title = "Edit Contact"
             nameTextField?.text = editContact.name
             phoneTextField?.text = editContact.phoneNumber
+
             if let customImage = editContact.contactImage {
               contactImage.image = customImage
+              addEditButton.setTitle("Edit Picture", for: .normal)
             }
         }
         
@@ -199,6 +202,7 @@ extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavig
     }
     
     doneBarButton.isEnabled = true
+    addEditButton.setTitle("Edit Picture", for: .normal)
   
     // Dismiss de photolibrary
     self.dismiss(animated: true, completion: nil)

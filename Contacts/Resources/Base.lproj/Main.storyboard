@@ -341,6 +341,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addEditButton" destination="EeW-wg-xlf" id="0MM-6b-x70"/>
                         <outlet property="contactImage" destination="m7J-Zu-nuv" id="2NV-cQ-bUZ"/>
                         <outlet property="doneBarButton" destination="ZmM-Md-gwh" id="EGT-Wd-OPH"/>
                         <outlet property="nameTextField" destination="4TJ-70-wFb" id="v0L-cc-M0x"/>
