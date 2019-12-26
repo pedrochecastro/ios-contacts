@@ -67,9 +67,11 @@ class ContactEditionViewController: UITableViewController {
                 else if let contact = contact {
         
                     if let name = nameTextField.text,
-                       let phoneNumber = phoneTextField.text {
+                       let phoneNumber = phoneTextField.text,
+                       let contactImage = contactImage.image {
                         contact.name = name
                         contact.phoneNumber = phoneNumber
+                        contact.contactImage = contactImage
         
                         // Call to all viewcontroller  with edition handlers
                         if !editionsActionsHandler.isEmpty {

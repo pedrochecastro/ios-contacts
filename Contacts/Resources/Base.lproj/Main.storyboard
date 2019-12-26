@@ -200,6 +200,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="contactImage" destination="XeW-ja-fud" id="9e8-vf-SQW"/>
                         <outlet property="nameLabel" destination="hK3-Yr-JWX" id="DOc-3L-WYp"/>
                         <outlet property="phoneLabel" destination="nSz-v2-hX9" id="Mrf-OF-vcw"/>
                         <segue destination="co5-qL-PA4" kind="show" identifier="editContact" id="4Tv-5O-BHN"/>

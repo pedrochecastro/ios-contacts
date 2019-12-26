@@ -15,6 +15,7 @@ class ContactDetailViewController: UITableViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
+    @IBOutlet weak var contactImage: UIImageView!
   
   
   
@@ -37,6 +38,7 @@ class ContactDetailViewController: UITableViewController {
         if let contact = contact {
             nameLabel?.text = contact.name
             phoneLabel?.text = contact.phoneNumber
+            contactImage.image = contact.contactImage
         }
     }
     
@@ -54,6 +56,7 @@ class ContactDetailViewController: UITableViewController {
                 contactEditionVC.editionsActionsHandler.append({ contact in
                     self.nameLabel.text = contact.name
                     self.phoneLabel.text = contact.phoneNumber
+                    self.contactImage.image = contact.contactImage
                     self.navigationController?.popViewController(animated: true)
                 })
             }
