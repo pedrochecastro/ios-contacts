@@ -61,6 +61,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="contactImage" destination="Top-rp-c1y" id="PZO-0c-BUh"/>
                                     <outlet property="nameLabel" destination="GPM-Rf-J95" id="fOL-k4-fOC"/>
                                 </connections>
                             </tableViewCell>
@@ -376,6 +377,6 @@
         <image name="person-placeholder" width="300" height="275"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4Tv-5O-BHN"/>
+        <segue reference="7tI-A7-gwW"/>
     </inferredMetricsTieBreakers>
 </document>

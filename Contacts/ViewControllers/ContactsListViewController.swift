@@ -49,6 +49,9 @@ class ContactsListViewController: UITableViewController {
         let contacts = contactList.getContactList(by: indexPath.section)
         let contact = contacts[indexPath.row]
         cell.nameLabel.text = contact.name
+      if let contactImage = contact.contactImage {
+        cell.contactImage.image = contactImage
+      }
         
         return cell
     }
