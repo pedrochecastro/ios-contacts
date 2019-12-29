@@ -38,7 +38,9 @@ class ContactDetailViewController: UITableViewController {
         if let contact = contact {
             nameLabel?.text = contact.name
             phoneLabel?.text = contact.phoneNumber
-            contactImage.image = contact.contactImage
+          if let contactImage = contact.contactImage {
+            self.contactImage.image = contactImage
+          }
         }
     }
     
