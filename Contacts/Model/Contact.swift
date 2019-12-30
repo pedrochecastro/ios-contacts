@@ -14,6 +14,7 @@ class Contact : NSObject {
     var phoneNumber: String
     var contactImage: UIImage?
   
+  
   override init() {
     name = ""
     phoneNumber = ""

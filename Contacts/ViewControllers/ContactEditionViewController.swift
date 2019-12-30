@@ -20,6 +20,7 @@ class ContactEditionViewController: UITableViewController {
     weak var contact: Contact?
     weak var contactList: ContactList?
     var editionsActionsHandler: [((Contact) -> Void)] = []
+  
     
     
   
@@ -60,6 +61,7 @@ class ContactEditionViewController: UITableViewController {
                     if let name = nameTextField.text,
                        let phoneNumber = phoneTextField.text {
                         let newContact = Contact(name: name, phoneNumber: phoneNumber)
+                        newContact.contactImage = contactImage.image
                         contactList?.add(contact: newContact)
                         delegate?.contactEditionViewController(self, didFinishAdding: newContact)
                     }
@@ -106,6 +108,7 @@ class ContactEditionViewController: UITableViewController {
         //Delegates
         nameTextField?.delegate = self
         phoneTextField?.delegate = self
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -198,7 +201,7 @@ extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavig
     
     if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
       contact?.contactImage = image
-      contactImage.image = contact?.contactImage
+      contactImage.image = contact?.contactImage ?? image
     } else{
       print("Something went wrong in  image")
     }
