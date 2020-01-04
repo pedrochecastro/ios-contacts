@@ -54,7 +54,7 @@ class ContactEditionViewController: UITableViewController {
   
     @IBAction func done(_ sender: Any) {
         
-        //validate()
+        validate()
         
                 if let _ = contactList {
         
@@ -171,6 +171,17 @@ class ContactEditionViewController: UITableViewController {
     }
     
   }
+  
+  override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    if let _ = contactList {
+      if section == 0 {
+        return 0.01
+      } else {
+        return UITableView.automaticDimension
+      }
+    }
+    return UITableView.automaticDimension
+  }
     
 }
 
@@ -205,8 +216,9 @@ extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavig
     } else{
       print("Something went wrong in  image")
     }
-    
-    doneBarButton.isEnabled = true
+    if let _ = contact {
+      doneBarButton.isEnabled = true
+    }
     addEditButton.setTitle("Edit Picture", for: .normal)
   
     // Dismiss de photolibrary
