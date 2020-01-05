@@ -120,6 +120,20 @@ class ContactEditionViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
+  
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      
+      switch section {
+      case 0:
+        return 3
+      case 1:
+        guard let _ = contact else { return 0}
+        return 2
+      default:
+        return 0
+      }
+    
+  }
     
     // MARK: - Custom Methods
     func editedContact(handler: @escaping(Contact) -> Void) {
