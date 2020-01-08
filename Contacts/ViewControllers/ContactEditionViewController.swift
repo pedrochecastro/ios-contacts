@@ -52,6 +52,17 @@ class ContactEditionViewController: UITableViewController {
     
   }
   
+  @IBAction func deleteContact(_ sender: Any) {
+    // UIAlert
+    
+    // Navigation
+    
+    // Update
+    
+    
+  }
+
+  
     @IBAction func done(_ sender: Any) {
         
         validate()
