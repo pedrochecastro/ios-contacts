@@ -54,7 +54,7 @@ class ContactEditionViewController: UITableViewController {
   
   @IBAction func deleteContact(_ sender: Any) {
     // UIAlert
-    
+    showAlert(title: "Delete Contact", message: "Are you sure?", actions: [("Yes",nil),("No",nil)])
     // Navigation
     
     // Update
@@ -175,14 +175,16 @@ class ContactEditionViewController: UITableViewController {
             }
             
         } catch(let error) {
-            showAlert(for:(error as! ValidationError).message)
+          showAlert(title: nil, message: (error as! ValidationError).message, actions: [("OK",nil)])
         }
     }
     
-    func showAlert(for alert: String) {
-        let alertController = UIAlertController(title: nil, message: alert, preferredStyle: UIAlertController.Style.alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(alertAction)
+  func showAlert(title alertTitle: String?, message alertMessage: String?, actions: [(String, ((UIAlertAction) -> (Void))?)]) {
+        let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertController.Style.alert)
+        actions.forEach {
+            let alertAction = UIAlertAction(title: $0.0, style: .default, handler: nil)
+            alertController.addAction(alertAction)
+        }
         present(alertController, animated: true, completion: nil)
     }
   
