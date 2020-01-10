@@ -128,6 +128,7 @@ class ContactsListViewController: UITableViewController {
 extension ContactsListViewController: ContactEditionViewControllerDelegate {
     
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
+        // Navigation
         navigationController?.popViewController(animated: true)
         let indexPath = contactList.getIndexPath(from: contact)
         tableView.beginUpdates()
@@ -138,6 +139,13 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
         tableView.insertRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()
     }
+  
+  func contactEditionViewController(_ controller: ContactEditionViewController, didFinishDeleting contact: Contact) {
+    // Navigation
+    
+    // Update tableView with contact deleted
+    
+  }
 }
 
 // Search Bar Delegate

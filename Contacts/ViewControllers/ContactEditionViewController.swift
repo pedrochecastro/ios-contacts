@@ -11,6 +11,7 @@ import MobileCoreServices
 
 protocol ContactEditionViewControllerDelegate: class {
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact)
+    func contactEditionViewController(_ controller: ContactEditionViewController, didFinishDeleting contact: Contact)
 }
 
 
@@ -54,7 +55,10 @@ class ContactEditionViewController: UITableViewController {
   
   @IBAction func deleteContact(_ sender: Any) {
     // UIAlert
-    showAlert(title: "Delete Contact", message: "Are you sure?", actions: [("Yes",nil),("No",nil)])
+    showAlert(title: "Delete Contact", message: "Are you sure?",
+              actions: [UIAlertAction(title: "Yes", style: .default, handler:{ action in print("Click YES")}),
+                        UIAlertAction(title: "No", style: .default, handler:{action in print("Click NO")})
+                       ])
     // Navigation
     
     // Update
@@ -175,15 +179,20 @@ class ContactEditionViewController: UITableViewController {
             }
             
         } catch(let error) {
-          showAlert(title: nil, message: (error as! ValidationError).message, actions: [("OK",nil)])
+          showAlert(title: nil, message: (error as! ValidationError).message,
+                    actions: [UIAlertAction(title: "OK", style: .default, handler: nil)])
         }
     }
     
-  func showAlert(title alertTitle: String?, message alertMessage: String?, actions: [(String, ((UIAlertAction) -> (Void))?)]) {
+ // func showAlert(title alertTitle: String?, message alertMessage: String?, actions: [(String,(() -> ())?)]) {
+  func showAlert(title alertTitle: String?, message alertMessage: String?, actions: [UIAlertAction] ){
+
         let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertController.Style.alert)
         actions.forEach {
-            let alertAction = UIAlertAction(title: $0.0, style: .default, handler: nil)
-            alertController.addAction(alertAction)
+//          let alertAction = UIAlertAction(title: $0.0, style: .default, handler: { action in
+//            print("Click alert")
+//          })
+            alertController.addAction($0)
         }
         present(alertController, animated: true, completion: nil)
     }
@@ -198,17 +207,7 @@ class ContactEditionViewController: UITableViewController {
     }
     
   }
-  
-  override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    if let _ = contactList {
-      if section == 0 {
-        return 0.01
-      } else {
-        return UITableView.automaticDimension
-      }
-    }
-    return UITableView.automaticDimension
-  }
+
     
 }
 
