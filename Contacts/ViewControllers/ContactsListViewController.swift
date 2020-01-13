@@ -142,7 +142,7 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
   
   func contactEditionViewController(_ controller: ContactEditionViewController, didFinishDeleting contact: Contact) {
     // Navigation
-    
+    print("Delegating...")
     // Update tableView with contact deleted
     
   }

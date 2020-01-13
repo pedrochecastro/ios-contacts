@@ -56,9 +56,12 @@ class ContactEditionViewController: UITableViewController {
   @IBAction func deleteContact(_ sender: Any) {
     // UIAlert
     showAlert(title: "Delete Contact", message: "Are you sure?",
-              actions: [UIAlertAction(title: "Yes", style: .default, handler:{ action in print("Click YES")}),
-                        UIAlertAction(title: "No", style: .default, handler:{action in print("Click NO")})
-                       ])
+              actions:
+              [UIAlertAction(title: "Yes", style: .default, handler:{_ in
+                self.contactList?.remove(contact: self.contact!)
+                self.delegate?.contactEditionViewController(self, didFinishDeleting: self.contact!)
+              }),
+              UIAlertAction(title: "No", style: .default, handler:{action in print("Click NO")})])
     // Navigation
     
     // Update
@@ -184,14 +187,10 @@ class ContactEditionViewController: UITableViewController {
         }
     }
     
- // func showAlert(title alertTitle: String?, message alertMessage: String?, actions: [(String,(() -> ())?)]) {
   func showAlert(title alertTitle: String?, message alertMessage: String?, actions: [UIAlertAction] ){
 
         let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertController.Style.alert)
         actions.forEach {
-//          let alertAction = UIAlertAction(title: $0.0, style: .default, handler: { action in
-//            print("Click alert")
-//          })
             alertController.addAction($0)
         }
         present(alertController, animated: true, completion: nil)

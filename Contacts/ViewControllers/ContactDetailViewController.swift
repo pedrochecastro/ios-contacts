@@ -53,6 +53,7 @@ class ContactDetailViewController: UITableViewController {
         if segue.identifier == "editContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController,
                 let editionActionHandler = editionActionHandler {
+                contactEditionVC.delegate = editionContactListDelegate
                 contactEditionVC.contact = contact
                 contactEditionVC.editionsActionsHandler.append(editionActionHandler)
                 contactEditionVC.editionsActionsHandler.append({ contact in
