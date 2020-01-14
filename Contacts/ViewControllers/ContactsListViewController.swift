@@ -142,8 +142,16 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
   
   func contactEditionViewController(_ controller: ContactEditionViewController, didFinishDeleting contact: Contact) {
     // Navigation
-    print("Delegating...")
-    // Update tableView with contact deleted
+    navigationController?.popToViewController(self, animated: true)
+    let indexPath = contactList.getIndexPath(from: contact)
+    contactList.remove(contact: contact)
+    if contactList.deleteSection {
+      tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+      contactList.deleteSection = false
+    } else {
+      tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+    
     
   }
 }

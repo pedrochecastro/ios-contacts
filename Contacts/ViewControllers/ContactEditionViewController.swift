@@ -57,10 +57,8 @@ class ContactEditionViewController: UITableViewController {
     // UIAlert
     showAlert(title: "Delete Contact", message: "Are you sure?",
               actions:
-              [UIAlertAction(title: "Yes", style: .default, handler:{_ in
-                self.contactList?.remove(contact: self.contact!)
-                self.delegate?.contactEditionViewController(self, didFinishDeleting: self.contact!)
-              }),
+              [UIAlertAction(title: "Yes", style: .default, handler: {_ in
+                self.delegate?.contactEditionViewController(self, didFinishDeleting: self.contact!)}),
               UIAlertAction(title: "No", style: .default, handler:{action in print("Click NO")})])
     // Navigation
     
