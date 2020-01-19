@@ -37,8 +37,8 @@ class ContactEditionViewController: UITableViewController {
   
   
   @IBAction func shareContact(_ sender: Any) {
-    // text to share
-    let text = "This is some text that I want to share."
+    // Share contact information
+    let text = "\(contact!.name) / \(contact!.phoneNumber)"
     
     // set up activity view controller
     let textToShare = [ text ]
