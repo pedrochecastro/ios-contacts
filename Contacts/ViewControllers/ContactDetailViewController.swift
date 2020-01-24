@@ -60,7 +60,7 @@ class ContactDetailViewController: UITableViewController {
                     self.nameLabel.text = contact.name
                     self.phoneLabel.text = contact.phoneNumber
                     self.contactImage.image = contact.contactImage
-                    self.navigationController?.popViewController(animated: true)
+                  self.navigationController?.popToViewController(self.editionContactListDelegate!, animated: true)
                 })
             }
         }
