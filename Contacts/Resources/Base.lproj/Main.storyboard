@@ -284,7 +284,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8z4-jK-LPw" userLabel="Text Field">
-                                                    <rect key="frame" x="20" y="19.5" width="335" height="21"/>
+                                                    <rect key="frame" x="16" y="19.5" width="335" height="21"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -294,9 +294,9 @@
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="8z4-jK-LPw" secondAttribute="trailing" constant="20" symbolic="YES" id="6th-Qu-mwb"/>
+                                                <constraint firstAttribute="trailing" secondItem="8z4-jK-LPw" secondAttribute="trailing" constant="24" id="6th-Qu-mwb"/>
                                                 <constraint firstItem="8z4-jK-LPw" firstAttribute="centerY" secondItem="e4d-mX-aB5" secondAttribute="centerY" id="Sr6-8a-f4Y"/>
-                                                <constraint firstItem="8z4-jK-LPw" firstAttribute="leading" secondItem="e4d-mX-aB5" secondAttribute="leading" constant="20" symbolic="YES" id="WW8-xs-byW"/>
+                                                <constraint firstItem="8z4-jK-LPw" firstAttribute="leading" secondItem="e4d-mX-aB5" secondAttribute="leading" constant="16" id="WW8-xs-byW"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -311,15 +311,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ScN-Sm-BKa">
-                                                    <rect key="frame" x="-3" y="14" width="194" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ScN-Sm-BKa">
+                                                    <rect key="frame" x="16" y="15.5" width="124" height="28.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Share Contact..."/>
                                                     <connections>
                                                         <action selector="shareContact:" destination="co5-qL-PA4" eventType="touchUpInside" id="ccZ-Ce-Ifc"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ScN-Sm-BKa" firstAttribute="leading" secondItem="wZL-qw-IdT" secondAttribute="leading" constant="16" id="N4X-WS-bV0"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ScN-Sm-BKa" secondAttribute="bottom" constant="5" id="acs-ZI-1GS"/>
+                                                <constraint firstItem="ScN-Sm-BKa" firstAttribute="centerY" secondItem="wZL-qw-IdT" secondAttribute="centerY" id="jxR-Jq-Yj4"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ScN-Sm-BKa" secondAttribute="trailing" constant="20" symbolic="YES" id="tVJ-Zh-fkB"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="60" id="v6b-G5-pLt">
@@ -329,15 +335,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8os-RX-6Vz">
-                                                    <rect key="frame" x="-3" y="14" width="194" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8os-RX-6Vz">
+                                                    <rect key="frame" x="16" y="13.5" width="129" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Delete Contact..."/>
                                                     <connections>
                                                         <action selector="deleteContact:" destination="co5-qL-PA4" eventType="touchUpInside" id="xqC-Dn-YYr"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="8os-RX-6Vz" firstAttribute="centerY" secondItem="OlG-my-Fb8" secondAttribute="centerY" id="E6H-sL-Hrw"/>
+                                                <constraint firstItem="8os-RX-6Vz" firstAttribute="leading" secondItem="OlG-my-Fb8" secondAttribute="leading" constant="16" id="gil-7I-AMe"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8os-RX-6Vz" secondAttribute="trailing" constant="20" symbolic="YES" id="nMc-XU-ljk"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
