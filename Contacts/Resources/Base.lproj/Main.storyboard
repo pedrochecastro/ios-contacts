@@ -387,7 +387,11 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88K-ul-fQC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="zNt-aq-9Kv"/>
+                <tapGestureRecognizer id="zNt-aq-9Kv">
+                    <connections>
+                        <action selector="addContactImage:" destination="co5-qL-PA4" id="BMR-DV-46u"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1831.2" y="-103.89805097451276"/>
         </scene>

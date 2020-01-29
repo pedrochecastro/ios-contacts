@@ -51,6 +51,8 @@ class ContactsListViewController: UITableViewController {
         cell.nameLabel.text = contact.name
       if let contactImage = contact.contactImage {
         cell.contactImage.image = contactImage
+      } else {
+        cell.contactImage.image = UIImage(named: "person-placeholder.jpg")
       }
         
         return cell
