@@ -159,26 +159,26 @@ class ContactEditionViewController: UITableViewController {
     func validate () {
         do {
             
-            let name = try nameTextField.validatedText(validationType: ValidatorType.name)
-            let phone = try phoneTextField.validatedText(validationType: ValidatorType.phone)
+          _ = try nameTextField.validatedText(validationType: ValidatorType.name)
+          _ = try phoneTextField.validatedText(validationType: ValidatorType.phone)
             
-            if let _ = contactList {
-                let newContact = Contact(name: name, phoneNumber: phone)
-                contactList?.add(contact: newContact)
-                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
-            }
-            else if let contact = contact {
-                contact.name = name
-                contact.phoneNumber = phone
-                
-                // Call to all viewcontroller  with edition handlers
-                if !editionsActionsHandler.isEmpty {
-                    editionsActionsHandler.forEach {
-                        $0(contact)
-                    }
-                }
-            }
-            
+//            if let _ = contactList {
+//                let newContact = Contact(name: name, phoneNumber: phone)
+//                contactList?.add(contact: newContact)
+//                delegate?.contactEditionViewController(self, didFinishAdding: newContact)
+//            }
+//            else if let contact = contact {
+//                contact.name = name
+//                contact.phoneNumber = phone
+//
+//                // Call to all viewcontroller  with edition handlers
+//                if !editionsActionsHandler.isEmpty {
+//                    editionsActionsHandler.forEach {
+//                        $0(contact)
+//                    }
+//                }
+//            }
+//
         } catch(let error) {
           showAlert(title: nil, message: (error as! ValidationError).message,
                     actions: [UIAlertAction(title: "OK", style: .default, handler: nil)])
