@@ -66,22 +66,20 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		CF0A4BFF2343BE1B004AB372 /* ViewControllers */ = {
+		CF0A4BFF2343BE1B004AB372 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				CFAC29DD23257EBE0055DCFA /* ContactsListViewController.swift */,
 				CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */,
 				CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */,
 			);
-			path = ViewControllers;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		CF0A4C002343BE6C004AB372 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
 				CFAC29E223257EBF0055DCFA /* Assets.xcassets */,
-				CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */,
 				CFAC29E723257EBF0055DCFA /* Info.plist */,
 			);
 			path = Resources;
@@ -94,6 +92,16 @@
 				CF3E2D302379E09200115007 /* Validators.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		CF148A2323FD3EF300C162FB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
+				CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */,
+				CFF533CF239A827A001BB606 /* Cells */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		CF6AF1D22347583F00D5E3DA /* Extensions */ = {
@@ -128,11 +136,11 @@
 			children = (
 				CFAC29DB23257EBE0055DCFA /* AppDelegate.swift */,
 				CF0A4BFE2343BDDF004AB372 /* Model */,
-				CF0A4BFF2343BE1B004AB372 /* ViewControllers */,
+				CF148A2323FD3EF300C162FB /* View */,
+				CF0A4BFF2343BE1B004AB372 /* Controller */,
 				CF0A4C002343BE6C004AB372 /* Resources */,
 				CF0A4C032343BF97004AB372 /* Helper */,
 				CF6AF1D22347583F00D5E3DA /* Extensions */,
-				CFF533CF239A827A001BB606 /* Cells */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";

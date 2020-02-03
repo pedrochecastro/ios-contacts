@@ -10,29 +10,28 @@ import UIKit
 
 class ContactsListViewController: UITableViewController {
   
-    
+  // MARK: - Outlets
+  
   @IBOutlet weak var searchBar: UISearchBar!
-  let contactList = ContactList(Repository.local.contacts)
-  var filtered = false
   @IBAction func cancel(_ sender: Any) {
     restarSearch()
   }
   
+  // MARK: - Variables & Constants
+  
+  let contactList = ContactList(Repository.local.contacts)
+  var filtered = false
+  
+  // MARK: - Lifecycle Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
-      
-      
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
-// MARK: - Table View
-    
+  
+  // MARK: - Table View
+  
     override func numberOfSections(in tableView: UITableView) -> Int {
         let numberOfSections = contactList.sectionsTitlesHeader().count
         return numberOfSections
@@ -86,8 +85,10 @@ class ContactsListViewController: UITableViewController {
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return contactList.sectionsTitlesHeader()
     }
-    
-// MARK: - Navigation
+  
+  
+  // MARK: - Navigation
+  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addNewContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController {
@@ -109,23 +110,25 @@ class ContactsListViewController: UITableViewController {
 
     }
     
-// MARK: - Custom Methods
-  
-  func restarSearch() {
-    self.searchBar.text = nil
-    self.contactList.removeFilter()
-    if let searchField = self.searchBar.value(forKey: "searchField") as? UIControl {
-      searchField.isEnabled = true
-    }
-    self.restore()
-    self.searchBar.showsCancelButton = false
-    tableView.reloadData()
-    navigationController?.isToolbarHidden = true
 
-  }
+  // MARK: - Functions
+  
+    func restarSearch() {
+      self.searchBar.text = nil
+      self.contactList.removeFilter()
+      if let searchField = self.searchBar.value(forKey: "searchField") as? UIControl {
+        searchField.isEnabled = true
+      }
+      self.restore()
+      self.searchBar.showsCancelButton = false
+      tableView.reloadData()
+      navigationController?.isToolbarHidden = true
+    }
     
     
 }
+
+// MARK: - ContactEditionViewControllerDelegate
 
 extension ContactsListViewController: ContactEditionViewControllerDelegate {
     
@@ -158,7 +161,8 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
   }
 }
 
-// Search Bar Delegate
+// MARK: - UISearchBarDelegate
+
 extension ContactsListViewController: UISearchBarDelegate {
   
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

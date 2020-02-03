@@ -16,20 +16,52 @@ protocol ContactEditionViewControllerDelegate: class {
 
 
 class ContactEditionViewController: UITableViewController {
+  
+  // MARK: - Variable
     
     weak var delegate: ContactEditionViewControllerDelegate?
     weak var contact: Contact?
     weak var contactList: ContactList?
     var editionsActionsHandler: [((Contact) -> Void)] = []
   
-    
-    
+  // MARK: - Outlet
   
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var contactImage: UIImageView!
     @IBOutlet weak var addEditButton: UIButton!
+  
+  // MARK: - Lifecycle methods
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    // UI
+    navigationItem.largeTitleDisplayMode = .never
+    if let editContact = contact {
+      navigationItem.title = "Edit Contact"
+      nameTextField?.text = editContact.name
+      phoneTextField?.text = editContact.phoneNumber
+      
+      if let customImage = editContact.contactImage {
+        contactImage.image = customImage
+        addEditButton.setTitle("Edit Picture", for: .normal)
+      }
+    }
+    
+    //Delegates
+    nameTextField?.delegate = self
+    phoneTextField?.delegate = self
+    
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    nameTextField.becomeFirstResponder()
+  }
+  
+  
+  // MARK: - IBAction
   
   @IBAction func addContactImage(_ sender: Any) {
     launchPhotolibrary()
@@ -63,7 +95,6 @@ class ContactEditionViewController: UITableViewController {
     // Navigation
     
     // Update
-    
     
   }
 
@@ -104,32 +135,7 @@ class ContactEditionViewController: UITableViewController {
     @IBAction func cancelContactEdition() {
         navigationController?.popViewController(animated: true)
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // UI
-        navigationItem.largeTitleDisplayMode = .never
-        if let editContact = contact {
-            navigationItem.title = "Edit Contact"
-            nameTextField?.text = editContact.name
-            phoneTextField?.text = editContact.phoneNumber
-
-            if let customImage = editContact.contactImage {
-              contactImage.image = customImage
-              addEditButton.setTitle("Edit Picture", for: .normal)
-            }
-        }
-        
-        //Delegates
-        nameTextField?.delegate = self
-        phoneTextField?.delegate = self
-      
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        nameTextField.becomeFirstResponder()
-    }
+  
     
     // MARK: - TableView
     
@@ -137,21 +143,22 @@ class ContactEditionViewController: UITableViewController {
         return nil
     }
   
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       
-      switch section {
-      case 0:
-        return 3
-      case 1:
-        guard let _ = contact else { return 0}
-        return 2
-      default:
-        return 0
-      }
+        switch section {
+        case 0:
+          return 3
+        case 1:
+          guard let _ = contact else { return 0}
+          return 2
+        default:
+          return 0
+        }
+      
+    }
     
-  }
-    
-    // MARK: - Custom Methods
+    // MARK: - Functions
+  
     func editedContact(handler: @escaping(Contact) -> Void) {
         editionsActionsHandler.append(handler)
     }
@@ -242,6 +249,7 @@ class ContactEditionViewController: UITableViewController {
     
 }
 
+// MARK: - UITextFieldDelegate
 
 extension ContactEditionViewController: UITextFieldDelegate {
     
@@ -261,6 +269,8 @@ extension ContactEditionViewController: UITextFieldDelegate {
         
     }
 }
+
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
 extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   

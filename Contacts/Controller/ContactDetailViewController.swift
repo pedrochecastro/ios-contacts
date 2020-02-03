@@ -12,12 +12,13 @@ import UIKit
 
 class ContactDetailViewController: UITableViewController {
 
-    
+  // MARK: - Outlets
+
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var contactImage: UIImageView!
   
-  
+  // MARK: - Variables
   
     var contact : Contact?
     weak var editionContactListDelegate: ContactsListViewController?
@@ -28,6 +29,9 @@ class ContactDetailViewController: UITableViewController {
     @IBAction func editContact(_ sender: Any) {
         performSegue(withIdentifier: "editContact", sender: nil)
     }
+  
+  // MARK: - Lifecycle Methods
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,12 +47,15 @@ class ContactDetailViewController: UITableViewController {
           }
         }
     }
-    
+  
+  // MARK: - Table View
+
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
     
-    // MARK: - Navigation
+  // MARK: - Navigation
+  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController,
