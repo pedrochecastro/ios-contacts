@@ -101,7 +101,7 @@ class ContactEditionViewController: UITableViewController {
   
     @IBAction func done(_ sender: Any) {
         
-        validate()
+      if validate() {
         
                 if let _ = contactList {
         
@@ -130,6 +130,7 @@ class ContactEditionViewController: UITableViewController {
                         }
                     }
                 }
+      }
     }
     
     @IBAction func cancelContactEdition() {
@@ -163,7 +164,7 @@ class ContactEditionViewController: UITableViewController {
         editionsActionsHandler.append(handler)
     }
     
-    func validate () {
+    func validate () -> Bool{
         do {
             
           _ = try nameTextField.validatedText(validationType: ValidatorType.name)
@@ -186,10 +187,12 @@ class ContactEditionViewController: UITableViewController {
 //                }
 //            }
 //
+          return true
         } catch(let error) {
           showAlert(title: nil, message: (error as! ValidationError).message,
                     actions: [UIAlertAction(title: "OK", style: .default, handler: nil)])
         }
+      return false
     }
     
   func showAlert(title alertTitle: String?, message alertMessage: String?, actions: [UIAlertAction] ){
