@@ -1,6 +1,5 @@
 //
 //  Repository.swift
-//  GoT
 //
 //  Created by Pedro Sánchez Castro on 16/7/17.
 //  Copyright © 2017 Pedro Sánchez Castro. All rights reserved.
@@ -9,34 +8,27 @@
 import Foundation
 
 final class Repository{
-    
-    static let local = LocalFactory()
+    static let fake = FakeFactory()
 }
 
 protocol ContactFactory {
-    
-    typealias FilterContact = (Contact)-> Bool
-    
-    var contacts : [Contact] {get}
-    func contact(named: String) -> Contact?
-    func contacts(filteredBy: FilterContact) -> [Contact]
-    
+  
+  var contacts : [Contact] {get set}
+  func add(contact: Contact)
+  func delete(contact: Contact)
+  func update(contact: Contact, newContact: Contact)
+  
   }
 
-final class LocalFactory : ContactFactory {
-    
-    func contacts(filteredBy: FilterContact) -> [Contact] {
-        let filtered = Repository.local.contacts.filter(filteredBy)
-        return filtered
-    }
-
+final class FakeFactory : ContactFactory {
+  
     var contacts: [Contact] {
         get {
-            return [Contact(name: "Abigail", phoneNumber: "+43987654878"),
-                    Contact(name: "Steve Jobs", phoneNumber: "+43987654878"),
-                    Contact(name: "Bill Gates", phoneNumber: "+43987654878"),
-                    Contact(name: "Sundar Pichay", phoneNumber: "+43987654878"),
-                    Contact(name: "Larry Page", phoneNumber: "+43987654878"),
+            return [Contact(name: "Abigail", phoneNumber: "123123123"),
+                    Contact(name: "Steve Jobs", phoneNumber: "123123123"),
+                    Contact(name: "Bill Gates", phoneNumber: "+123123123"),
+                    Contact(name: "Sundar Pichay", phoneNumber: "123123123"),
+                    Contact(name: "Larry Page", phoneNumber: "+123123123"),
                     Contact(name: "Elon Musk", phoneNumber: "+43987654878"),
                     Contact(name: "Satia Nadella", phoneNumber: "+43789578943"),
                     Contact(name: "Joan Boluda", phoneNumber: "+43789578943"),
@@ -56,14 +48,26 @@ final class LocalFactory : ContactFactory {
 
                 ].sorted()
         }
+      set { }
     }
-    
+  
+    func add(contact: Contact) {
+      contacts.append(contact)
+    }
+  
+    func delete(contact: Contact) {
+      guard let i = contacts.firstIndex(of: contact) else {return}
+      contacts.remove(at: i)
+    }
+  
+    func update(contact: Contact, newContact: Contact) {
+       delete(contact: contact)
+       add(contact: newContact)
+    }
+
 }
 
-extension ContactFactory {
-    
-    func contact(named : String) -> Contact? {
-         return contacts.filter({$0.name == named}).first
-    }
-    
+extension FakeFactory {
+  
 }
+

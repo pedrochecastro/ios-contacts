@@ -29,8 +29,8 @@ class Contact : NSObject {
 class ContactList {
     
     var contactsDB: [String:[Contact]] = [:]
-    var contacts: [String:[Contact]] = [:]
-    var allContacts: [Contact] = []
+    var indexedContacts: [String:[Contact]] = [:]
+    var contacts: [Contact] = []
 
     var updateSection = false
     var deleteSection = false
@@ -39,11 +39,11 @@ class ContactList {
     
     init(_ contacts: [Contact]) {
       
-        allContacts = contacts
+        self.contacts = contacts
         let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
         
         aToZ.forEach {
-            self.contacts[$0] = [Contact]()
+            self.indexedContacts[$0] = [Contact]()
         }
         
         contacts.forEach {
@@ -51,15 +51,15 @@ class ContactList {
             updateSection = false
         }
       
-      self.contactsDB = self.contacts
-        
+      self.contactsDB = self.indexedContacts
+      
     }
   
      private func mapToDictionary(contacts: [Contact])  {
         let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
   
         aToZ.forEach {
-        self.contacts[$0] = [Contact]()
+        self.indexedContacts[$0] = [Contact]()
         }
   
         contacts.forEach {
@@ -71,7 +71,7 @@ class ContactList {
     
     
     public func sectionsTitlesHeader() -> [String] {
-        let filtered = contacts.filter { !$0.value.isEmpty }
+        let filtered = indexedContacts.filter { !$0.value.isEmpty }
         return Array(filtered.keys).sorted(by: <)
     }
     
@@ -84,7 +84,7 @@ class ContactList {
         
         let key = sectionsTitlesHeader()[section]
         
-        if let contacts = contacts[key] {
+        if let contacts = indexedContacts[key] {
             return contacts
         } else { return [] }
     }
@@ -95,7 +95,7 @@ class ContactList {
     }
   
     public func getContacts(by name: String) -> [Contact] {
-      return allContacts.filter { $0.name.contains(name) }
+      return contacts.filter { $0.name.contains(name) }
     }
     
     public func getIndexPath(from contact: Contact) -> IndexPath {
@@ -104,7 +104,7 @@ class ContactList {
         //Section A..Z
         let section = (sectionsTitlesHeader().firstIndex(of: key))!
         //Row
-            let contacts = self.contacts[key]!
+            let contacts = self.indexedContacts[key]!
             let row = contacts.firstIndex(of: contact)!
             return IndexPath(row: row, section: section)
     }
@@ -115,9 +115,9 @@ class ContactList {
             updateSection = true
         }
         
-        if var contacts = contacts[key] {
+        if var contacts = indexedContacts[key] {
             contacts.append(contact)
-            self.contacts[key] = contacts.sorted()
+            self.indexedContacts[key] = contacts.sorted()
         }
     }
     
@@ -125,20 +125,20 @@ class ContactList {
         //key
         let key = String(contact.name.prefix(1))
 
-        var contacts = self.contacts[key]!
+        var contacts = self.indexedContacts[key]!
         if contacts.count == 1 {
             deleteSection = true
         }
         let index = contacts.firstIndex(of: contact)!
         contacts.remove(at: index)
-        self.contacts[key] = contacts
+        self.indexedContacts[key] = contacts
     }
   
     public func setFilter(txt: String) -> Bool{
       
       let contactsFounded = getContacts(by: txt)
       if contactsFounded.isEmpty {
-        self.contacts = [:]
+        self.indexedContacts = [:]
         return false
       } else {
         mapToDictionary(contacts: contactsFounded)
@@ -147,7 +147,7 @@ class ContactList {
     }
   
     public func removeFilter() {
-        self.contacts = contactsDB
+        self.indexedContacts = contactsDB
     }
 }
 

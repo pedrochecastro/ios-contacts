@@ -150,7 +150,7 @@ class ContactEditionViewController: UITableViewController {
         case 0:
           return 3
         case 1:
-          guard let _ = contact else { return 0}
+          guard let _ = contact else { return 0 }
           return 2
         default:
           return 0

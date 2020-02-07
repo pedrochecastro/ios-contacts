@@ -19,7 +19,8 @@ class ContactsListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
   
-  let contactList = ContactList(Repository.local.contacts)
+  let contactList = ContactList(Repository.fake.contacts)
+  let repository = Repository.fake
   var filtered = false
   
   // MARK: - Lifecycle Methods
