@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactsListViewController: UITableViewController {
+class ContactListViewController: UITableViewController {
   
   // MARK: - Outlets
   
@@ -19,7 +19,7 @@ class ContactsListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
   
-  let contactList = ContactList(Repository.fake.contacts)
+  let contactList = ContactListDataPresenter(Repository.fake.contacts)
   let repository = Repository.fake
   var filtered = false
   
@@ -131,7 +131,7 @@ class ContactsListViewController: UITableViewController {
 
 // MARK: - ContactEditionViewControllerDelegate
 
-extension ContactsListViewController: ContactEditionViewControllerDelegate {
+extension ContactListViewController: ContactEditionViewControllerDelegate {
     
     func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
         // Navigation
@@ -164,7 +164,7 @@ extension ContactsListViewController: ContactEditionViewControllerDelegate {
 
 // MARK: - UISearchBarDelegate
 
-extension ContactsListViewController: UISearchBarDelegate {
+extension ContactListViewController: UISearchBarDelegate {
   
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
     if let searchField = searchBar.value(forKey: "searchField") as? UITextField {

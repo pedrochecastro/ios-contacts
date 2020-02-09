@@ -21,7 +21,7 @@ class ContactEditionViewController: UITableViewController {
     
     weak var delegate: ContactEditionViewControllerDelegate?
     weak var contact: Contact?
-    weak var contactList: ContactList?
+    weak var contactList: ContactListDataPresenter?
     var editionsActionsHandler: [((Contact) -> Void)] = []
   
   // MARK: - Outlet

@@ -21,7 +21,7 @@ class ContactDetailViewController: UITableViewController {
   // MARK: - Variables
   
     var contact : Contact?
-    weak var editionContactListDelegate: ContactsListViewController?
+    weak var editionContactListDelegate: ContactListViewController?
     var editionActionHandler: ((Contact) -> Void)?
     private var picker = UIImagePickerController()
 
