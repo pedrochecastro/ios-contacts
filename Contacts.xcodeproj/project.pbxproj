@@ -74,9 +74,9 @@
 			isa = PBXGroup;
 			children = (
 				CFAC29DD23257EBE0055DCFA /* ContactListViewController.swift */,
+				CF37113E240E8D9E0040EAAF /* ContactListDataPresenter.swift */,
 				CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */,
 				CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */,
-				CF37113E240E8D9E0040EAAF /* ContactListDataPresenter.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

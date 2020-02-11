@@ -10,29 +10,30 @@ import Foundation
 
 class ContactListDataPresenter {
   
-  var contactsDB: [String:[Contact]] = [:]
   var indexedContacts: [String:[Contact]] = [:]
-  var contacts: [Contact] = []
+  let repository : ContactFactory?
+
+//  var contactsDB: [String:[Contact]] = [:]
+//  var contacts: [Contact] = []
   
   var updateSection = false
   var deleteSection = false
   
-  init() {}
   
-  init(_ contacts: [Contact]) {
+  init(_ repository: ContactFactory) {
     
-    self.contacts = contacts
+    self.repository = repository
     
     Constants.aToZ.forEach {
-      self.indexedContacts[$0] = [Contact]()
+      self.indexedContacts[$0] = repository.contacts
     }
     
-    contacts.forEach {
-      add(contact: $0)
-      updateSection = false
-    }
+//    contacts.forEach {
+//      add(contact: $0)
+//      updateSection = false
+//    }
     
-    self.contactsDB = self.indexedContacts
+//    self.contactsDB = self.indexedContacts
     
   }
   
@@ -75,7 +76,7 @@ class ContactListDataPresenter {
   }
   
   public func getContacts(by name: String) -> [Contact] {
-    return contacts.filter { $0.name.contains(name) }
+    return (repository?.contacts.filter { $0.name.contains(name) })!
   }
   
   public func getIndexPath(from contact: Contact) -> IndexPath {
@@ -127,7 +128,7 @@ class ContactListDataPresenter {
   }
   
   public func removeFilter() {
-    self.indexedContacts = contactsDB
+//    self.indexedContacts = contactsDB
   }
 }
 
