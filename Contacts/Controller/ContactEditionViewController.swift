@@ -18,10 +18,12 @@ protocol ContactEditionViewControllerDelegate: class {
 class ContactEditionViewController: UITableViewController {
   
   // MARK: - Variable
-    
+  
+    var repository: ContactFactory?
     weak var delegate: ContactEditionViewControllerDelegate?
     weak var contact: Contact?
-    weak var contactList: ContactListDataPresenter?
+  
+//    weak var contactList: ContactListDataPresenter?
     var editionsActionsHandler: [((Contact) -> Void)] = []
   
   // MARK: - Outlet
@@ -103,13 +105,14 @@ class ContactEditionViewController: UITableViewController {
         
       if validate() {
         
-                if let _ = contactList {
+                // Delegate add new contact
+                if let _ = delegate {
         
                     if let name = nameTextField.text,
                        let phoneNumber = phoneTextField.text {
                         let newContact = Contact(name: name, phoneNumber: phoneNumber)
                         newContact.contactImage = contactImage.image
-                        contactList?.add(contact: newContact)
+                        repository?.add(contact: newContact)
                         delegate?.contactEditionViewController(self, didFinishAdding: newContact)
                     }
                 }

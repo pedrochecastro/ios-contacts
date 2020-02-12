@@ -10,47 +10,53 @@ import Foundation
 
 class ContactListDataPresenter {
   
-  var indexedContacts: [String:[Contact]] = [:]
-  let repository : ContactFactory?
-
-//  var contactsDB: [String:[Contact]] = [:]
-//  var contacts: [Contact] = []
+  // MARK: - Constants & Var
   
+  let repository : ContactFactory?
+  var indexedContacts: [String:[Contact]] = [:]
   var updateSection = false
   var deleteSection = false
   
   
   init(_ repository: ContactFactory) {
-    
     self.repository = repository
-    
-    Constants.aToZ.forEach {
-      self.indexedContacts[$0] = repository.contacts
-    }
-    
-//    contacts.forEach {
-//      add(contact: $0)
-//      updateSection = false
-//    }
-    
-//    self.contactsDB = self.indexedContacts
-    
+    mapToDictionary(contacts: repository.contacts)
+    let a = 0
   }
+  
+  // MARK: - Private functions
   
   private func mapToDictionary(contacts: [Contact])  {
     
-    Constants.aToZ.forEach {
-      self.indexedContacts[$0] = [Contact]()
-    }
+//    Constants.aToZ.forEach {
+//      self.indexedContacts[$0] = [Contact]()
+//    }
     
     contacts.forEach {
-      add(contact: $0)
+      insertIndexed(contact: $0)
       updateSection = false
     }
   }
   
+  private func insertIndexed(contact: Contact) {
+    let key = String(contact.name.prefix(1))
+    if !sectionsTitlesHeader().contains(key) {
+      updateSection = true
+    }
+    
+    if var contacts = indexedContacts[key] {
+      contacts.append(contact)
+      self.indexedContacts[key] = contacts.sorted()
+    }
+    else {
+      var contacts = [Contact]()
+      contacts.append(contact)
+      indexedContacts[key] = contacts
+    }
+  }
   
   
+  // MARK: - Public functions
   public func sectionsTitlesHeader() -> [String] {
     let filtered = indexedContacts.filter { !$0.value.isEmpty }
     return Array(filtered.keys).sorted(by: <)
@@ -90,17 +96,6 @@ class ContactListDataPresenter {
     return IndexPath(row: row, section: section)
   }
   
-  public func add(contact: Contact) {
-    let key = String(contact.name.prefix(1))
-    if !sectionsTitlesHeader().contains(key) {
-      updateSection = true
-    }
-    
-    if var contacts = indexedContacts[key] {
-      contacts.append(contact)
-      self.indexedContacts[key] = contacts.sorted()
-    }
-  }
   
   public func remove(contact: Contact) {
     //key

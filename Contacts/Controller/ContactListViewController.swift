@@ -92,7 +92,7 @@ class ContactListViewController: UITableViewController {
         if segue.identifier == "addNewContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController {
                 contactEditionVC.delegate = self
-                contactEditionVC.contactList = contactList
+                contactEditionVC.repository = Repository.fake
             }
         }
         else if segue.identifier == "detailContact" {
