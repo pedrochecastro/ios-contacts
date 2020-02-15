@@ -21,16 +21,11 @@ class ContactListDataPresenter {
   init(_ repository: ContactFactory) {
     self.repository = repository
     mapToDictionary(contacts: repository.contacts)
-    let a = 0
   }
   
   // MARK: - Private functions
   
   private func mapToDictionary(contacts: [Contact])  {
-    
-//    Constants.aToZ.forEach {
-//      self.indexedContacts[$0] = [Contact]()
-//    }
     
     contacts.forEach {
       insertIndexed(contact: $0)
@@ -38,7 +33,10 @@ class ContactListDataPresenter {
     }
   }
   
-  private func insertIndexed(contact: Contact) {
+ 
+  
+  // MARK: - Public functions
+  public func insertIndexed(contact: Contact) {
     let key = String(contact.name.prefix(1))
     if !sectionsTitlesHeader().contains(key) {
       updateSection = true
@@ -56,7 +54,7 @@ class ContactListDataPresenter {
   }
   
   
-  // MARK: - Public functions
+  
   public func sectionsTitlesHeader() -> [String] {
     let filtered = indexedContacts.filter { !$0.value.isEmpty }
     return Array(filtered.keys).sorted(by: <)
