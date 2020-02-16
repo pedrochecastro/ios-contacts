@@ -33,10 +33,7 @@ class ContactListDataPresenter {
     }
   }
   
- 
-  
-  // MARK: - Public functions
-  public func insertIndexed(contact: Contact) {
+  private func insertIndexed(contact: Contact) {
     let key = String(contact.name.prefix(1))
     if !sectionsTitlesHeader().contains(key) {
       updateSection = true
@@ -53,7 +50,9 @@ class ContactListDataPresenter {
     }
   }
   
+ 
   
+  // MARK: - Public functions
   
   public func sectionsTitlesHeader() -> [String] {
     let filtered = indexedContacts.filter { !$0.value.isEmpty }
@@ -96,6 +95,11 @@ class ContactListDataPresenter {
   
   
   public func remove(contact: Contact) {
+    // Remove in repository
+    // REVIEW - If I go to repository for some information can bring back some errors!
+    repository?.delete(contact: contact)
+    
+    // Update the view
     //key
     let key = String(contact.name.prefix(1))
     
@@ -103,9 +107,18 @@ class ContactListDataPresenter {
     if contacts.count == 1 {
       deleteSection = true
     }
+    repository?.delete(contact: contact)
     let index = contacts.firstIndex(of: contact)!
     contacts.remove(at: index)
     self.indexedContacts[key] = contacts
+  }
+  
+  public func add(contact: Contact) {
+    // Add to Repository
+    // REVIEW - If I go to repository for some information can bring back some errors!
+      repository?.add(contact: contact)
+    // Update the view
+      insertIndexed(contact: contact)
   }
   
   public func setFilter(txt: String) -> Bool{

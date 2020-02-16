@@ -135,7 +135,7 @@ extension ContactListViewController: ContactEditionViewControllerDelegate {
         // Navigation
         navigationController?.popViewController(animated: true)
         //Update presenter
-        contactList.insertIndexed(contact: contact)
+        contactList.add(contact: contact)
       
         let indexPath = contactList.getIndexPath(from: contact)
         tableView.beginUpdates()
