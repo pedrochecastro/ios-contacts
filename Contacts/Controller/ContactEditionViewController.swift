@@ -24,7 +24,7 @@ class ContactEditionViewController: UITableViewController {
     weak var contact: Contact?
   
 //    weak var contactList: ContactListDataPresenter?
-    var editionsActionsHandler: [((Contact) -> Void)] = []
+    var editionsActionsHandler: [((Contact,Contact) -> Void)] = []
   
   // MARK: - Outlet
   
@@ -106,8 +106,8 @@ class ContactEditionViewController: UITableViewController {
         
       if validate() {
         
-                // Delegate add new contact
-                if let _ = delegate {
+                // Add new contact
+                if self.contact == nil {
         
                     if let name = nameTextField.text,
                        let phoneNumber = phoneTextField.text {
@@ -116,19 +116,19 @@ class ContactEditionViewController: UITableViewController {
                         delegate?.contactEditionViewController(self, didFinishAdding: newContact)
                     }
                 }
-                else if let contact = contact {
-        
-                    if let name = nameTextField.text,
-                       let phoneNumber = phoneTextField.text,
-                       let contactImage = contactImage.image {
-                        contact.name = name
-                        contact.phoneNumber = phoneNumber
-                        contact.contactImage = contactImage
-        
+                else {
+                  let editedContact = Contact()
+
+                  if let name = nameTextField.text,
+                     let phoneNumber = phoneTextField.text,
+                     let contactImage = contactImage.image {
+                        editedContact.name = name
+                        editedContact.phoneNumber = phoneNumber
+                        editedContact.contactImage = contactImage
                         // Call to all viewcontroller  with edition handlers
                         if !editionsActionsHandler.isEmpty {
                             editionsActionsHandler.forEach {
-                                $0(contact)
+                                $0(self.contact!,editedContact)
                             }
                         }
                     }
@@ -163,7 +163,7 @@ class ContactEditionViewController: UITableViewController {
     
     // MARK: - Functions
   
-    func editedContact(handler: @escaping(Contact) -> Void) {
+    func editedContact(handler: @escaping(Contact, Contact) -> Void) {
         editionsActionsHandler.append(handler)
     }
     

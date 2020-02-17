@@ -99,8 +99,9 @@ class ContactListViewController: UITableViewController {
             if let contactDetailVC = segue.destination as? ContactDetailViewController {
                 contactDetailVC.contact = sender as? Contact
                 contactDetailVC.editionContactListDelegate = self
-                contactDetailVC.editionActionHandler = { contact in
-                let indexPath = self.contactList.getIndexPath(from: contact)
+                contactDetailVC.editionActionHandler = { (contact, editedContact) in
+                self.contactList.update(contact: contact, editedContact: editedContact)
+                let indexPath = self.contactList.getIndexPath(from: editedContact)
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
                 

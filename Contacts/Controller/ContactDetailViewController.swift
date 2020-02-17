@@ -22,7 +22,7 @@ class ContactDetailViewController: UITableViewController {
   
     var contact : Contact?
     weak var editionContactListDelegate: ContactListViewController?
-    var editionActionHandler: ((Contact) -> Void)?
+    var editionActionHandler: ((Contact, Contact) -> Void)?
     private var picker = UIImagePickerController()
 
     
@@ -63,10 +63,10 @@ class ContactDetailViewController: UITableViewController {
                 contactEditionVC.delegate = editionContactListDelegate
                 contactEditionVC.contact = contact
                 contactEditionVC.editionsActionsHandler.append(editionActionHandler)
-                contactEditionVC.editionsActionsHandler.append({ contact in
-                    self.nameLabel.text = contact.name
-                    self.phoneLabel.text = contact.phoneNumber
-                    self.contactImage.image = contact.contactImage
+                contactEditionVC.editionsActionsHandler.append({ (contact, editedContact) in
+                    self.nameLabel.text = editedContact.name
+                    self.phoneLabel.text = editedContact.phoneNumber
+                    self.contactImage.image = editedContact.contactImage
                   self.navigationController?.popToViewController(self.editionContactListDelegate!, animated: true)
                 })
             }

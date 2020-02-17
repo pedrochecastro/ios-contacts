@@ -107,7 +107,6 @@ class ContactListDataPresenter {
     if contacts.count == 1 {
       deleteSection = true
     }
-    repository?.delete(contact: contact)
     let index = contacts.firstIndex(of: contact)!
     contacts.remove(at: index)
     self.indexedContacts[key] = contacts
@@ -119,6 +118,11 @@ class ContactListDataPresenter {
       repository?.add(contact: contact)
     // Update the view
       insertIndexed(contact: contact)
+  }
+  
+  public func update(contact: Contact, editedContact:Contact) {
+    remove(contact: contact)
+    add(contact: editedContact)
   }
   
   public func setFilter(txt: String) -> Bool{
