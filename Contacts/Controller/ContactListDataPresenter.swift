@@ -14,6 +14,8 @@ class ContactListDataPresenter {
   
   let repository : ContactFactory?
   var indexedContacts: [String:[Contact]] = [:]
+  var indexedContactsFiltered :[String:[Contact]] = [:]
+  var filter: String?
   var updateSection = false
   var deleteSection = false
   
@@ -50,13 +52,32 @@ class ContactListDataPresenter {
     }
   }
   
+//  private func retrieveIndexedContact(containText: String) -> [Contact] {
+//
+//  }
+  
  
   
   // MARK: - Public functions
   
   public func sectionsTitlesHeader() -> [String] {
-    let filtered = indexedContacts.filter { !$0.value.isEmpty }
-    return Array(filtered.keys).sorted(by: <)
+//    if let filter = filter {
+//      let sectionFiltered = contacts.indexedContacts { $0.name.contains(filter) }
+//      contacts = contactsFiltered
+//    }
+//     return Array(sectionsTitlesHeader.keys).sorted(by: <)
+    self.indexedContactsFiltered = self.indexedContacts
+    if let filter = filter {
+      // Should call to the repo?? NO
+          let contactsFounded = getContacts(by: filter)
+          if contactsFounded.isEmpty {
+            indexedContactsFiltered = [:]
+          } else {
+            indexedContactsFiltered = Dictionary(grouping: contactsFounded) { String($0.name.first!) }
+          }
+    }
+    return Array(indexedContactsFiltered.keys).sorted(by: <)
+   
   }
   
   
@@ -67,10 +88,15 @@ class ContactListDataPresenter {
   public func getContactList(by section: Int) -> [Contact] {
     
     let key = sectionsTitlesHeader()[section]
-    
-    if let contacts = indexedContacts[key] {
+    if var contacts = indexedContacts[key] {
+      if let filter = filter {
+        let contactsFiltered = contacts.filter { $0.name.contains(filter) }
+        contacts = contactsFiltered
+      }
       return contacts
-    } else { return [] }
+    } else {
+      return []
+    }
   }
   
   public func getContact(by indexpath: IndexPath) -> Contact {
@@ -125,20 +151,25 @@ class ContactListDataPresenter {
     add(contact: editedContact)
   }
   
-  public func setFilter(txt: String) -> Bool{
+  public func isEmpty() -> Bool {
+    return indexedContactsFiltered.count == 0
+  }
+  
+  public func setFilter(txt: String) -> Bool {
     
-    let contactsFounded = getContacts(by: txt)
-    if contactsFounded.isEmpty {
-      self.indexedContacts = [:]
-      return false
-    } else {
-      mapToDictionary(contacts: contactsFounded)
-      return true
-    }
+//    let contactsFounded = getContacts(by: txt)
+//    if contactsFounded.isEmpty {
+//      self.indexedContacts = [:]
+//      return false
+//    } else {
+//      mapToDictionary(contacts: contactsFounded)
+//      return true
+//    }
+    return true
   }
   
   public func removeFilter() {
-//    self.indexedContacts = contactsDB
+    filter = nil
   }
 }
 

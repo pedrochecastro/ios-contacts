@@ -19,7 +19,7 @@ class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
   let contactList = ContactListDataPresenter(Repository.fake)
-  var filtered = false
+//  var filtered = false
   
   // MARK: - Lifecycle Methods
 
@@ -188,16 +188,26 @@ extension ContactListViewController: UISearchBarDelegate {
        return (textBefore as NSString).replacingCharacters(in: range, with: text)
     }
     if !currentText.isEmpty {
-      let contactsFound = contactList.setFilter(txt: currentText)
-
-      if !contactsFound {
-          setEmptyView(title: "Not Found", completion: ({() -> () in
-            self.restarSearch()
-          })
-        )
+      contactList.filter = currentText
+      if contactList.isEmpty() {
+                  setEmptyView(title: "Not Found", completion: ({() -> () in
+                    self.restarSearch()
+                  }))
       } else {
         restore()
       }
+      
+      
+//      let contactsFound = contactList.setFilter(txt: currentText)
+//
+//      if !contactsFound {
+//          setEmptyView(title: "Not Found", completion: ({() -> () in
+//            self.restarSearch()
+//          })
+//        )
+//      } else {
+//        restore()
+//      }
     } else {
       restarSearch()
     }
