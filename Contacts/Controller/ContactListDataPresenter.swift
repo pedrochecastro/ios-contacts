@@ -52,9 +52,12 @@ class ContactListDataPresenter {
     }
   }
   
-//  private func retrieveIndexedContact(containText: String) -> [Contact] {
-//
-//  }
+  private func retrieveIndexedContact(words: String) -> [Contact] {
+    return indexedContacts.reduce([Contact]()) {
+      return $0 + $1.value
+    }
+      .filter {$0.name.contains(words) }
+  }
   
  
   
@@ -69,7 +72,7 @@ class ContactListDataPresenter {
     self.indexedContactsFiltered = self.indexedContacts
     if let filter = filter {
       // Should call to the repo?? NO
-          let contactsFounded = getContacts(by: filter)
+          let contactsFounded = retrieveIndexedContact(words: filter)
           if contactsFounded.isEmpty {
             indexedContactsFiltered = [:]
           } else {
