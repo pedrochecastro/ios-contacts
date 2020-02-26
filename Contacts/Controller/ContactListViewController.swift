@@ -189,25 +189,14 @@ extension ContactListViewController: UISearchBarDelegate {
     }
     if !currentText.isEmpty {
       contactList.filter = currentText
-      if contactList.isEmpty() {
+      if !contactList.containsIndexedContact(with: currentText){
                   setEmptyView(title: "Not Found", completion: ({() -> () in
                     self.restarSearch()
                   }))
       } else {
         restore()
       }
-      
-      
-//      let contactsFound = contactList.setFilter(txt: currentText)
-//
-//      if !contactsFound {
-//          setEmptyView(title: "Not Found", completion: ({() -> () in
-//            self.restarSearch()
-//          })
-//        )
-//      } else {
-//        restore()
-//      }
+
     } else {
       restarSearch()
     }
