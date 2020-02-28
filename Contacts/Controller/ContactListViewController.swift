@@ -170,7 +170,7 @@ extension ContactListViewController: UISearchBarDelegate {
   
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
     if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
-      searchField.clearButtonMode = UITextField.ViewMode.never
+//      searchField.clearButtonMode = UITextField.ViewMode.never
     }
   }
   
@@ -204,6 +204,10 @@ extension ContactListViewController: UISearchBarDelegate {
 
     return true
   
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if (searchText == "") { restarSearch()}
   }
 }
 
