@@ -17,11 +17,12 @@ protocol ContactFactory {
   func add(contact: Contact)
   func delete(contact: Contact)
   func update(contact: Contact, newContact: Contact)
+  func contains(contact: Contact) -> Bool
   
   }
 
 final class FakeFactory : ContactFactory {
-  
+
     var contacts: [Contact] {
         get {
             return [Contact(name: "Abigail", phoneNumber: "123123123"),
@@ -50,9 +51,11 @@ final class FakeFactory : ContactFactory {
         }
       set { }
     }
+ 
+  // MARK: - Public Methods
   
     func add(contact: Contact) {
-      contacts.append(contact)
+        contacts.append(contact)
     }
   
     func delete(contact: Contact) {
@@ -63,6 +66,10 @@ final class FakeFactory : ContactFactory {
     func update(contact: Contact, newContact: Contact) {
        delete(contact: contact)
        add(contact: newContact)
+    }
+  
+    public func contains(contact: Contact) -> Bool{
+      return contacts.contains(contact)
     }
 
 }

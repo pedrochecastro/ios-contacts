@@ -21,7 +21,7 @@ protocol ValidatorConvertible {
 }
 
 enum ValidatorType {
-    case name
+    case name(repository: ContactFactory?)
     case phone
     case requiredField(field: String)
 }
@@ -29,14 +29,24 @@ enum ValidatorType {
 enum ValidatorFactory {
     static func validatorFor(type: ValidatorType) -> ValidatorConvertible {
         switch type {
-        case .name: return NameValidator()
+        case .name(let repository): return NameValidator(repository: repository!)
         case .phone: return PhoneValidator()
         case .requiredField(let fieldName): return RequiredFieldValidator(fieldName)
-        }
+      }
     }
 }
 
 struct NameValidator : ValidatorConvertible{
+  
+    let repository: ContactFactory?
+  
+    init() {
+      self.repository = nil
+    }
+  
+    init(repository: ContactFactory) {
+      self.repository = repository
+    }
     // Only letters and whitespaces
     func validated(_ value: String) throws -> String {
         guard value.count >= 3 else {
@@ -51,10 +61,15 @@ struct NameValidator : ValidatorConvertible{
             let a = try NSRegularExpression(pattern: "[^A-Za-z\\s]+", options: .caseInsensitive).firstMatch(in: value, options:[], range: NSRange(location: 0, length: value.count))
             if a != nil {
                 throw ValidationError("Invalid contact name, username should not contain numbers or special characters")
-            }
-        } catch {
-            throw ValidationError("Invalid username, username should not contain numbers or special characters")
+          } } catch {
+            throw ValidationError("Invalid Pattern")
         }
+          if let repository = repository {
+              if repository.contains(contact: Contact(name: value)) {
+                throw ValidationError ("Duplicated Contact")
+              }
+          }
+        
         return value
     }
     

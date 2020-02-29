@@ -8,28 +8,40 @@
 
 import UIKit
 
-class Contact : NSObject {
+class Contact {
     
     var name: String
     var phoneNumber: String
     var contactImage: UIImage?
   
   
-  override init() {
-    name = ""
-    phoneNumber = ""
-  }
-    
+//    override init() {
+//      name = ""
+//      phoneNumber = ""
+//    }
+  
+    init() {
+        name = ""
+        phoneNumber = ""
+      }
+  
     init(name: String, phoneNumber: String = "") {
         self.name = name
         self.phoneNumber = phoneNumber
     }
+  
+//    override func isEqual(_ object: Any?) -> Bool {
+//      guard let contact = object as? Contact else { return false }
+//      return self.name == contact.name
+//    }
 }
 
 extension Contact : Comparable {
+    static func == (lhs: Contact, rhs: Contact) -> Bool {
+      return lhs.name == rhs.name
+    }
+  
     static func < (lhs: Contact, rhs: Contact) -> Bool {
         return lhs.name < rhs.name
     }
-    
-    
 }
