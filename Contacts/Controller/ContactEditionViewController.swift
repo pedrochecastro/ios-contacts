@@ -170,11 +170,13 @@ class ContactEditionViewController: UITableViewController {
     func validate () -> Bool{
         do {
             
-          _ = try nameTextField.validatedText(validationType: ValidatorType.name(repository: repository))
+          _ = try nameTextField.validatedText(validationType: ValidatorType.name)
+          if let repository = repository {
+            _ = try nameTextField.validatedText(validationType: ValidatorType.existContact(repository: repository))
+          }
           _ = try phoneTextField.validatedText(validationType: ValidatorType.phone)
-    
-            
-
+          
+         
           return true
         } catch(let error) {
           showAlert(title: nil, message: (error as! ValidationError).message,

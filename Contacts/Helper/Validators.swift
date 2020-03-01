@@ -21,32 +21,50 @@ protocol ValidatorConvertible {
 }
 
 enum ValidatorType {
-    case name(repository: ContactFactory?)
+    case name
     case phone
     case requiredField(field: String)
+    case existContact(repository: ContactFactory)
 }
 
 enum ValidatorFactory {
     static func validatorFor(type: ValidatorType) -> ValidatorConvertible {
         switch type {
-        case .name(let repository): return NameValidator(repository: repository!)
+        case .name: return NameValidator()
         case .phone: return PhoneValidator()
+        case .existContact(let repository): return ExistContactValidator(repository)
         case .requiredField(let fieldName): return RequiredFieldValidator(fieldName)
       }
     }
 }
 
+struct ExistContactValidator : ValidatorConvertible {
+  
+      let repository: ContactFactory?
+  
+      init() {
+        self.repository = nil
+      }
+  
+      init(_ repository: ContactFactory) {
+        self.repository = repository
+      }
+  
+  func validated(_ value: String) throws -> String {
+              if let repository = repository {
+                  if repository.contains(contact: Contact(name: value)) {
+                    throw ValidationError ("Duplicated Contact")
+                  }
+              }
+    return value
+  }
+  
+  
+}
+
 struct NameValidator : ValidatorConvertible{
   
-    let repository: ContactFactory?
-  
-    init() {
-      self.repository = nil
-    }
-  
-    init(repository: ContactFactory) {
-      self.repository = repository
-    }
+
     // Only letters and whitespaces
     func validated(_ value: String) throws -> String {
         guard value.count >= 3 else {
@@ -55,21 +73,12 @@ struct NameValidator : ValidatorConvertible{
         guard value.count < 18 else {
             throw ValidationError("Username shoudn't conain more than 18 characters" )
         }
-        
-        do {
-            // If Regex match we find a no number character
-            let a = try NSRegularExpression(pattern: "[^A-Za-z\\s]+", options: .caseInsensitive).firstMatch(in: value, options:[], range: NSRange(location: 0, length: value.count))
-            if a != nil {
-                throw ValidationError("Invalid contact name, username should not contain numbers or special characters")
-          } } catch {
-            throw ValidationError("Invalid Pattern")
+      
+      // If Regex match we find a no number character
+        let a = try NSRegularExpression(pattern: "[^A-Za-z\\s]+", options: .caseInsensitive).firstMatch(in: value, options:[], range: NSRange(location: 0, length: value.count))
+        if a != nil {
+          throw ValidationError("Invalid contact name, username should not contain numbers or special characters")
         }
-          if let repository = repository {
-              if repository.contains(contact: Contact(name: value)) {
-                throw ValidationError ("Duplicated Contact")
-              }
-          }
-        
         return value
     }
     
@@ -81,12 +90,9 @@ struct PhoneValidator: ValidatorConvertible {
         guard value.count == 9 else {
             throw ValidationError("Phone must contain 9 digits" )
         }
-        do {
-            if try NSRegularExpression(pattern: "[0-9]").firstMatch(in: value, options: [], range: NSRange(location: 0, length: value.count)) == nil {
+      
+        if try NSRegularExpression(pattern: "^[0-9]*$").firstMatch(in: value, options: [], range: NSRange(location: 0, length: value.count)) == nil {
                  throw ValidationError("Phone must contain 9 digits" )
-            }
-        } catch {
-             throw ValidationError("Phone must contain 9 digits" )
         }
         return value
     }
