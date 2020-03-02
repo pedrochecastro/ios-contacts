@@ -117,6 +117,9 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="XeW-ja-fud">
                                                     <rect key="frame" x="147" y="4" width="80" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                                    </accessibility>
                                                     <gestureRecognizers/>
                                                 </imageView>
                                             </subviews>
@@ -239,7 +242,7 @@
                                                                 <constraint firstAttribute="width" secondItem="m7J-Zu-nuv" secondAttribute="height" multiplier="1:1" id="beX-Yu-gDs"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outletCollection property="gestureRecognizers" destination="zNt-aq-9Kv" appends="YES" id="WrQ-t1-V7b"/>
+                                                                <outletCollection property="gestureRecognizers" destination="7WK-jY-I6Y" appends="YES" id="r2N-ZY-aYa"/>
                                                             </connections>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EeW-wg-xlf">
@@ -250,6 +253,7 @@
                                                             </connections>
                                                         </button>
                                                     </subviews>
+                                                    <gestureRecognizers/>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
@@ -380,16 +384,16 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addEditButton" destination="EeW-wg-xlf" id="0MM-6b-x70"/>
-                        <outlet property="contactImage" destination="m7J-Zu-nuv" id="2NV-cQ-bUZ"/>
+                        <outlet property="contactImage" destination="m7J-Zu-nuv" id="wfS-9M-914"/>
                         <outlet property="doneBarButton" destination="ZmM-Md-gwh" id="EGT-Wd-OPH"/>
                         <outlet property="nameTextField" destination="4TJ-70-wFb" id="v0L-cc-M0x"/>
                         <outlet property="phoneTextField" destination="8z4-jK-LPw" id="YbQ-Qs-EKU"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88K-ul-fQC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="zNt-aq-9Kv">
+                <tapGestureRecognizer id="7WK-jY-I6Y">
                     <connections>
-                        <action selector="addContactImage:" destination="co5-qL-PA4" id="BMR-DV-46u"/>
+                        <action selector="tapContactImage:" destination="co5-qL-PA4" id="HYR-nZ-cqt"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -418,6 +422,6 @@
         <image name="person-placeholder" width="300" height="275"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7tI-A7-gwW"/>
+        <segue reference="4Tv-5O-BHN"/>
     </inferredMetricsTieBreakers>
 </document>

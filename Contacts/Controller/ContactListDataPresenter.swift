@@ -143,12 +143,7 @@ class ContactListDataPresenter {
   public func add(contact: Contact) {
     // Add to Repository
     // REVIEW - If I go to repository for some information can bring back some errors!
-    do {
-     try repository?.add(contact: contact)
       insertIndexed(contact: contact)
-    } catch {
-      print(error.localizedDescription)
-    }
   }
   
   public func update(contact: Contact, editedContact:Contact) {

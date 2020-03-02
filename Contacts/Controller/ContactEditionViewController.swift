@@ -40,6 +40,7 @@ class ContactEditionViewController: UITableViewController {
     super.viewDidLoad()
     
     // UI
+    contactImage.isUserInteractionEnabled = true
     navigationItem.largeTitleDisplayMode = .never
     if let editContact = contact {
       navigationItem.title = "Edit Contact"
@@ -64,6 +65,11 @@ class ContactEditionViewController: UITableViewController {
   
   
   // MARK: - IBAction
+  
+  
+  @IBAction func tapContactImage(_ sender: Any) {
+    launchPhotolibrary()
+  }
   
   @IBAction func addContactImage(_ sender: Any) {
     launchPhotolibrary()

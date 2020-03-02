@@ -24,7 +24,11 @@ class ContactDetailViewController: UITableViewController {
     weak var editionContactListDelegate: ContactListViewController?
     var editionActionHandler: ((Contact, Contact) -> Void)?
     private var picker = UIImagePickerController()
-
+  
+  
+  @IBAction func tapImage(_ sender: Any) {
+  }
+  
     
     @IBAction func editContact(_ sender: Any) {
         performSegue(withIdentifier: "editContact", sender: nil)
