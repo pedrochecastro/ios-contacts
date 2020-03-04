@@ -40,7 +40,17 @@ class ContactEditionViewController: UITableViewController {
     super.viewDidLoad()
     
     // UI
+    //Gesture recognizer
+    // The didTap: method will be defined in Step 3 below.
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
+    
+    // Optionally set the number of required taps, e.g., 2 for a double click
+    // tapGestureRecognizer.numberOfTapsRequired = 2
+    
+    // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
     contactImage.isUserInteractionEnabled = true
+    contactImage.addGestureRecognizer(tapGestureRecognizer)
+
     navigationItem.largeTitleDisplayMode = .never
     if let editContact = contact {
       navigationItem.title = "Edit Contact"
@@ -65,11 +75,6 @@ class ContactEditionViewController: UITableViewController {
   
   
   // MARK: - IBAction
-  
-  
-  @IBAction func tapContactImage(_ sender: Any) {
-    launchPhotolibrary()
-  }
   
   @IBAction func addContactImage(_ sender: Any) {
     launchPhotolibrary()
@@ -168,6 +173,12 @@ class ContactEditionViewController: UITableViewController {
     }
     
     // MARK: - Functions
+  
+  @objc func didTap(sender: UITapGestureRecognizer) {
+//    let location = sender.location(in: view)
+    // User tapped at the point above. Do something with that if you want.
+    launchPhotolibrary()
+  }
   
     func editedContact(handler: @escaping(Contact, Contact) -> Void) {
         editionsActionsHandler.append(handler)

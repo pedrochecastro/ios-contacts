@@ -241,9 +241,6 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="m7J-Zu-nuv" secondAttribute="height" multiplier="1:1" id="beX-Yu-gDs"/>
                                                             </constraints>
-                                                            <connections>
-                                                                <outletCollection property="gestureRecognizers" destination="7WK-jY-I6Y" appends="YES" id="r2N-ZY-aYa"/>
-                                                            </connections>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EeW-wg-xlf">
                                                             <rect key="frame" x="0.0" y="75.5" width="93" height="4"/>
@@ -391,11 +388,6 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88K-ul-fQC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="7WK-jY-I6Y">
-                    <connections>
-                        <action selector="tapContactImage:" destination="co5-qL-PA4" id="HYR-nZ-cqt"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1831.2" y="-103.89805097451276"/>
         </scene>
