@@ -42,8 +42,19 @@ class ContactListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
-                                                 for: indexPath) as! CustomCell
+      let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
+                                               for: indexPath) as! CustomCell
+      //Gesture recognizer
+      // The didTap: method will be defined in Step 3 below.
+      let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
+      
+      // Optionally set the number of required taps, e.g., 2 for a double click
+      // tapGestureRecognizer.numberOfTapsRequired = 2
+      
+      // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
+      cell.contactImage.isUserInteractionEnabled = true
+      cell.contactImage.addGestureRecognizer(tapGestureRecognizer)
+      
         let contacts = contactList.getContactList(by: indexPath.section)
         let contact = contacts[indexPath.row]
         cell.nameLabel.text = contact.name
@@ -112,6 +123,10 @@ class ContactListViewController: UITableViewController {
     
 
   // MARK: - Functions
+  
+     @objc func didTap(sender: UITapGestureRecognizer) {
+      
+    }
   
     func restarSearch() {
       self.searchBar.text = nil
