@@ -45,11 +45,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "Contacts/Controller/ContactEditionViewController.swift"
-            timestampString = "605464956.797264"
+            timestampString = "605481346.4076281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "didTap(sender:)"
             landmarkType = "7">
             <Actions>
@@ -70,13 +70,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "Contacts/Controller/ContactListViewController.swift"
-            timestampString = "605464956.797645"
+            timestampString = "605481346.407722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "didTap(sender:)"
-            landmarkType = "7">
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "ContactListViewController"
+            landmarkType = "3">
             <Actions>
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.Log">

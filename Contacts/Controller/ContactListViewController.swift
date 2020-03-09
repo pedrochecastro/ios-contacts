@@ -10,6 +10,10 @@ import UIKit
 
 class ContactListViewController: UITableViewController {
   
+  // MARK: - Variables & Constants
+  let contactList = ContactListDataPresenter(Repository.fake)
+  
+  
   // MARK: - Outlets
   
   @IBOutlet weak var searchBar: UISearchBar!
@@ -17,16 +21,13 @@ class ContactListViewController: UITableViewController {
     restarSearch()
   }
   
-  // MARK: - Variables & Constants
-  let contactList = ContactListDataPresenter(Repository.fake)
-//  var filtered = false
-  
   // MARK: - Lifecycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
+      
     }
   
   // MARK: - Table View
@@ -45,13 +46,9 @@ class ContactListViewController: UITableViewController {
       let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
                                                for: indexPath) as! CustomCell
       //Gesture recognizer
-      // The didTap: method will be defined in Step 3 below.
       let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
       
-      // Optionally set the number of required taps, e.g., 2 for a double click
-      // tapGestureRecognizer.numberOfTapsRequired = 2
-      
-      // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
+ 
       cell.contactImage.isUserInteractionEnabled = true
       cell.contactImage.addGestureRecognizer(tapGestureRecognizer)
       
@@ -120,13 +117,11 @@ class ContactListViewController: UITableViewController {
         }
 
     }
-    
-
   // MARK: - Functions
   
-     @objc func didTap(sender: UITapGestureRecognizer) {
-      
-    }
+  @objc func didTap(sender: UITapGestureRecognizer) {
+   
+  }
   
     func restarSearch() {
       self.searchBar.text = nil
@@ -224,5 +219,33 @@ extension ContactListViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if (searchText == "") { restarSearch()}
   }
+}
+
+// MARK: - ImagePickerDelegate
+
+extension ContactListViewController: ImagePickerDelegate {
+  func didSelect(image: UIImage?) {
+    
+  }
+  
+  func didSelect(image: UIImage?, indexPath: IndexPath) {
+    guard let image = image else { return }
+    // Handle image
+    // Add image to contact
+    let contact = contactList.getContact(by: indexPath)
+    let croppedImage: UIImage?
+    croppedImage = ImagePicker.cropToBounds(image: image, width: 20.0, height: 20.0)
+    contact.contactImage = croppedImage
+    
+    // Update in the indexpath
+    tableView.beginUpdates()
+    tableView.reloadRows(at: [indexPath], with: .automatic)
+    tableView.endUpdates()
+    
+    
+    // Dismiss de photolibrary
+    self.dismiss(animated: true, completion: nil)
+  }
+  
 }
 

@@ -22,6 +22,7 @@ class ContactEditionViewController: UITableViewController {
     var repository: ContactFactory?
     weak var delegate: ContactEditionViewControllerDelegate?
     weak var contact: Contact?
+    var imagePicker: ImagePicker!
   
 //    weak var contactList: ContactListDataPresenter?
     var editionsActionsHandler: [((Contact,Contact) -> Void)] = []
@@ -43,11 +44,7 @@ class ContactEditionViewController: UITableViewController {
     //Gesture recognizer
     // The didTap: method will be defined in Step 3 below.
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
-    
-    // Optionally set the number of required taps, e.g., 2 for a double click
-    // tapGestureRecognizer.numberOfTapsRequired = 2
-    
-    // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
+   
     contactImage.isUserInteractionEnabled = true
     contactImage.addGestureRecognizer(tapGestureRecognizer)
 
@@ -67,6 +64,10 @@ class ContactEditionViewController: UITableViewController {
     nameTextField?.delegate = self
     phoneTextField?.delegate = self
     
+    //ImagePicker
+     self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+    
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -77,7 +78,8 @@ class ContactEditionViewController: UITableViewController {
   // MARK: - IBAction
   
   @IBAction func addContactImage(_ sender: Any) {
-    launchPhotolibrary()
+    self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+    // launchPhotolibrary()
   }
   
   
@@ -177,7 +179,8 @@ class ContactEditionViewController: UITableViewController {
   @objc func didTap(sender: UITapGestureRecognizer) {
 //    let location = sender.location(in: view)
     // User tapped at the point above. Do something with that if you want.
-    launchPhotolibrary()
+//    launchPhotolibrary()
+      self.imagePicker.present(from: view)
   }
   
     func editedContact(handler: @escaping(Contact, Contact) -> Void) {
@@ -210,52 +213,6 @@ class ContactEditionViewController: UITableViewController {
         }
         present(alertController, animated: true, completion: nil)
     }
-  
-  func launchPhotolibrary() {
-    
-    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-      let myPickerController = UIImagePickerController()
-      myPickerController.delegate = self
-      myPickerController.sourceType = .photoLibrary
-      self.present(myPickerController, animated: true, completion: nil)
-    }
-    
-  }
-  
-  func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
-    
-    let cgimage = image.cgImage!
-    let contextImage: UIImage = UIImage(cgImage: cgimage)
-    let contextSize: CGSize = contextImage.size
-    var posX: CGFloat = 0.0
-    var posY: CGFloat = 0.0
-    var cgwidth: CGFloat = CGFloat(width)
-    var cgheight: CGFloat = CGFloat(height)
-    
-    // See what size is longer and create the center off of that
-    if contextSize.width > contextSize.height {
-      posX = ((contextSize.width - contextSize.height) / 2)
-      posY = 0
-      cgwidth = contextSize.height
-      cgheight = contextSize.height
-    } else {
-      posX = 0
-      posY = ((contextSize.height - contextSize.width) / 2)
-      cgwidth = contextSize.width
-      cgheight = contextSize.width
-    }
-    
-    let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
-    
-    // Create bitmap image from context using the rect
-    let imageRef: CGImage = cgimage.cropping(to: rect)!
-    
-    // Create a new image based on the imageRef and rotate back to the original orientation
-    let image: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
-    
-    return image
-  }
-
     
 }
 
@@ -280,29 +237,23 @@ extension ContactEditionViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
-extension ContactEditionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    // Handle image
-    let croppedImage: UIImage?
-    if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-      croppedImage = cropToBounds(image: image, width: 20.0, height: 20.0)
-      contact?.contactImage = croppedImage
-      contactImage.image = contact?.contactImage ?? croppedImage
-    } else{
-      print("Something went wrong in  image")
-    }
+extension ContactEditionViewController: ImagePickerDelegate {
+  func didSelect(image: UIImage?) {
+        guard let image = image else { return }
+        // Handle image
+        let croppedImage: UIImage?
+        croppedImage = ImagePicker.cropToBounds(image: image, width: 20.0, height: 20.0)
+        contact?.contactImage = croppedImage
+        contactImage.image = contact?.contactImage ?? image
     
-    if let _ = contact {
-      doneBarButton.isEnabled = true
-    }
-    addEditButton.setTitle("Edit Picture", for: .normal)
-  
-    // Dismiss de photolibrary
-    self.dismiss(animated: true, completion: nil)
+        if let _ = contact {
+          doneBarButton.isEnabled = true
+        }
+        addEditButton.setTitle("Edit Picture", for: .normal)
+    
+        // Dismiss de photolibrary
+        self.dismiss(animated: true, completion: nil)
   }
-  
 }
 
