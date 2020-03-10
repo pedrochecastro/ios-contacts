@@ -45,7 +45,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "Contacts/Controller/ContactEditionViewController.swift"
-            timestampString = "605481346.4076281"
+            timestampString = "605623879.919751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "183"
@@ -70,11 +70,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "Contacts/Controller/ContactListViewController.swift"
-            timestampString = "605481346.407722"
+            timestampString = "605623879.9198329"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "ContactListViewController"
             landmarkType = "3">
             <Actions>
@@ -86,6 +86,38 @@
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Contacts/Controller/ContactListViewController.swift"
+            timestampString = "605623879.9198951"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "didTap(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Contacts/Controller/ContactEditionViewController.swift"
+            timestampString = "605623879.919943"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
+            landmarkName = "didSelect(image:indexPath:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

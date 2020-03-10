@@ -239,6 +239,10 @@ extension ContactEditionViewController: UITextFieldDelegate {
 
 
 extension ContactEditionViewController: ImagePickerDelegate {
+  func didSelect(image: UIImage?, indexPath: IndexPath) {
+    
+  }
+  
   func didSelect(image: UIImage?) {
         guard let image = image else { return }
         // Handle image

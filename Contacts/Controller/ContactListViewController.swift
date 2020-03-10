@@ -12,6 +12,7 @@ class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
   let contactList = ContactListDataPresenter(Repository.fake)
+  var imagePicker: ImagePicker?
   
   
   // MARK: - Outlets
@@ -46,7 +47,7 @@ class ContactListViewController: UITableViewController {
       let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
                                                for: indexPath) as! CustomCell
       //Gesture recognizer
-      let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
+      let tapGestureRecognizer = CustomGestureRecognizer(target: self, action: #selector(didTap(sender:)), indexPath: indexPath)
       
  
       cell.contactImage.isUserInteractionEnabled = true
@@ -119,8 +120,11 @@ class ContactListViewController: UITableViewController {
     }
   // MARK: - Functions
   
-  @objc func didTap(sender: UITapGestureRecognizer) {
-   
+  @objc func didTap(sender: CustomGestureRecognizer) {// present the view controller
+    //ImagePicker
+    self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+    self.imagePicker?.indexPath = sender.indexPath
+    self.imagePicker?.present(from: view)
   }
   
     func restarSearch() {
@@ -224,10 +228,6 @@ extension ContactListViewController: UISearchBarDelegate {
 // MARK: - ImagePickerDelegate
 
 extension ContactListViewController: ImagePickerDelegate {
-  func didSelect(image: UIImage?) {
-    
-  }
-  
   func didSelect(image: UIImage?, indexPath: IndexPath) {
     guard let image = image else { return }
     // Handle image
@@ -245,6 +245,11 @@ extension ContactListViewController: ImagePickerDelegate {
     
     // Dismiss de photolibrary
     self.dismiss(animated: true, completion: nil)
+    
+  }
+  
+  func didSelect(image: UIImage?) {
+
   }
   
 }

@@ -10,13 +10,16 @@ import UIKit
 
 public protocol ImagePickerDelegate: class {
   func didSelect(image: UIImage?)
+  func didSelect(image: UIImage?, indexPath: IndexPath)
 }
+
 
 open class ImagePicker: NSObject {
   
   private let pickerController: UIImagePickerController
   private weak var presentationController: UIViewController?
   private weak var delegate: ImagePickerDelegate?
+  var indexPath: IndexPath?
   
   public init(presentationController: UIViewController, delegate: ImagePickerDelegate) {
     self.pickerController = UIImagePickerController()
@@ -70,16 +73,21 @@ open class ImagePicker: NSObject {
   private func pickerController(_ controller: UIImagePickerController, didSelect image: UIImage?) {
     controller.dismiss(animated: true, completion: nil)
     
-    self.delegate?.didSelect(image: image)
+    if let indexPath = indexPath {
+      self.delegate?.didSelect(image: image, indexPath: indexPath)
+    } else {
+      self.delegate?.didSelect(image: image)
+    }
+    
   }
 }
 
 extension ImagePicker: UIImagePickerControllerDelegate {
-  
+
   public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     self.pickerController(picker, didSelect: nil)
   }
-  
+
   public func imagePickerController(_ picker: UIImagePickerController,
                                     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     guard let image = info[.editedImage] as? UIImage else {
@@ -99,9 +107,11 @@ func didSelect(image: UIImage?) {
 
 extension ImagePicker {
   
-  func didSelect(image: UIImage?, contact: Contact?) {
+  
+  func didSelect(image: UIImage?, indexPath: IndexPath) {
     
   }
+
   
   static func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
     

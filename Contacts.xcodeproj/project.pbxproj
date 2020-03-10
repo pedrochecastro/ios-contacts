@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CF0A4C022343BF09004AB372 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */; };
 		CF0C0D3C2334F51A00B551A7 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */; };
+		CF23F3C524190EE2007780A9 /* CustomRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF23F3C424190EE2007780A9 /* CustomRecognizer.swift */; };
 		CF37113F240E8D9E0040EAAF /* ContactListDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF37113E240E8D9E0040EAAF /* ContactListDataPresenter.swift */; };
 		CF371141240E8F4F0040EAAF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF371140240E8F4F0040EAAF /* Constants.swift */; };
 		CF3E2D2F2379953700115007 /* UITextField+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E2D2E2379953700115007 /* UITextField+Validation.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
+		CF23F3C424190EE2007780A9 /* CustomRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecognizer.swift; sourceTree = "<group>"; };
 		CF37113E240E8D9E0040EAAF /* ContactListDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListDataPresenter.swift; sourceTree = "<group>"; };
 		CF371140240E8F4F0040EAAF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CF3E2D2E2379953700115007 /* UITextField+Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Validation.swift"; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
 				CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */,
 				CFF533CF239A827A001BB606 /* Cells */,
+				CF23F3C424190EE2007780A9 /* CustomRecognizer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF23F3C524190EE2007780A9 /* CustomRecognizer.swift in Sources */,
 				CF69E1AF2327C972009A0547 /* Contact.swift in Sources */,
 				CF0C0D3C2334F51A00B551A7 /* ContactDetailViewController.swift in Sources */,
 				CFAC29DE23257EBE0055DCFA /* ContactListViewController.swift in Sources */,
