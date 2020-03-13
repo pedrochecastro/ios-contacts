@@ -12,5 +12,5 @@ import Foundation
 // MARK: - Constants
 //
 struct Constants {
-  static let aToZ = (0..<26).map({String(UnicodeScalar("A".unicodeScalars.first!.value + $0) ?? "😡")})
+ 
 }

@@ -142,6 +142,7 @@ class ContactListDataPresenter {
   
   public func add(contact: Contact) {
     // Add to Repository
+    repository?.add(contact: contact)
     // REVIEW - If I go to repository for some information can bring back some errors!
       insertIndexed(contact: contact)
   }

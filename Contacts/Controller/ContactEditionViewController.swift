@@ -117,8 +117,8 @@ class ContactEditionViewController: UITableViewController {
   
     @IBAction func done(_ sender: Any) {
         
-      if validate() {
-        
+//      if validate() {
+      
                 // Add new contact
                 if self.contact == nil {
         
@@ -147,8 +147,8 @@ class ContactEditionViewController: UITableViewController {
                     }
                 }
       }
-    }
-    
+//    }
+  
     @IBAction func cancelContactEdition() {
         navigationController?.popViewController(animated: true)
     }

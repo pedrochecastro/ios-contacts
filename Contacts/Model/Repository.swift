@@ -5,10 +5,12 @@
 //  Copyright © 2017 Pedro Sánchez Castro. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 final class Repository{
     static let fake = FakeFactory()
+    static let coredata = CoreDataFactory()
 }
 
 protocol ContactFactory {
@@ -74,7 +76,85 @@ final class FakeFactory : ContactFactory {
 
 }
 
-extension FakeFactory {
+final class CoreDataFactory: ContactFactory {
   
+  let cds = CoreDataStack(name: "ContactCD")
+  
+  var contacts: [Contact] {
+    get {
+    return fetchAllContacts()
+    }
+    set {}
+  }
+  
+  func add(contact: Contact) {
+    let contactCD = ContactCD(context: cds.context)
+    contactCD.name = contact.name
+    contactCD.phoneNumber = contact.phoneNumber
+    contactCD.contactImage = contact.contactImage?.pngData() as NSData?
+    
+    do {
+      // Number of Objects pending
+      let newObjectsCount = cds.context.insertedObjects.count
+      print("Preparing to save \(newObjectsCount)")
+    // Save
+      try cds.context.save()
+      print("Saved")
+    } catch {
+      fatalError("Unresolved error")
+    }
+    
+    
+  }
+  
+  func delete(contact: Contact) {
+    
+  }
+  
+  func update(contact: Contact, newContact: Contact) {
+    
+  }
+  
+  func contains(contact: Contact) -> Bool {
+    return false
+  }
+
+}
+
+extension CoreDataFactory {
+  func fetchAllContacts() -> [Contact] {
+    
+    var contacts: [Contact] = []
+
+    // Fetch all contacts
+    let fetchRequest: NSFetchRequest<ContactCD> = ContactCD.fetchRequest()
+    
+    // Set the batch size to a suitable number.
+    fetchRequest.fetchBatchSize = 20
+    
+    let sortDescriptor = NSSortDescriptor(key: "name", ascending: false)
+    fetchRequest.sortDescriptors = [sortDescriptor]
+    print ("Fetched: " + fetchRequest.description)
+    
+    do {
+      let result = try cds.context.fetch(fetchRequest)
+      print("Num records to fetch: \( result.count )")
+      result.forEach {
+        let contact = Contact()
+        contact.name = $0.name ?? "Unname"
+        contact.phoneNumber = $0.phoneNumber ?? "NoPhone"
+        contact.contactImage = UIImage(data: $0.contactImage! as Data)
+        
+        contacts.append(contact)
+        
+      }
+     
+    } catch {
+      print("Something bad happened while deleting all projects")
+      print("Here's the info I have \(error.localizedDescription)")
+    }
+
+    return contacts
+  }
 }
 

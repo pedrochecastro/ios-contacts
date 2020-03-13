@@ -11,7 +11,7 @@ import UIKit
 class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
-  let contactList = ContactListDataPresenter(Repository.fake)
+  let contactList = ContactListDataPresenter(Repository.coredata)
   var imagePicker: ImagePicker?
   
   
@@ -101,7 +101,7 @@ class ContactListViewController: UITableViewController {
         if segue.identifier == "addNewContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController {
                 contactEditionVC.delegate = self
-                contactEditionVC.repository = Repository.fake
+                contactEditionVC.repository = Repository.coredata
             }
         }
         else if segue.identifier == "detailContact" {
