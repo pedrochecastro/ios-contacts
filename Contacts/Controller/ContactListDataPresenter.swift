@@ -121,32 +121,35 @@ class ContactListDataPresenter {
     return IndexPath(row: row, section: section)
   }
   
+  public func add(contact: Contact) {
+    // Add to Repository
+    repository?.add(contact: contact)
+    // REVIEW - If I go to repository for some information can bring back some errors!
+    insertIndexed(contact: contact)
+  }
   
   public func remove(contact: Contact) {
     // Remove in repository
     // REVIEW - If I go to repository for some information can bring back some errors!
     repository?.delete(contact: contact)
     
-    // Update the view
+    // Update presenter
     //key
     let key = String(contact.name.prefix(1))
     
     var contacts = self.indexedContacts[key]!
     if contacts.count == 1 {
       deleteSection = true
+      indexedContacts.removeValue(forKey: key)
+    } else {
+      let index = contacts.firstIndex(of: contact)!
+      contacts.remove(at: index)
+      self.indexedContacts[key] = contacts
     }
-    let index = contacts.firstIndex(of: contact)!
-    contacts.remove(at: index)
-    self.indexedContacts[key] = contacts
+    
   }
   
-  public func add(contact: Contact) {
-    // Add to Repository
-    repository?.add(contact: contact)
-    // REVIEW - If I go to repository for some information can bring back some errors!
-      insertIndexed(contact: contact)
-  }
-  
+
   public func update(contact: Contact, editedContact:Contact) {
     remove(contact: contact)
     add(contact: editedContact)

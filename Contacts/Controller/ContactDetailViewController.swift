@@ -68,6 +68,7 @@ class ContactDetailViewController: UITableViewController {
                 contactEditionVC.contact = contact
                 contactEditionVC.editionsActionsHandler.append(editionActionHandler)
                 contactEditionVC.editionsActionsHandler.append({ (contact, editedContact) in
+                  // Update Detail Contact
                     self.nameLabel.text = editedContact.name
                     self.phoneLabel.text = editedContact.phoneNumber
                     self.contactImage.image = editedContact.contactImage

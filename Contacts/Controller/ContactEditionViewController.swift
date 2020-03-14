@@ -19,7 +19,9 @@ class ContactEditionViewController: UITableViewController {
   
   // MARK: - Variable
   
+  // Just for validating for the moment
     var repository: ContactFactory?
+  
     weak var delegate: ContactEditionViewControllerDelegate?
     weak var contact: Contact?
     var imagePicker: ImagePicker!
@@ -105,7 +107,7 @@ class ContactEditionViewController: UITableViewController {
     showAlert(title: "Delete Contact", message: "Are you sure?",
               actions:
               [UIAlertAction(title: "Yes", style: .default, handler: {_ in
-                self.repository?.delete(contact: self.contact!)
+//                self.repository?.delete(contact: self.contact!)
                 self.delegate?.contactEditionViewController(self, didFinishDeleting: self.contact!)}),
               UIAlertAction(title: "No", style: .default, handler:{action in print("Click NO")})])
     // Navigation

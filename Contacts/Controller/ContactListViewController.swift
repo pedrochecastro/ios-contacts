@@ -11,7 +11,7 @@ import UIKit
 class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
-  let contactList = ContactListDataPresenter(Repository.coredata)
+  let contactList = ContactListDataPresenter(Repository.fake)
   var imagePicker: ImagePicker?
   
   
@@ -101,7 +101,7 @@ class ContactListViewController: UITableViewController {
         if segue.identifier == "addNewContact" {
             if let contactEditionVC = segue.destination as? ContactEditionViewController {
                 contactEditionVC.delegate = self
-                contactEditionVC.repository = Repository.coredata
+//                contactEditionVC.repository = Repository.coredata
             }
         }
         else if segue.identifier == "detailContact" {
@@ -153,28 +153,35 @@ extension ContactListViewController: ContactEditionViewControllerDelegate {
         contactList.add(contact: contact)
       
         let indexPath = contactList.getIndexPath(from: contact)
-        tableView.beginUpdates()
+//        tableView.beginUpdates()
+      print("Number of sections \(tableView.numberOfSections)")
         if contactList.updateSection {
             tableView.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
             contactList.updateSection = false
         }
         tableView.insertRows(at: [indexPath], with: .automatic)
-        tableView.endUpdates()
+//        tableView.endUpdates()
+      print("Number of sections \(tableView.numberOfSections)")
     }
   
   func contactEditionViewController(_ controller: ContactEditionViewController, didFinishDeleting contact: Contact) {
     // Navigation
     navigationController?.popToViewController(self, animated: true)
     let indexPath = contactList.getIndexPath(from: contact)
-    contactList.remove(contact: contact)
-    if contactList.deleteSection {
-      tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
-      contactList.deleteSection = false
-    } else {
+    
+    // Update presenter
+     contactList.remove(contact: contact)
+
+    print("Number of sections \(tableView.numberOfSections)")
+//    if contactList.deleteSection {
+//      print("Section: \(indexPath.section)")
+//      tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+//      contactList.deleteSection = false
+//    } else {
       tableView.deleteRows(at: [indexPath], with: .automatic)
-    }
-    
-    
+//    }
+//    print("Number of sections \(tableView.numberOfSections)")
+
   }
 }
 

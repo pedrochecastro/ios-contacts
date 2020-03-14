@@ -57,7 +57,7 @@ final class FakeFactory : ContactFactory {
   // MARK: - Public Methods
   
     func add(contact: Contact) {
-        contacts.append(contact)
+      contacts.append(contact)
     }
   
     func delete(contact: Contact) {
@@ -109,6 +109,27 @@ final class CoreDataFactory: ContactFactory {
   
   func delete(contact: Contact) {
     
+    
+    
+   // Delete Contact
+    let fetchRequest: NSFetchRequest<ContactCD> = ContactCD.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "name == '\(contact.name)'")
+    print ("fetched: " + fetchRequest.description)
+    
+    do {
+      let result = try cds.context.fetch(fetchRequest)
+      print("Num records to delete: \( result.count )")
+      result.forEach {
+        print("Project: + \(String(describing: $0.name))")
+      }
+      cds.context.delete(result.first!) // to delete an object, just call delete on the context
+    } catch {
+      print("Here's the info I have \(error.localizedDescription)")
+    }
+    
+    //Update
+    self.contacts = fetchAllContacts()
+    print(self.contacts.count)
   }
   
   func update(contact: Contact, newContact: Contact) {
@@ -150,11 +171,12 @@ extension CoreDataFactory {
       }
      
     } catch {
-      print("Something bad happened while deleting all projects")
+      print("Error fetching  projects")
       print("Here's the info I have \(error.localizedDescription)")
     }
 
     return contacts
   }
+
 }
 
