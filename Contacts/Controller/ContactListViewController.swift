@@ -11,7 +11,7 @@ import UIKit
 class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
-  let contactList = ContactListDataPresenter(Repository.fake)
+  let contactList = ContactListDataPresenter(Repository.coredata)
   var imagePicker: ImagePicker?
   
   
@@ -153,15 +153,13 @@ extension ContactListViewController: ContactEditionViewControllerDelegate {
         contactList.add(contact: contact)
       
         let indexPath = contactList.getIndexPath(from: contact)
-//        tableView.beginUpdates()
-      print("Number of sections \(tableView.numberOfSections)")
+        tableView.beginUpdates()
         if contactList.updateSection {
             tableView.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
             contactList.updateSection = false
         }
         tableView.insertRows(at: [indexPath], with: .automatic)
-//        tableView.endUpdates()
-      print("Number of sections \(tableView.numberOfSections)")
+        tableView.endUpdates()
     }
   
   func contactEditionViewController(_ controller: ContactEditionViewController, didFinishDeleting contact: Contact) {
@@ -173,14 +171,12 @@ extension ContactListViewController: ContactEditionViewControllerDelegate {
      contactList.remove(contact: contact)
 
     print("Number of sections \(tableView.numberOfSections)")
-//    if contactList.deleteSection {
-//      print("Section: \(indexPath.section)")
-//      tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
-//      contactList.deleteSection = false
-//    } else {
+    if contactList.deleteSection {
+      tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+      contactList.deleteSection = false
+    } else {
       tableView.deleteRows(at: [indexPath], with: .automatic)
-//    }
-//    print("Number of sections \(tableView.numberOfSections)")
+    }
 
   }
 }
