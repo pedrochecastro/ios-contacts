@@ -14,12 +14,6 @@ class Contact {
     var phoneNumber: String
     var contactImage: UIImage?
   
-  
-//    override init() {
-//      name = ""
-//      phoneNumber = ""
-//    }
-  
     init() {
         name = ""
         phoneNumber = ""
@@ -29,11 +23,7 @@ class Contact {
         self.name = name
         self.phoneNumber = phoneNumber
     }
-  
-//    override func isEqual(_ object: Any?) -> Bool {
-//      guard let contact = object as? Contact else { return false }
-//      return self.name == contact.name
-//    }
+
 }
 
 extension Contact : Comparable {

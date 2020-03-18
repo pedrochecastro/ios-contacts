@@ -8,9 +8,26 @@
 import UIKit
 import CoreData
 
-final class Repository{
-    static let fake = FakeFactory()
-    static let coredata = CoreDataFactory()
+enum RepositorySource {
+  case fake
+  case coredata
+}
+
+final class Repository {
+  
+  static let shared =  Repository(source: RepositorySource.coredata)
+  var contactsSource: ContactFactory
+  
+  
+  init(source: RepositorySource) {
+    switch source {
+    case .fake:
+      self.contactsSource = FakeFactory()
+    case .coredata:
+      self.contactsSource = CoreDataFactory()
+    }
+  }
+
 }
 
 protocol ContactFactory {
@@ -21,7 +38,7 @@ protocol ContactFactory {
   func update(contact: Contact, newContact: Contact)
   func contains(contact: Contact) -> Bool
   
-  }
+}
 
 final class FakeFactory : ContactFactory {
 

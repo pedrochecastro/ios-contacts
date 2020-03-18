@@ -17,16 +17,12 @@ protocol ContactEditionViewControllerDelegate: class {
 
 class ContactEditionViewController: UITableViewController {
   
-  // MARK: - Variable
-  
-  // Just for validating for the moment
-    var repository: ContactFactory?
+   // MARK: - Variable
   
     weak var delegate: ContactEditionViewControllerDelegate?
     weak var contact: Contact?
     var imagePicker: ImagePicker!
   
-//    weak var contactList: ContactListDataPresenter?
     var editionsActionsHandler: [((Contact,Contact) -> Void)] = []
   
   // MARK: - Outlet
@@ -44,7 +40,7 @@ class ContactEditionViewController: UITableViewController {
     
     // UI
     //Gesture recognizer
-    // The didTap: method will be defined in Step 3 below.
+
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
    
     contactImage.isUserInteractionEnabled = true
@@ -81,7 +77,6 @@ class ContactEditionViewController: UITableViewController {
   
   @IBAction func addContactImage(_ sender: Any) {
     self.imagePicker = ImagePicker(presentationController: self, delegate: self)
-    // launchPhotolibrary()
   }
   
   
@@ -89,15 +84,15 @@ class ContactEditionViewController: UITableViewController {
     // Share contact information
     let text = "\(contact!.name) / \(contact!.phoneNumber)"
     
-    // set up activity view controller
+    // Set up activity view controller
     let textToShare = [ text ]
     let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil )
     activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
     
-    // exclude some activity types from the list (optional)
+    // Exclude some activity types from the list (optional)
     activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
     
-    // present the view controller
+    // Present the view controller
     self.present(activityViewController, animated: true, completion: nil)
     
   }
@@ -107,7 +102,6 @@ class ContactEditionViewController: UITableViewController {
     showAlert(title: "Delete Contact", message: "Are you sure?",
               actions:
               [UIAlertAction(title: "Yes", style: .default, handler: {_ in
-//                self.repository?.delete(contact: self.contact!)
                 self.delegate?.contactEditionViewController(self, didFinishDeleting: self.contact!)}),
               UIAlertAction(title: "No", style: .default, handler:{action in print("Click NO")})])
     // Navigation
@@ -119,7 +113,7 @@ class ContactEditionViewController: UITableViewController {
   
     @IBAction func done(_ sender: Any) {
         
-//      if validate() {
+      if validate() {
       
                 // Add new contact
                 if self.contact == nil {
@@ -149,7 +143,7 @@ class ContactEditionViewController: UITableViewController {
                     }
                 }
       }
-//    }
+    }
   
     @IBAction func cancelContactEdition() {
         navigationController?.popViewController(animated: true)
@@ -179,9 +173,6 @@ class ContactEditionViewController: UITableViewController {
     // MARK: - Functions
   
   @objc func didTap(sender: UITapGestureRecognizer) {
-//    let location = sender.location(in: view)
-    // User tapped at the point above. Do something with that if you want.
-//    launchPhotolibrary()
       self.imagePicker.present(from: view)
   }
   
@@ -193,9 +184,10 @@ class ContactEditionViewController: UITableViewController {
         do {
             
           _ = try nameTextField.validatedText(validationType: ValidatorType.name)
-          if let repository = repository {
-            _ = try nameTextField.validatedText(validationType: ValidatorType.existContact(repository: repository))
-          }
+          
+          let repository = Repository.shared.contactsSource
+          _ = try nameTextField.validatedText(validationType: ValidatorType.existContact(repository: repository))
+          
           _ = try phoneTextField.validatedText(validationType: ValidatorType.phone)
           
          

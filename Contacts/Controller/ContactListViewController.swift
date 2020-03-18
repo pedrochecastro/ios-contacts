@@ -11,7 +11,8 @@ import UIKit
 class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
-  let contactList = ContactListDataPresenter(Repository.coredata)
+ 
+  var contactList: ContactListDataPresenter = ContactListDataPresenter(Repository.shared.contactsSource)
   var imagePicker: ImagePicker?
   
   
@@ -26,6 +27,7 @@ class ContactListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+      
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
       
@@ -153,13 +155,14 @@ extension ContactListViewController: ContactEditionViewControllerDelegate {
         contactList.add(contact: contact)
       
         let indexPath = contactList.getIndexPath(from: contact)
-        tableView.beginUpdates()
+//        tableView.beginUpdates()
         if contactList.updateSection {
             tableView.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
             contactList.updateSection = false
-        }
+        } else {
         tableView.insertRows(at: [indexPath], with: .automatic)
-        tableView.endUpdates()
+      }
+//        tableView.endUpdates()
     }
   
   func contactEditionViewController(_ controller: ContactEditionViewController, didFinishDeleting contact: Contact) {

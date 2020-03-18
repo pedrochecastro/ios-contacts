@@ -14,7 +14,6 @@
 		CF23F3E1241967B7007780A9 /* ContactCD+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF23F3DF241967B7007780A9 /* ContactCD+CoreDataClass.swift */; };
 		CF23F3E2241967B7007780A9 /* ContactCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF23F3E0241967B7007780A9 /* ContactCD+CoreDataProperties.swift */; };
 		CF37113F240E8D9E0040EAAF /* ContactListDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF37113E240E8D9E0040EAAF /* ContactListDataPresenter.swift */; };
-		CF371141240E8F4F0040EAAF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF371140240E8F4F0040EAAF /* Constants.swift */; };
 		CF3E2D2F2379953700115007 /* UITextField+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E2D2E2379953700115007 /* UITextField+Validation.swift */; };
 		CF3E2D312379E09200115007 /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E2D302379E09200115007 /* Validators.swift */; };
 		CF405880232A63A800B30F8A /* ContactEditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */; };
@@ -42,7 +41,6 @@
 		CF23F3DF241967B7007780A9 /* ContactCD+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactCD+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CF23F3E0241967B7007780A9 /* ContactCD+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CF37113E240E8D9E0040EAAF /* ContactListDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListDataPresenter.swift; sourceTree = "<group>"; };
-		CF371140240E8F4F0040EAAF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CF3E2D2E2379953700115007 /* UITextField+Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Validation.swift"; sourceTree = "<group>"; };
 		CF3E2D302379E09200115007 /* Validators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
 		CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEditionViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				CFAC29DB23257EBE0055DCFA /* AppDelegate.swift */,
-				CF371140240E8F4F0040EAAF /* Constants.swift */,
 				CF0A4BFE2343BDDF004AB372 /* Model */,
 				CF148A2323FD3EF300C162FB /* View */,
 				CF0A4BFF2343BE1B004AB372 /* Controller */,
@@ -257,7 +254,6 @@
 				CFAC29DE23257EBE0055DCFA /* ContactListViewController.swift in Sources */,
 				CF405880232A63A800B30F8A /* ContactEditionViewController.swift in Sources */,
 				CF7F58952388081500B0D825 /* UITableView+EmptyView.swift in Sources */,
-				CF371141240E8F4F0040EAAF /* Constants.swift in Sources */,
 				CF37113F240E8D9E0040EAAF /* ContactListDataPresenter.swift in Sources */,
 				CF23F3E2241967B7007780A9 /* ContactCD+CoreDataProperties.swift in Sources */,
 				CF3E2D312379E09200115007 /* Validators.swift in Sources */,
