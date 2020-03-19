@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		CF0A4C022343BF09004AB372 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */; };
 		CF0C0D3C2334F51A00B551A7 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */; };
+		CF18A224242A9ACD000E734D /* FakeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF18A223242A9ACD000E734D /* FakeFactory.swift */; };
+		CF18A226242A9B56000E734D /* CoreDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF18A225242A9B56000E734D /* CoreDataFactory.swift */; };
 		CF23F3C524190EE2007780A9 /* CustomRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF23F3C424190EE2007780A9 /* CustomRecognizer.swift */; };
 		CF23F3D624196647007780A9 /* ContactCD.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF23F3D424196647007780A9 /* ContactCD.xcdatamodeld */; };
 		CF23F3E1241967B7007780A9 /* ContactCD+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF23F3DF241967B7007780A9 /* ContactCD+CoreDataClass.swift */; };
@@ -36,6 +38,8 @@
 /* Begin PBXFileReference section */
 		CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
+		CF18A223242A9ACD000E734D /* FakeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFactory.swift; sourceTree = "<group>"; };
+		CF18A225242A9B56000E734D /* CoreDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFactory.swift; sourceTree = "<group>"; };
 		CF23F3C424190EE2007780A9 /* CustomRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecognizer.swift; sourceTree = "<group>"; };
 		CF23F3D524196647007780A9 /* ContactCD.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ContactCD.xcdatamodel; sourceTree = "<group>"; };
 		CF23F3DF241967B7007780A9 /* ContactCD+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactCD+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -76,11 +80,13 @@
 		CF0A4BFE2343BDDF004AB372 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CF7178142350D02B0029ECB1 /* Repository.swift */,
 				CF69E1AE2327C972009A0547 /* Contact.swift */,
 				CF23F3D424196647007780A9 /* ContactCD.xcdatamodeld */,
 				CF23F3E0241967B7007780A9 /* ContactCD+CoreDataProperties.swift */,
 				CF23F3DF241967B7007780A9 /* ContactCD+CoreDataClass.swift */,
+				CF7178142350D02B0029ECB1 /* Repository.swift */,
+				CF18A223242A9ACD000E734D /* FakeFactory.swift */,
+				CF18A225242A9B56000E734D /* CoreDataFactory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -99,13 +105,15 @@
 		CF0A4C002343BE6C004AB372 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
+				CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */,
 				CFAC29E223257EBF0055DCFA /* Assets.xcassets */,
 				CFAC29E723257EBF0055DCFA /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		CF0A4C032343BF97004AB372 /* Helper */ = {
+		CF0A4C032343BF97004AB372 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				CF0A4C012343BF09004AB372 /* MulticastDelegate.swift */,
@@ -113,14 +121,12 @@
 				CF87ECF42416AB87009FAB15 /* ImagePicker.swift */,
 				CFD67E3A241BC9F200594B20 /* CoreDataStack.swift */,
 			);
-			path = Helper;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		CF148A2323FD3EF300C162FB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CFAC29DF23257EBE0055DCFA /* Main.storyboard */,
-				CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */,
 				CFF533CF239A827A001BB606 /* Cells */,
 				CF23F3C424190EE2007780A9 /* CustomRecognizer.swift */,
 			);
@@ -163,7 +169,7 @@
 				CF148A2323FD3EF300C162FB /* View */,
 				CF0A4BFF2343BE1B004AB372 /* Controller */,
 				CF0A4C002343BE6C004AB372 /* Resources */,
-				CF0A4C032343BF97004AB372 /* Helper */,
+				CF0A4C032343BF97004AB372 /* Utils */,
 				CF6AF1D22347583F00D5E3DA /* Extensions */,
 			);
 			path = Contacts;
@@ -251,6 +257,7 @@
 				CF23F3C524190EE2007780A9 /* CustomRecognizer.swift in Sources */,
 				CF69E1AF2327C972009A0547 /* Contact.swift in Sources */,
 				CF0C0D3C2334F51A00B551A7 /* ContactDetailViewController.swift in Sources */,
+				CF18A224242A9ACD000E734D /* FakeFactory.swift in Sources */,
 				CFAC29DE23257EBE0055DCFA /* ContactListViewController.swift in Sources */,
 				CF405880232A63A800B30F8A /* ContactEditionViewController.swift in Sources */,
 				CF7F58952388081500B0D825 /* UITableView+EmptyView.swift in Sources */,
@@ -264,6 +271,7 @@
 				CF87ECF52416AB87009FAB15 /* ImagePicker.swift in Sources */,
 				CF0A4C022343BF09004AB372 /* MulticastDelegate.swift in Sources */,
 				CF23F3E1241967B7007780A9 /* ContactCD+CoreDataClass.swift in Sources */,
+				CF18A226242A9B56000E734D /* CoreDataFactory.swift in Sources */,
 				CFD67E3B241BC9F200594B20 /* CoreDataStack.swift in Sources */,
 				CF5D7CC0234B74B9003FACEB /* CustomCell.swift in Sources */,
 				CF23F3D624196647007780A9 /* ContactCD.xcdatamodeld in Sources */,
