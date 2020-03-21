@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol CollationIndexable {
+  @objc var collationString : String { get }
+}
+
 class Contact {
     
     var name: String
@@ -34,4 +38,11 @@ extension Contact : Comparable {
     static func < (lhs: Contact, rhs: Contact) -> Bool {
         return lhs.name < rhs.name
     }
+}
+
+extension Contact : CollationIndexable {
+  
+  @objc var collationString : String {
+    return name
+  }
 }

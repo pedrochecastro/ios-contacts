@@ -6,7 +6,7 @@
 //  Copyright © 2020 checastro.com. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class ContactListDataPresenter {
   
@@ -14,7 +14,7 @@ class ContactListDataPresenter {
   
   let repository : ContactFactory?
   var indexedContacts: [String:[Contact]] = [:]
-  var indexedContactsFiltered :[String:[Contact]] = [:]
+  var indexedContactsFiltered : [String:[Contact]] = [:]
   var filter: String?
   var updateSection = false
   var deleteSection = false
@@ -99,6 +99,10 @@ class ContactListDataPresenter {
     } else {
       return []
     }
+  }
+  
+  public func getContactList() -> [Contact] {
+    return repository?.contacts ?? []
   }
   
   public func getContact(by indexpath: IndexPath) -> Contact {

@@ -32,6 +32,7 @@
 		CFAC29E123257EBE0055DCFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAC29DF23257EBE0055DCFA /* Main.storyboard */; };
 		CFAC29E323257EBF0055DCFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFAC29E223257EBF0055DCFA /* Assets.xcassets */; };
 		CFAC29E623257EBF0055DCFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAC29E423257EBF0055DCFA /* LaunchScreen.storyboard */; };
+		CFC063FE242D190100151E3D /* CLDPUILocalizedIndexedCollation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC063FD242D190100151E3D /* CLDPUILocalizedIndexedCollation.swift */; };
 		CFD67E3B241BC9F200594B20 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD67E3A241BC9F200594B20 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,7 @@
 		CFAC29E223257EBF0055DCFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CFAC29E523257EBF0055DCFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CFAC29E723257EBF0055DCFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFC063FD242D190100151E3D /* CLDPUILocalizedIndexedCollation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLDPUILocalizedIndexedCollation.swift; sourceTree = "<group>"; };
 		CFD67E3A241BC9F200594B20 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 			children = (
 				CFAC29DD23257EBE0055DCFA /* ContactListViewController.swift */,
 				CF37113E240E8D9E0040EAAF /* ContactListDataPresenter.swift */,
+				CFC063FD242D190100151E3D /* CLDPUILocalizedIndexedCollation.swift */,
 				CF0C0D3B2334F51A00B551A7 /* ContactDetailViewController.swift */,
 				CF40587F232A63A800B30F8A /* ContactEditionViewController.swift */,
 			);
@@ -271,6 +274,7 @@
 				CF87ECF52416AB87009FAB15 /* ImagePicker.swift in Sources */,
 				CF0A4C022343BF09004AB372 /* MulticastDelegate.swift in Sources */,
 				CF23F3E1241967B7007780A9 /* ContactCD+CoreDataClass.swift in Sources */,
+				CFC063FE242D190100151E3D /* CLDPUILocalizedIndexedCollation.swift in Sources */,
 				CF18A226242A9B56000E734D /* CoreDataFactory.swift in Sources */,
 				CFD67E3B241BC9F200594B20 /* CoreDataStack.swift in Sources */,
 				CF5D7CC0234B74B9003FACEB /* CustomCell.swift in Sources */,

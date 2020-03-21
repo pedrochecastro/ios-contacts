@@ -12,8 +12,26 @@ class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
  
-  var contactList: ContactListDataPresenter = ContactListDataPresenter(Repository.shared.contactsSource)
+  var contactList: CLDPUILocalizedIndexedCollation = CLDPUILocalizedIndexedCollation(Repository.shared.contactsSource)
   var imagePicker: ImagePicker?
+  
+//  // UILocalizedIndexedCollation
+//  let collation = UILocalizedIndexedCollation.current()
+//  var sections: [[AnyObject]] = []
+//  var objects: [CollationIndexable] = [] {
+//    didSet {
+//      sections = Array(repeating: [], count: collation.sectionTitles.count)
+//      let selector = #selector(getter: CollationIndexable.collationString)
+//
+//      let sortedObjects = collation.sortedArray(from: objects, collationStringSelector: selector)
+//      for object in sortedObjects {
+//        let sectionNumber = collation.section(for: object, collationStringSelector: selector)
+//        sections[sectionNumber].append(object as AnyObject)
+//      }
+//
+//      self.tableView.reloadData()
+//    }
+//  }
   
   
   // MARK: - Outlets
@@ -31,17 +49,68 @@ class ContactListViewController: UITableViewController {
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
       
+      
     }
   
-  // MARK: - Table View
+  // MARK: - Table View UILICollation
   
+//  override func numberOfSections(in tableView: UITableView) -> Int {
+//    return collation.sectionTitles.count
+//  }
+//
+//  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+//    return  sections[section].count
+//  }
+//
+//  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//          let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
+//                                                   for: indexPath) as! CustomCell
+//
+//
+//          cell.contactImage.isUserInteractionEnabled = true
+//          cell.contactImage.addGestureRecognizer(tapGestureRecognizer)
+//
+//    //
+//            let contacts = sections[indexPath.section]
+//            let contact = contacts[indexPath.row] as! Contact
+//            cell.nameLabel.text = contact.name
+//          if let contactImage = contact.contactImage {
+//            cell.contactImage.image = contactImage
+//          } else {
+//            cell.contactImage.image = UIImage(named: "person-placeholder.jpg")
+//          }
+//
+//            return cell
+//
+//  }
+//
+//
+//  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//    return collation.sectionTitles[section]
+//  }
+//
+//  override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+//    return collation.sectionTitles
+//  }
+//
+//  override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+//    return collation.section(forSectionIndexTitle: index)
+//  }
+  
+  
+  
+  
+  // MARK: - Table View
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         let numberOfSections = contactList.sectionsTitlesHeader().count
         return numberOfSections
+
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      
+
         return contactList.getContactList(by:section).count
     }
 
@@ -50,11 +119,11 @@ class ContactListViewController: UITableViewController {
                                                for: indexPath) as! CustomCell
       //Gesture recognizer
       let tapGestureRecognizer = CustomGestureRecognizer(target: self, action: #selector(didTap(sender:)), indexPath: indexPath)
-      
- 
+
+
       cell.contactImage.isUserInteractionEnabled = true
       cell.contactImage.addGestureRecognizer(tapGestureRecognizer)
-      
+
         let contacts = contactList.getContactList(by: indexPath.section)
         let contact = contacts[indexPath.row]
         cell.nameLabel.text = contact.name
@@ -63,15 +132,15 @@ class ContactListViewController: UITableViewController {
       } else {
         cell.contactImage.image = UIImage(named: "person-placeholder.jpg")
       }
-        
+
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return contactList.getSectionTitle(by: section)
     }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
+   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let contact = contactList.getContact(by: indexPath)
         contactList.remove(contact: contact)
         if contactList.deleteSection {
@@ -81,17 +150,17 @@ class ContactListViewController: UITableViewController {
              tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let contact = contactList.getContact(by: indexPath)
         performSegue(withIdentifier: "detailContact", sender: contact)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return indexPath
     }
-    
+
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return contactList.sectionsTitlesHeader()
     }
