@@ -13,8 +13,7 @@ class CLDPUILocalizedIndexedCollation {
   // MARK: - Constants & Var
   
   let repository : ContactFactory?
-//  var indexedContacts: [String:[Contact]] = [:]
-//  var indexedContactsFiltered : [String:[Contact]] = [:]
+
   var filter: String?
   var updateSection = false
   var deleteSection = false
@@ -57,19 +56,7 @@ class CLDPUILocalizedIndexedCollation {
   // MARK: - Public functions
   
   public func sectionsTitlesHeader() -> [String] {
-
-//    if let filter = filter {
-//      let contactsFounded = retrieveIndexedContact(words: filter)
-//      if contactsFounded.isEmpty {
-//        indexedContactsFiltered = [:]
-//      } else {
-//        indexedContactsFiltered = Dictionary(grouping: contactsFounded) { String($0.name.first!) }
-//      }
-//      return Array(indexedContactsFiltered.keys).sorted(by: <)
-//    }
-//    return Array(indexedContacts.keys).sorted(by: <)
     return collation.sectionTitles
-
   }
   
   
@@ -78,21 +65,14 @@ class CLDPUILocalizedIndexedCollation {
   }
   
   public func getContactList(by section: Int) -> [Contact] {
-    let contacts = sections[section]
     return sections[section] as! [Contact]
   }
   
 
   
   public func getContact(by indexpath: IndexPath) -> Contact {
-//    let contacts = getContactList(by: indexpath.section)
-//    return contacts[indexpath.row]
     return sections[indexpath.section][indexpath.row] as! Contact
   }
-  
-//  public func getContacts(by name: String) -> [Contact] {
-//    return (repository?.contacts.filter { $0.name.contains(name) })!
-//  }
   
   public func getIndexPath(from contact: Contact) -> IndexPath {
 
@@ -108,7 +88,6 @@ class CLDPUILocalizedIndexedCollation {
     // Add to Repository
     repository?.add(contact: contact)
     // REVIEW - If I go to repository for some information can bring back some errors!
-//    insertIndexed(contact: contact)
     let selector = #selector(getter: CollationIndexable.collationString)
     let section = collation.section(for: contact, collationStringSelector: selector)
     var contacts = sections[section] as! [Contact]
@@ -121,6 +100,11 @@ class CLDPUILocalizedIndexedCollation {
     // Remove in repository
     // REVIEW - If I go to repository for some information can bring back some errors!
     repository?.delete(contact: contact)
+    let selector = #selector(getter: CollationIndexable.collationString)
+    let section = collation.section(for: contact, collationStringSelector: selector)
+    var contacts = sections[section] as! [Contact]
+    contacts.removeAll { $0 == contact }
+    sections[section] = contacts
   }
   
   

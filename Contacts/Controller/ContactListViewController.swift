@@ -15,24 +15,6 @@ class ContactListViewController: UITableViewController {
   var contactList: CLDPUILocalizedIndexedCollation = CLDPUILocalizedIndexedCollation(Repository.shared.contactsSource)
   var imagePicker: ImagePicker?
   
-//  // UILocalizedIndexedCollation
-//  let collation = UILocalizedIndexedCollation.current()
-//  var sections: [[AnyObject]] = []
-//  var objects: [CollationIndexable] = [] {
-//    didSet {
-//      sections = Array(repeating: [], count: collation.sectionTitles.count)
-//      let selector = #selector(getter: CollationIndexable.collationString)
-//
-//      let sortedObjects = collation.sortedArray(from: objects, collationStringSelector: selector)
-//      for object in sortedObjects {
-//        let sectionNumber = collation.section(for: object, collationStringSelector: selector)
-//        sections[sectionNumber].append(object as AnyObject)
-//      }
-//
-//      self.tableView.reloadData()
-//    }
-//  }
-  
   
   // MARK: - Outlets
   
@@ -51,53 +33,6 @@ class ContactListViewController: UITableViewController {
       
       
     }
-  
-  // MARK: - Table View UILICollation
-  
-//  override func numberOfSections(in tableView: UITableView) -> Int {
-//    return collation.sectionTitles.count
-//  }
-//
-//  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-//    return  sections[section].count
-//  }
-//
-//  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//          let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
-//                                                   for: indexPath) as! CustomCell
-//
-//
-//          cell.contactImage.isUserInteractionEnabled = true
-//          cell.contactImage.addGestureRecognizer(tapGestureRecognizer)
-//
-//    //
-//            let contacts = sections[indexPath.section]
-//            let contact = contacts[indexPath.row] as! Contact
-//            cell.nameLabel.text = contact.name
-//          if let contactImage = contact.contactImage {
-//            cell.contactImage.image = contactImage
-//          } else {
-//            cell.contactImage.image = UIImage(named: "person-placeholder.jpg")
-//          }
-//
-//            return cell
-//
-//  }
-//
-//
-//  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//    return collation.sectionTitles[section]
-//  }
-//
-//  override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-//    return collation.sectionTitles
-//  }
-//
-//  override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-//    return collation.section(forSectionIndexTitle: index)
-//  }
-  
   
   
   
