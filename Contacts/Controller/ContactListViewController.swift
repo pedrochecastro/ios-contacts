@@ -12,7 +12,7 @@ class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
  
-  var contactList: CLDPUILocalizedIndexedCollation = CLDPUILocalizedIndexedCollation(Repository.shared.contactsSource)
+  var contactList = ContactListDataPresenter(Repository.shared.contactsSource)
   var imagePicker: ImagePicker?
   
   

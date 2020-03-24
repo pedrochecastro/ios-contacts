@@ -172,9 +172,9 @@ class ContactEditionViewController: UITableViewController {
     
     // MARK: - Functions
   
-  @objc func didTap(sender: UITapGestureRecognizer) {
-      self.imagePicker.present(from: view)
-  }
+    @objc func didTap(sender: UITapGestureRecognizer) {
+        self.imagePicker.present(from: view)
+    }
   
     func editedContact(handler: @escaping(Contact, Contact) -> Void) {
         editionsActionsHandler.append(handler)
