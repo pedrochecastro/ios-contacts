@@ -185,9 +185,9 @@ class ContactEditionViewController: UITableViewController {
             
           _ = try nameTextField.validatedText(validationType: ValidatorType.name)
           
-          let repository = Repository.shared.contactsSource
-          _ = try nameTextField.validatedText(validationType: ValidatorType.existContact(repository: repository))
-          
+//          let repository = Repository.shared.contactsSource
+//          _ = try nameTextField.validatedText(validationType: ValidatorType.existContact(repository: repository))
+//
           _ = try phoneTextField.validatedText(validationType: ValidatorType.phone)
           
          

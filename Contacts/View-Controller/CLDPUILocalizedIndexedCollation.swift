@@ -85,32 +85,51 @@ class CLDPUILocalizedIndexedCollation {
   }
   
   public func add(contact: Contact) {
-    // Add to Repository
-    repository?.add(contact: contact)
-    // REVIEW - If I go to repository for some information can bring back some errors!
-    let selector = #selector(getter: CollationIndexable.collationString)
-    let section = collation.section(for: contact, collationStringSelector: selector)
-    var contacts = sections[section] as! [Contact]
-    contacts.append(contact)
-    sections[section] = contacts
-    
+    // Add to Repository We can have some errors adding contact ...
+    repository?.add(contact: contact, completionHandler: { result in
+      switch result {
+      case .success:
+        let selector = #selector(getter: CollationIndexable.collationString)
+          let section = collation.section(for: contact, collationStringSelector: selector)
+          var contacts = sections[section] as! [Contact]
+          contacts.append(contact)
+          sections[section] = contacts
+      case .failure( let error):
+        print(error.localizedDescription)
+      }
+    })
   }
   
   public func remove(contact: Contact) {
-    // Remove in repository
+    // Remove in repository + Error control
     // REVIEW - If I go to repository for some information can bring back some errors!
-    repository?.delete(contact: contact)
-    let selector = #selector(getter: CollationIndexable.collationString)
-    let section = collation.section(for: contact, collationStringSelector: selector)
-    var contacts = sections[section] as! [Contact]
-    contacts.removeAll { $0 == contact }
-    sections[section] = contacts
+    repository?.delete(contact: contact, completionHandler: { result  in
+      switch result {
+      case .success:
+        let selector = #selector(getter: CollationIndexable.collationString)
+        let section = collation.section(for: contact, collationStringSelector: selector)
+        var contacts = sections[section] as! [Contact]
+        contacts.removeAll { $0 == contact }
+        sections[section] = contacts
+      case.failure(let error):
+        print(error.localizedDescription)
+      }
+    })
+
+    
   }
   
   
   public func update(contact: Contact, editedContact:Contact) {
-    remove(contact: contact)
-    add(contact: editedContact)
+    repository?.update(contact: contact, dataToUpdate: editedContact, completionHandler: { result  in
+      switch result {
+      case .success:
+        print("Pending to upadate...")
+      case.failure(let error):
+        print(error.localizedDescription)
+      }
+    })
+    
   }
   
   public func containsIndexedContact(with text: String) -> Bool {

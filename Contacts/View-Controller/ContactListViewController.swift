@@ -11,9 +11,19 @@ import UIKit
 class ContactListViewController: UITableViewController {
   
   // MARK: - Variables & Constants
- 
-  var contactList = ContactListDataPresenter(Repository.shared.contactsSource)
+  let factory: ContactFactory!
+  let repository: Repository!
+  var contactList: ContactListDataPresenter!
   var imagePicker: ImagePicker?
+  
+  
+  // MARK: - Init
+  required init?(coder: NSCoder) {
+     self.factory = MockFactoryImpl()
+     self.repository = Repository(contactFactory: factory)
+     self.contactList = ContactListDataPresenter(repository)
+     super.init(coder: coder)
+  }
   
   
   // MARK: - Outlets

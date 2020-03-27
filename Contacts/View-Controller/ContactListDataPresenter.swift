@@ -1,4 +1,4 @@
-//
+
 //  ContactListDataPresenter.swift
 //  Contacts
 //
@@ -6,13 +6,13 @@
 //  Copyright © 2020 checastro.com. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class ContactListDataPresenter {
   
   // MARK: - Constants & Var
   
-  let repository : ContactFactory?
+  let repository : Repository
   var indexedContacts: [String:[Contact]] = [:]
   var indexedContactsFiltered : [String:[Contact]] = [:]
   var filter: String?
@@ -20,9 +20,9 @@ class ContactListDataPresenter {
   var deleteSection = false
   
   
-  init(_ repository: ContactFactory) {
+  init(_ repository: Repository) {
     self.repository = repository
-    mapToDictionary(contacts: repository.contacts)
+    mapToDictionary(contacts: repository.contactFactory.contacts)
   }
   
   // MARK: - Private functions
@@ -102,7 +102,18 @@ class ContactListDataPresenter {
   }
   
   public func getContactList() -> [Contact] {
-    return repository?.contacts ?? []
+    //TODO thows error and control
+    var contacts: [Contact] = []
+    repository.contactFactory.getContacts { result in
+      // TODO return data inside a closure
+      switch result {
+        case .success(let data):
+        contacts = data
+        case.failure(let error):
+          print(error.localizedDescription)
+      }
+    }
+    return contacts
   }
   
   public func getContact(by indexpath: IndexPath) -> Contact {
@@ -111,7 +122,7 @@ class ContactListDataPresenter {
   }
   
   public func getContacts(by name: String) -> [Contact] {
-    return (repository?.contacts.filter { $0.name.contains(name) })!
+    return getContactList().filter { $0.name.contains(name) }
   }
   
   public func getIndexPath(from contact: Contact) -> IndexPath {
@@ -126,37 +137,66 @@ class ContactListDataPresenter {
   }
   
   public func add(contact: Contact) {
-    // Add to Repository
-    repository?.add(contact: contact)
-    // REVIEW - If I go to repository for some information can bring back some errors!
-    insertIndexed(contact: contact)
+    // Add to Repository with error control
+    repository.contactFactory.add(contact: contact) { result in
+      switch result {
+      case .success:
+        insertIndexed(contact: contact)
+      case .failure(let error):
+        print(error.localizedDescription)
+      }
+    }
+  
+    
   }
   
   public func remove(contact: Contact) {
-    // Remove in repository
-    // REVIEW - If I go to repository for some information can bring back some errors!
-    repository?.delete(contact: contact)
-    
-    // Update presenter
-    //key
-    let key = String(contact.name.prefix(1))
-    
-    var contacts = self.indexedContacts[key]!
-    if contacts.count == 1 {
-      deleteSection = true
-      indexedContacts.removeValue(forKey: key)
-    } else {
-      let index = contacts.firstIndex(of: contact)!
-      contacts.remove(at: index)
-      self.indexedContacts[key] = contacts
+    // Remove in repository with error control
+    repository.contactFactory.delete(contact: contact) { result in
+      switch result {
+      case .success:
+        // Update presenter
+        //key
+        let key = String(contact.name.prefix(1))
+        
+        var contacts = self.indexedContacts[key]!
+        if contacts.count == 1 {
+          deleteSection = true
+          indexedContacts.removeValue(forKey: key)
+        } else {
+          let index = contacts.firstIndex(of: contact)!
+          contacts.remove(at: index)
+          self.indexedContacts[key] = contacts
+        }
+      case .failure(let error):
+        print(error.localizedDescription)
+      }
     }
     
   }
   
 
   public func update(contact: Contact, editedContact:Contact) {
-    remove(contact: contact)
-    add(contact: editedContact)
+    repository.contactFactory.update(contact: contact, dataToUpdate: editedContact) { result in
+      switch result {
+      case .success:
+        // Update presenter
+               //key
+               let key = String(contact.name.prefix(1))
+               
+               var contacts = self.indexedContacts[key]!
+               if contacts.count == 1 {
+                 deleteSection = true
+                 indexedContacts.removeValue(forKey: key)
+               } else {
+                 let index = contacts.firstIndex(of: contact)!
+                 contacts.remove(at: index)
+                 self.indexedContacts[key] = contacts
+               }
+      case .failure(let error):
+        print(error.localizedDescription)
+      }
+    }
   }
   
   public func containsIndexedContact(with text: String) -> Bool {
