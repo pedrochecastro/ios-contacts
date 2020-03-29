@@ -19,10 +19,11 @@ class ContactListViewController: UITableViewController {
   
   // MARK: - Init
   required init?(coder: NSCoder) {
-     self.factory = MockFactoryImpl()
-     self.repository = Repository(contactFactory: factory)
-     self.contactList = ContactListDataPresenter(repository)
-     super.init(coder: coder)
+    
+    self.factory = MockFactoryImpl()
+    self.repository = Repository(contactFactory: factory)
+    self.contactList = ContactListDataPresenter(repository)
+    super.init(coder: coder)
   }
   
   
@@ -41,6 +42,13 @@ class ContactListViewController: UITableViewController {
         // UI
         navigationController?.navigationBar.prefersLargeTitles = true
       
+      //Spinner
+      //GetContacts
+      DispatchQueue.global().async {
+        self.contactList.indexedContacts
+      }
+      
+        
       
     }
   

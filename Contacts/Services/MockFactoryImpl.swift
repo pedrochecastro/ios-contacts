@@ -74,7 +74,7 @@ final class MockFactoryImpl : ContactFactory {
   
   func getContactsWithDelay() -> [Contact] {
     //Delay
-    sleep(3)
+//    sleep(3)
           return [Contact(name: "Abigail", phoneNumber: "123123123"),
                   Contact(name: "Steve Jobs", phoneNumber: "123123123"),
                   Contact(name: "Bill Gates", phoneNumber: "+123123123"),

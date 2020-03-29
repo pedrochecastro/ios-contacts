@@ -10,11 +10,14 @@ import Foundation
 
 class ContactListDataPresenter {
   
+  // MARK: - TypeDef
+  typealias ContactIndexed = [String:[Contact]]
+  
   // MARK: - Constants & Var
   
   let repository : Repository
-  var indexedContacts: [String:[Contact]] = [:]
-  var indexedContactsFiltered : [String:[Contact]] = [:]
+  var indexedContacts: ContactIndexed = [:]
+  var indexedContactsFiltered : ContactIndexed = [:]
   var filter: String?
   var updateSection = false
   var deleteSection = false
@@ -22,35 +25,40 @@ class ContactListDataPresenter {
   
   init(_ repository: Repository) {
     self.repository = repository
-    mapToDictionary(contacts: repository.contactFactory.contacts)
   }
   
   // MARK: - Private functions
   
-  private func mapToDictionary(contacts: [Contact])  {
+  private func mapToDictionary(contacts: [Contact]) -> ContactIndexed {
+    
+    var ci = ContactIndexed()
     
     contacts.forEach {
       insertIndexed(contact: $0)
       updateSection = false
     }
-  }
-  
-  private func insertIndexed(contact: Contact) {
-    let key = String(contact.name.prefix(1))
-    if !sectionsTitlesHeader().contains(key) {
-      updateSection = true
+    
+    func insertIndexed(contact: Contact) {
+      let key = String(contact.name.prefix(1))
+      if !sectionsTitlesHeader().contains(key) {
+        updateSection = true
+      }
+      
+      if var contacts = ci[key] {
+        contacts.append(contact)
+        ci[key] = contacts.sorted()
+      }
+      else {
+        var contacts = [Contact]()
+        contacts.append(contact)
+        ci[key] = contacts
+      }
     }
     
-    if var contacts = indexedContacts[key] {
-      contacts.append(contact)
-      self.indexedContacts[key] = contacts.sorted()
-    }
-    else {
-      var contacts = [Contact]()
-      contacts.append(contact)
-      indexedContacts[key] = contacts
-    }
+    return ci
   }
+  
+  
   
   private func retrieveIndexedContact(words: String) -> [Contact] {
     return indexedContacts.reduce([Contact]()) {
@@ -65,7 +73,6 @@ class ContactListDataPresenter {
   
   public func sectionsTitlesHeader() -> [String] {
 
-//    self.indexedContactsFiltered = self.indexedContacts
     if let filter = filter {
           let contactsFounded = retrieveIndexedContact(words: filter)
           if contactsFounded.isEmpty {
@@ -101,21 +108,6 @@ class ContactListDataPresenter {
     }
   }
   
-  public func getContactList() -> [Contact] {
-    //TODO thows error and control
-    var contacts: [Contact] = []
-    repository.contactFactory.getContacts { result in
-      // TODO return data inside a closure
-      switch result {
-        case .success(let data):
-        contacts = data
-        case.failure(let error):
-          print(error.localizedDescription)
-      }
-    }
-    return contacts
-  }
-  
   public func getContact(by indexpath: IndexPath) -> Contact {
     let contacts = getContactList(by: indexpath.section)
     return contacts[indexpath.row]
@@ -136,17 +128,34 @@ class ContactListDataPresenter {
     return IndexPath(row: row, section: section)
   }
   
-  public func add(contact: Contact) {
-    // Add to Repository with error control
-    repository.contactFactory.add(contact: contact) { result in
+  // MARK: - Repository
+  public func getContactList() -> [Contact] {
+    //TODO thows error and control
+    var contacts: [Contact] = []
+    repository.contactFactory.getContacts { result in
+      // TODO return data inside a closure
       switch result {
-      case .success:
-        insertIndexed(contact: contact)
-      case .failure(let error):
-        print(error.localizedDescription)
+        case .success(let data):
+        contacts = data
+        case.failure(let error):
+          print(error.localizedDescription)
       }
     }
+    return contacts
+  }
   
+  
+  public func add(contact: Contact) {
+////     Add to Repository with error control Fail
+//    repository.contactFactory.add(contact: contact) { result in
+//      switch result {
+//      case .success:
+//        insertIndexed(contact: contact)
+//      case .failure(let error):
+//        print(error.localizedDescription)
+//      }
+//    }
+//
     
   }
   
