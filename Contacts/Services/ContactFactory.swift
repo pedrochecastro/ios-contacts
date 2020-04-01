@@ -20,7 +20,7 @@ enum ContactFactoryError: Error {
 protocol ContactFactory {
   
   var contacts : [Contact] {get set}
-  func getContacts(completionHandler: (Result<[Contact], Error>) -> Void)
+  func getContacts(completionHandler: @escaping (Result<[Contact], Error>) -> Void)
   func add(contact: Contact, completionHandler: (Result<Bool, Error>) -> Void)
   func delete(contact: Contact,  completionHandler: (Result<Bool, Error>) -> Void)
   func update(contact: Contact, dataToUpdate: Contact, completionHandler: (Result<Bool,Error>) -> Void)

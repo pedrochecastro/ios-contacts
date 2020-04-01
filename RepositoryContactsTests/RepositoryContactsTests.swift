@@ -7,27 +7,61 @@
 //
 
 import XCTest
+@testable import Contacts
 
 class RepositoryContactsTests: XCTestCase {
+  
+  var contactFactory: ContactFactory!
+  var repository: Repository!
+  
+  var resData: (Result<[Contact],Error>)? = nil
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+  override func setUp() {
+    self.contactFactory = MockFactoryImpl()
+    self.repository = Repository(contactFactory: self.contactFactory)
+  }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+  override class func tearDown() {
+    
+  }
+  
+  func testRepositoryIsEmpty() {
+    
+    let expectation = self.expectation(description: "Result has Contacts")
+    repository.contactFactory.getContacts { result in
+      self.resData = result
+      expectation.fulfill()
+      switch(result) {
+      case .success(let contacts):
+        XCTAssertTrue(contacts.isEmpty, "Is not empty")
+      case .failure(let error):
+        XCTAssertNotNil(error, "Error")
+      }
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+    // Wait for the expectation to be fullfilled, or time out
+    // after 5 seconds. This is where the test runner will pause.
+    waitForExpectations(timeout: 2, handler: nil)
+    
+    XCTAssertNotNil(resData, "No data recived")
+  }
+  
+  
+  func testAddContactToRepository() {
+    
+    
+  }
+  
+  func testDeleteContactFromRepository () {
+    
+  }
+  
+  func testGetContactFromRepository() {
+    
+  }
+  
+  func testUpdateContact() {
+    
+  }
+    
 
 }
