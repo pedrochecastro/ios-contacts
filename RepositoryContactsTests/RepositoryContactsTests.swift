@@ -48,9 +48,41 @@ class RepositoryContactsTests: XCTestCase {
   
   func testAddContactToRepository() {
     
+    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+    let exp1 = self.expectation(description: "Contact added")
+    let exp2 = self.expectation(description: "There are contacts")
+
+  
+    repository.contactFactory.add(contact: contact) { result in
+      switch result {
+      case .success:
+        print("Repositorytests contact added")
+        exp1.fulfill()
+      case .failure:
+        print("Error")
+      }
+    }
+    
+    repository.contactFactory.getContacts { result in
+      self.resData = result
+      switch(result) {
+      case .success(let contacts):
+        exp2.fulfill()
+        XCTAssertTrue(contacts.count == 1, "There is no one contact as expected")
+      case .failure(let error):
+        XCTAssertNotNil(error, "Error")
+      }
+    }
+    
+    wait(for: [exp1,exp2], timeout: 2)
+    
     
   }
   
+  func testAddDuplicatedContact() {
+    
+  }
+    
   func testDeleteContactFromRepository () {
     
   }

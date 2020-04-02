@@ -53,7 +53,7 @@ final class MockFactoryImpl : ContactFactory {
       return
     }
     
-    contacts.append(contact)
+    fakeContacts.append(contact)
     completionHandler(.success(true))
   }
   
