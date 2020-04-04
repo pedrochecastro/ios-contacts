@@ -52,6 +52,10 @@ final class MockFactoryImpl : ContactFactory {
       completionHandler(.failure(ContactFactoryError.insertError(message:"Insert Error")))
       return
     }
+    if  fakeContacts.contains(contact) {
+      completionHandler(.failure(ContactFactoryError.duplicated(message: "Duplicated contact")))
+      return
+    }
     
     fakeContacts.append(contact)
     completionHandler(.success(true))

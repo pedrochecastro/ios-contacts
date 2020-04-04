@@ -49,8 +49,8 @@ class RepositoryContactsTests: XCTestCase {
   func testAddContactToRepository() {
     
     let contact = Contact(name: "Abigail", phoneNumber: "123123123")
-    let exp1 = self.expectation(description: "Contact added")
-    let exp2 = self.expectation(description: "There are contacts")
+    let exp1 = self.expectation(description: "Result complete. Contact Added.")
+    let exp2 = self.expectation(description: "Result complete. There are contacts")
 
   
     repository.contactFactory.add(contact: contact) { result in
@@ -80,6 +80,45 @@ class RepositoryContactsTests: XCTestCase {
   }
   
   func testAddDuplicatedContact() {
+     let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+    
+      let exp1 = self.expectation(description: "Result complete. Contact Added.")
+      let exp2 = self.expectation(description: "Result complete. Error Dupliccated contact")
+      let exp3 = self.expectation(description: "Result complete. Just one contact")
+
+    
+      repository.contactFactory.add(contact: contact) { result in
+        switch result {
+        case .success:
+          print("Repositorytests contact added")
+          exp1.fulfill()
+        case .failure(let error):
+          print(">>>>>>> Error: \(error.localizedDescription)")
+        }
+      }
+    
+      repository.contactFactory.add(contact: contact) { result in
+        switch result {
+        case .success:
+          print("Repositorytests contact added")
+        case .failure(let error):
+          exp2.fulfill()
+          print("Error \(error.localizedDescription)")
+        }
+      }
+      
+      repository.contactFactory.getContacts { result in
+        self.resData = result
+        switch(result) {
+        case .success(let contacts):
+          exp3.fulfill()
+          XCTAssertTrue(contacts.count == 1, "There is no one contact as expected. There are \(contacts.count)")
+        case .failure(let error):
+          XCTAssertNotNil(error, "Error")
+        }
+      }
+      
+      wait(for: [exp1,exp2,exp3], timeout: 6)
     
   }
     
@@ -92,6 +131,10 @@ class RepositoryContactsTests: XCTestCase {
   }
   
   func testUpdateContact() {
+    
+  }
+  
+  func testContactPropertyToGetContacts(){
     
   }
     
