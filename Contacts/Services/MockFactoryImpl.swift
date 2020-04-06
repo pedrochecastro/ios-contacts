@@ -62,10 +62,10 @@ final class MockFactoryImpl : ContactFactory {
   }
   
   func delete(contact: Contact, completionHandler: (Result<Bool, Error>) -> Void) {
-    guard let i = contacts.firstIndex(of: contact) else {
+    guard let i = fakeContacts.firstIndex(of: contact) else {
       completionHandler(.failure(ContactFactoryError.notFound(message: "Contact was't found")))
       return}
-    contacts.remove(at: i)
+    fakeContacts.remove(at: i)
     completionHandler(.success(true))
   }
   

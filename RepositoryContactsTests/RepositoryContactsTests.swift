@@ -124,6 +124,44 @@ class RepositoryContactsTests: XCTestCase {
     
   func testDeleteContactFromRepository () {
     
+    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+
+    let exp1 = self.expectation(description: "Result complete. Contact Added.")
+    let exp2 = self.expectation(description: "Result complete. Contact Deleted")
+    let exp3 = self.expectation(description: "Result complete. It's empty")
+
+    repository.contactFactory.add(contact: contact) { result in
+      switch result {
+      case .success:
+        exp1.fulfill()
+        print("Contact added" )
+      case .failure(let error):
+        print(">>>>>>> Error: \(error.localizedDescription)")
+      }
+    }
+    
+    repository.contactFactory.delete(contact: contact) { result in
+      switch result {
+      case .success:
+        exp2.fulfill()
+        print("Contact Deleted" )
+      case .failure(let error):
+        print(">>>>>>> Error: \(error.localizedDescription)")
+      }
+    }
+    
+    repository.contactFactory.getContacts { result in
+      self.resData = result
+      switch(result) {
+      case .success(let contacts):
+        exp3.fulfill()
+        XCTAssertTrue(contacts.isEmpty,"Must be empty!. There are \(contacts.count)")
+      case .failure(let error):
+        XCTAssertNotNil(error, "Error")
+      }
+    }
+    wait(for: [exp1,exp2,exp3], timeout: 6)
+
   }
   
   func testGetContactFromRepository() {
