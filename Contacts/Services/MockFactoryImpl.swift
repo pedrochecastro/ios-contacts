@@ -73,7 +73,7 @@ final class MockFactoryImpl : ContactFactory {
     delete(contact: contact) { result in
       switch result {
       case .success:
-        add(contact: contact) { result in
+        add(contact: dataToUpdate) { result in
           switch result {
           case .success:
             completionHandler(.success(true))

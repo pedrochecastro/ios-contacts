@@ -208,7 +208,43 @@ class RepositoryContactsTests: XCTestCase {
   }
   
   func testUpdateContact() {
+    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+    let newData = Contact(name: "Abigail", phoneNumber: "7887787873")
+    let exp1 = self.expectation(description: "Result complete. Contact Added.")
+    let exp2 = self.expectation(description: "Result complete. Contact Updated")
+    let exp3 = self.expectation(description: "Result complete. Contact has data updated")
     
+    repository.contactFactory.add(contact: contact) { result in
+      switch result {
+      case .success:
+        exp1.fulfill()
+        print("Contact added" )
+      case .failure(let error):
+        print(">>>>>>> Error: \(error.localizedDescription)")
+      }
+    }
+    
+    repository.contactFactory.update(contact: contact, dataToUpdate: newData ) { result in
+      switch result {
+      case .success:
+        exp2.fulfill()
+        print("Contact Updated" )
+      case .failure(let error):
+        print(">>>>>>> Error: \(error.localizedDescription)")
+      }
+    }
+    
+    repository.contactFactory.getContacts { result in
+      self.resData = result
+      switch(result) {
+      case .success(let contacts):
+        exp3.fulfill()
+        XCTAssertTrue(newData == contacts[0],"Must be equal!. There are \(contacts.count)")
+      case .failure(let error):
+        XCTAssertNotNil(error, "Error")
+      }
+    }
+    wait(for: [exp1,exp2,exp3], timeout: 6)
     
   }
   
