@@ -3,4 +3,54 @@
    uuid = "3F8D8D75-507D-497F-87CA-60EA6D0F1B98"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1F957BC0-F2A6-4CCD-B2F3-2A0FB033FA99"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RepositoryContactsTests/RepositoryContactsTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "testAddDuplicatedContact()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1F957BC0-F2A6-4CCD-B2F3-2A0FB033FA99 - 2ca429072f4ae533"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RepositoryContactsTests.RepositoryContactsTests.testAddDuplicatedContact() -&gt; ()"
+                  moduleName = "RepositoryContactsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pedrosa/Local/Contacts/Contacts/RepositoryContactsTests/RepositoryContactsTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "649">
+               </Location>
+               <Location
+                  uuid = "1F957BC0-F2A6-4CCD-B2F3-2A0FB033FA99 - 49570d30a93795fa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Bool, Swift.Error&gt;) -&gt; () in RepositoryContactsTests.RepositoryContactsTests.testAddDuplicatedContact() -&gt; ()"
+                  moduleName = "RepositoryContactsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pedrosa/Local/Contacts/Contacts/RepositoryContactsTests/RepositoryContactsTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "178">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

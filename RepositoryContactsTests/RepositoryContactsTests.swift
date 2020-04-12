@@ -17,7 +17,7 @@ class RepositoryContactsTests: XCTestCase {
   var resData: (Result<[Contact],Error>)? = nil
 
   override func setUp() {
-    self.contactFactory = MockFactoryImpl()
+    self.contactFactory = CoreDataFactory()
     self.repository = Repository(contactFactory: self.contactFactory)
   }
 
@@ -33,7 +33,7 @@ class RepositoryContactsTests: XCTestCase {
       expectation.fulfill()
       switch(result) {
       case .success(let contacts):
-        XCTAssertTrue(contacts.isEmpty, "Is not empty")
+        XCTAssertTrue(contacts.isEmpty, "Is not empty \(contacts.count)")
       case .failure(let error):
         XCTAssertNotNil(error, "Error")
       }
@@ -101,6 +101,7 @@ class RepositoryContactsTests: XCTestCase {
         switch result {
         case .success:
           print("Repositorytests contact added")
+          exp2.fulfill()
         case .failure(let error):
           exp2.fulfill()
           print("Error \(error.localizedDescription)")
@@ -111,14 +112,14 @@ class RepositoryContactsTests: XCTestCase {
         self.resData = result
         switch(result) {
         case .success(let contacts):
+           XCTAssertTrue(contacts.count == 1, "There is no one contact as expected. There are \(contacts.count)")
           exp3.fulfill()
-          XCTAssertTrue(contacts.count == 1, "There is no one contact as expected. There are \(contacts.count)")
         case .failure(let error):
           XCTAssertNotNil(error, "Error")
         }
       }
       
-      wait(for: [exp1,exp2,exp3], timeout: 6)
+      wait(for: [exp1,exp2,exp3], timeout: 10)
     
   }
     
@@ -245,7 +246,29 @@ class RepositoryContactsTests: XCTestCase {
       }
     }
     wait(for: [exp1,exp2,exp3], timeout: 6)
-    
   }
     
 }
+
+// Contacts for testing
+//      return [Contact(name: "Abigail", phoneNumber: "123123123"),
+//              Contact(name: "Steve Jobs", phoneNumber: "123123123"),
+//              Contact(name: "Bill Gates", phoneNumber: "+123123123"),
+//              Contact(name: "Sundar Pichay", phoneNumber: "123123123"),
+//              Contact(name: "Larry Page", phoneNumber: "+123123123"),
+//              Contact(name: "Elon Musk", phoneNumber: "+43987654878"),
+//              Contact(name: "Satia Nadella", phoneNumber: "+43789578943"),
+//              Contact(name: "Joan Boluda", phoneNumber: "+43789578943"),
+//              Contact(name: "Carl Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Kasy Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Lois Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Mark Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Crista Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Sofi Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Gerard Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Jaimi Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Tyrion Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Daniel Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Fakir Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Holi Jobs", phoneNumber: "+43987654878"),
+//              Contact(name: "Nadia Jobs", phoneNumber: "+43987654878"),

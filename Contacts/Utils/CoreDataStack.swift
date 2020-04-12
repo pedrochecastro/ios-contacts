@@ -21,6 +21,16 @@ public class CoreDataStack {
     self.context = container.viewContext
     self.model = container.managedObjectModel
     self.psc = container.persistentStoreCoordinator
+    
+    //Delete all entities if exists
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ContactCD")
+    let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+    
+    do {
+     try context.executeAndMergeChanges(using: batchDeleteRequest)
+    } catch {
+      print("##### Error deleting:\(error.localizedDescription)")
+    }
   }
   
 }
@@ -39,4 +49,18 @@ public func hwContainer(name: String) -> NSPersistentContainer {
   })
   
   return container
+}
+
+extension NSManagedObjectContext {
+    
+    /// Executes the given `NSBatchDeleteRequest` and directly merges the changes to bring the given managed object context up to date.
+    ///
+    /// - Parameter batchDeleteRequest: The `NSBatchDeleteRequest` to execute.
+    /// - Throws: An error if anything went wrong executing the batch deletion.
+    public func executeAndMergeChanges(using batchDeleteRequest: NSBatchDeleteRequest) throws {
+        batchDeleteRequest.resultType = .resultTypeObjectIDs
+        let result = try execute(batchDeleteRequest) as? NSBatchDeleteResult
+        let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
+    }
 }
