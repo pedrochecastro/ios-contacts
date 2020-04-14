@@ -13,7 +13,7 @@ class ContactListViewController: UITableViewController {
   // MARK: - Variables & Constants
   let factory: ContactFactory!
   let repository: Repository!
-  var contactList: ContactListDataPresenter!
+  var contactList: ContactListPresenterImpl!
   var imagePicker: ImagePicker?
   
   
@@ -22,7 +22,7 @@ class ContactListViewController: UITableViewController {
     
     self.factory = MockFactoryImpl()
     self.repository = Repository(contactFactory: factory)
-    self.contactList = ContactListDataPresenter(repository)
+    self.contactList = ContactListPresenterImpl(repository)
     super.init(coder: coder)
   }
   
@@ -47,8 +47,6 @@ class ContactListViewController: UITableViewController {
       DispatchQueue.global().async {
         self.contactList.indexedContacts
       }
-      
-        
       
     }
   

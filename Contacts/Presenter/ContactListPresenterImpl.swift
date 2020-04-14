@@ -8,8 +8,24 @@
 
 import Foundation
 
-class ContactListDataPresenter {
+protocol ContactListPresenter: class {
+  // Input
+  func numberOfSections() -> Int
+  func numberOfRowsIn() -> Int
+  func titleForHeaderIn(section: Int) -> String
+  func contactsBy(section: Int) -> [Contact]
+  func contactsBy(indexPath: IndexPath) -> [Contact]
+  func add(contact: Contact, completion: Result<Int, Error>)
+  func remove(contact: Contact, completion: Result<Int, Error>)
+  func update(contact: Contact,newContact:Contact, completion: Result<[Contact],Error>)
+  // Output
   
+}
+
+class ContactListPresenterImpl: ContactListPresenter {
+ 
+
+
   // MARK: - TypeDef
   typealias ContactIndexed = [String:[Contact]]
   
@@ -26,8 +42,11 @@ class ContactListDataPresenter {
   init(_ repository: Repository) {
     self.repository = repository
   }
+
+  
   
   // MARK: - Private functions
+  
   
   private func mapToDictionary(contacts: [Contact]) -> ContactIndexed {
     
@@ -66,6 +85,40 @@ class ContactListDataPresenter {
     }
       .filter {$0.name.contains(words) }
   }
+  
+  // MARK: - Protocol implementation
+   func numberOfSections() -> Int {
+    return indexedContacts.keys.count
+   }
+   
+   func numberOfRowsIn() -> Int {
+     return -1
+   }
+   
+   func titleForHeaderIn(section: Int) -> String {
+     return ""
+   }
+   
+   func contactsBy(section: Int) -> [Contact] {
+     return []
+   }
+   
+   func contactsBy(indexPath: IndexPath) -> [Contact] {
+     return []
+   }
+   
+   func add(contact: Contact, completion: Result<Int, Error>) {
+     
+   }
+   
+   func remove(contact: Contact, completion: Result<Int, Error>) {
+     
+   }
+   
+   func update(contact: Contact, newContact: Contact, completion: Result<[Contact], Error>) {
+     
+   }
+  
   
  
   

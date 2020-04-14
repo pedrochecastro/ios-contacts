@@ -9,7 +9,11 @@ import Foundation
 
 
 
-final class MockFactoryImpl : ContactFactory {
+final class MockFactoryImpl : ContactFactory { //1.) Insert Output protocol for updating
+  
+  //2.) Delegate trow protocol, with closures better
+  // weak var delegate: ContactListPresenter
+  
   
   //Faking contacts with this property
   private var fakeContacts: [Contact] = []
@@ -28,6 +32,7 @@ final class MockFactoryImpl : ContactFactory {
       
       // Get the data parsing...
       // No contacts
+      // 3.) En el completion pasa el closure a traves del protocolo. Modificar el completion
       completionHandler(.success(self.fakeContacts))
     }
   }

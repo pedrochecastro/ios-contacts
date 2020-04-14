@@ -17,7 +17,7 @@ class RepositoryContactsTests: XCTestCase {
   var resData: (Result<[Contact],Error>)? = nil
 
   override func setUp() {
-    self.contactFactory = CoreDataFactory()
+    self.contactFactory = MockFactoryImpl()
     self.repository = Repository(contactFactory: self.contactFactory)
   }
 

@@ -32,8 +32,8 @@ class Contact {
 
 extension Contact : Comparable {
     static func == (lhs: Contact, rhs: Contact) -> Bool {
-      return lhs.name == rhs.name &&
-        lhs.phoneNumber == rhs.phoneNumber
+      return lhs.name == rhs.name
+//              && lhs.phoneNumber == rhs.phoneNumber
     }
   
     static func < (lhs: Contact, rhs: Contact) -> Bool {
