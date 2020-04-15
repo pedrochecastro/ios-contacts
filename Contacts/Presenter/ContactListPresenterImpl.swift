@@ -15,7 +15,7 @@ protocol ContactListPresenter: class {
   func titleForHeaderIn(section: Int) -> String
   func contactsBy(section: Int) -> [Contact]
   func contactsBy(indexPath: IndexPath) -> [Contact]
-  func add(contact: Contact, completion: Result<Int, Error>)
+  func add(contact: Contact, completion: (Result<Bool, Error>) -> Void)
   func remove(contact: Contact, completion: Result<Int, Error>)
   func update(contact: Contact,newContact:Contact, completion: Result<[Contact],Error>)
   // Output
@@ -90,6 +90,20 @@ class ContactListPresenterImpl: ContactListPresenter {
    func numberOfSections() -> Int {
     return indexedContacts.keys.count
    }
+  
+  func add(contact: Contact, completion: (Result<Bool, Error>) -> Void) {
+    repository.contactFactory.add(contact: contact) { result in
+      switch result {
+      case .success(let ok):
+        // Update indexedContacts
+        insertIndexed(contact: contact)
+        //Completion
+        completion(.success(ok))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
    
    func numberOfRowsIn() -> Int {
      return -1
@@ -107,9 +121,7 @@ class ContactListPresenterImpl: ContactListPresenter {
      return []
    }
    
-   func add(contact: Contact, completion: Result<Int, Error>) {
-     
-   }
+   
    
    func remove(contact: Contact, completion: Result<Int, Error>) {
      
@@ -269,6 +281,24 @@ class ContactListPresenterImpl: ContactListPresenter {
   public func removeFilter() {
     filter = nil
     self.indexedContactsFiltered = [:]
+  }
+  
+  func insertIndexed(contact: Contact) {
+    
+    let key = String(contact.name.prefix(1))
+    if !sectionsTitlesHeader().contains(key) {
+      updateSection = true
+    }
+    
+    if var contacts = indexedContacts[key] {
+      contacts.append(contact)
+      indexedContacts[key] = contacts.sorted()
+    }
+    else {
+      var contacts = [Contact]()
+      contacts.append(contact)
+      indexedContacts[key] = contacts
+    }
   }
 }
 

@@ -14,6 +14,7 @@ class ContactListPresenterTest: XCTestCase {
   var contactFactory: ContactFactory!
   var repository: Repository!
   var contactListPresenter: ContactListPresenter!
+  var contacts : [Contact] = []
   
   override func setUp() {
     self.contactFactory = MockFactoryImpl()
@@ -22,6 +23,23 @@ class ContactListPresenterTest: XCTestCase {
   }
 
   func testAddContact() {
+    let exp = self.expectation(description: "Update with closure")
+    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+    contactListPresenter.add(contact: contact) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+        self.contacts.append(contact)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp.fulfill()
+    }
+    
+    waitForExpectations(timeout: 1, handler: nil)
+    
+    XCTAssert(contacts.count == 1, "Numbers of Contacts should be updated to 1")
+  }
 
   
   func testNumberOfSections() {
