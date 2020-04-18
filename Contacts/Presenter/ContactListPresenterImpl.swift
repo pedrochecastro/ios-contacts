@@ -11,7 +11,7 @@ import Foundation
 protocol ContactListPresenter: class {
   // Input
   func numberOfSections() -> Int
-  func numberOfRowsIn() -> Int
+  func numberOfRowsIn(section: Int) -> Int
   func titleForHeaderIn(section: Int) -> String
   func contactsBy(section: Int) -> [Contact]
   func contactsBy(indexPath: IndexPath) -> [Contact]
@@ -23,9 +23,6 @@ protocol ContactListPresenter: class {
 }
 
 class ContactListPresenterImpl: ContactListPresenter {
- 
-
-
   // MARK: - TypeDef
   typealias ContactIndexed = [String:[Contact]]
   
@@ -105,8 +102,13 @@ class ContactListPresenterImpl: ContactListPresenter {
     }
   }
    
-   func numberOfRowsIn() -> Int {
-     return -1
+  func numberOfRowsIn(section: Int) -> Int {
+    
+    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
+    let key = keysSorted[section]
+    guard let contactsInSection = indexedContacts[key] else { return -1 } //Error must be handle
+    return contactsInSection.count
+    
    }
    
    func titleForHeaderIn(section: Int) -> String {

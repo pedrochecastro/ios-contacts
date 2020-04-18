@@ -47,10 +47,43 @@ class ContactListPresenterTest: XCTestCase {
   }
   
   func testNumberOfRowsIn() {
+    let exp1 = self.expectation(description: "Update with closure")
+    let contact1 = Contact(name: "Abigail", phoneNumber: "123123123")
+    
+    let exp2 = self.expectation(description: "Update with closure")
+    let contact2 = Contact(name: "Antoine", phoneNumber: "123123123")
+    
+    contactListPresenter.add(contact: contact1) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+        self.contacts.append(contact1)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp1.fulfill()
+    }
+    
+    contactListPresenter.add(contact: contact2) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+        self.contacts.append(contact1)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp2.fulfill()
+      
+      wait(for: [exp1,exp2], timeout: 1)
+      
+      XCTAssert(contactListPresenter.numberOfRowsIn(section: 0) == 2)
+    }
+    
     
   }
   
   func testTitleForHeaderIn() {
+    
     
   }
   
