@@ -22,25 +22,6 @@ class ContactListPresenterTest: XCTestCase {
     self.contactListPresenter = ContactListPresenterImpl(repository)
   }
 
-  func testAddContact() {
-    let exp = self.expectation(description: "Update with closure")
-    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
-    contactListPresenter.add(contact: contact) { result in
-      switch result {
-      case .success:
-        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
-        self.contacts.append(contact)
-      case .failure:
-        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
-      }
-      exp.fulfill()
-    }
-    
-    waitForExpectations(timeout: 1, handler: nil)
-    
-    XCTAssert(contacts.count == 1, "Numbers of Contacts should be updated to 1")
-  }
-
   
   func testNumberOfSections() {
     XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
@@ -83,7 +64,21 @@ class ContactListPresenterTest: XCTestCase {
   }
   
   func testTitleForHeaderIn() {
+    let exp1 = self.expectation(description: "Contact added")
+    let contact1 = Contact(name: "Bogan", phoneNumber: "123123123")
+    contactListPresenter.add(contact: contact1) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+        self.contacts.append(contact1)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp1.fulfill()
+    }
+     wait(for: [exp1], timeout: 1)
     
+    XCTAssert(contactListPresenter.titleForHeaderIn(section: 0) == "B")
     
   }
   
@@ -95,18 +90,31 @@ class ContactListPresenterTest: XCTestCase {
     
   }
   
-  // Helper functions
-  func addContactToRepository() {
-    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
-    repository.contactFactory.add(contact: contact) { result in
-      switch result {
-      case .success:
-        print("Repositorytests contact added")
-      case .failure:
-        print("Error")
-        XCTAssert(false, "There was a promblem adding to repository")
-      }
-    }
+  func testAddContact() {
+     let exp = self.expectation(description: "Update with closure")
+     let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+     contactListPresenter.add(contact: contact) { result in
+       switch result {
+       case .success:
+         XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+         self.contacts.append(contact)
+       case .failure:
+         XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+       }
+       exp.fulfill()
+     }
+     
+     waitForExpectations(timeout: 1, handler: nil)
+     
+     XCTAssert(contacts.count == 1, "Numbers of Contacts should be updated to 1")
+   }
+  
+  func testRemoveContact() {
+    
+  }
+  
+  func testUpdateContact() {
+    
   }
 
 }

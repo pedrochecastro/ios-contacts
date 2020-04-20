@@ -112,7 +112,9 @@ class ContactListPresenterImpl: ContactListPresenter {
    }
    
    func titleForHeaderIn(section: Int) -> String {
-     return ""
+    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
+    guard let titleForHeader = keysSorted.first else { return "Error"} //Error must be handle
+    return titleForHeader
    }
    
    func contactsBy(section: Int) -> [Contact] {
