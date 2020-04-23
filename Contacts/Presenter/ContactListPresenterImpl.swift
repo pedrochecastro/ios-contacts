@@ -118,7 +118,10 @@ class ContactListPresenterImpl: ContactListPresenter {
    }
    
    func contactsBy(section: Int) -> [Contact] {
-     return []
+    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
+    let key = keysSorted[section]
+    guard let contactsInSection = indexedContacts[key] else { return [] } //Error must be handle
+     return contactsInSection
    }
    
    func contactsBy(indexPath: IndexPath) -> [Contact] {
