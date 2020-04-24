@@ -39,7 +39,7 @@ class ContactListPresenterImpl: ContactListPresenter {
   init(_ repository: Repository) {
     self.repository = repository
   }
-
+  
   
   
   // MARK: - Private functions
@@ -80,13 +80,13 @@ class ContactListPresenterImpl: ContactListPresenter {
     return indexedContacts.reduce([Contact]()) {
       return $0 + $1.value
     }
-      .filter {$0.name.contains(words) }
+    .filter {$0.name.contains(words) }
   }
   
   // MARK: - Protocol implementation
-   func numberOfSections() -> Int {
+  func numberOfSections() -> Int {
     return indexedContacts.keys.count
-   }
+  }
   
   func add(contact: Contact, completion: (Result<Bool, Error>) -> Void) {
     repository.contactFactory.add(contact: contact) { result in
@@ -101,70 +101,65 @@ class ContactListPresenterImpl: ContactListPresenter {
       }
     }
   }
-   
+  
   func numberOfRowsIn(section: Int) -> Int {
-    
+    return contactsBy(section: section).count
+  }
+  
+  func titleForHeaderIn(section: Int) -> String {
     let keysSorted = Array(indexedContacts.keys).sorted(by: <)
-    let key = keysSorted[section]
-    guard let contactsInSection = indexedContacts[key] else { return -1 } //Error must be handle
-    return contactsInSection.count
-    
-   }
-   
-   func titleForHeaderIn(section: Int) -> String {
-    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
-    guard let titleForHeader = keysSorted.first else { return "Error"} //Error must be handle
+    let titleForHeader = keysSorted[section]
     return titleForHeader
-   }
-   
-   func contactsBy(section: Int) -> [Contact] {
+  }
+  
+  func contactsBy(section: Int) -> [Contact] {
     let keysSorted = Array(indexedContacts.keys).sorted(by: <)
     let key = keysSorted[section]
     guard let contactsInSection = indexedContacts[key] else { return [] } //Error must be handle
-     return contactsInSection
-   }
-   
-   func contactsBy(indexPath: IndexPath) -> [Contact] {
-     return []
-   }
-   
-   
-   
-   func remove(contact: Contact, completion: Result<Int, Error>) {
-     
-   }
-   
-   func update(contact: Contact, newContact: Contact, completion: Result<[Contact], Error>) {
-     
-   }
+    return contactsInSection
+  }
+  
+  func contactsBy(indexPath: IndexPath) -> [Contact] {
+    return []
+  }
   
   
- 
+  
+  func remove(contact: Contact, completion: Result<Int, Error>) {
+    
+  }
+  
+  func update(contact: Contact, newContact: Contact, completion: Result<[Contact], Error>) {
+    
+  }
+  
+  
+  
   
   // MARK: - Public functions
   
   public func sectionsTitlesHeader() -> [String] {
-
+    
     if let filter = filter {
-          let contactsFounded = retrieveIndexedContact(words: filter)
-          if contactsFounded.isEmpty {
-            indexedContactsFiltered = [:]
-          } else {
-            indexedContactsFiltered = Dictionary(grouping: contactsFounded) { String($0.name.first!) }
-          }
-       return Array(indexedContactsFiltered.keys).sorted(by: <)
+      let contactsFounded = retrieveIndexedContact(words: filter)
+      if contactsFounded.isEmpty {
+        indexedContactsFiltered = [:]
+      } else {
+        indexedContactsFiltered = Dictionary(grouping: contactsFounded) { String($0.name.first!) }
+      }
+      return Array(indexedContactsFiltered.keys).sorted(by: <)
     }
     return Array(indexedContacts.keys).sorted(by: <)
-   
+    
   }
   
   
   public func getSectionTitle(by section: Int) -> String {
     return sectionsTitlesHeader()[section]
   }
-
+  
   public func getContactList(by section: Int) -> [Contact] {
-
+    
     let key = sectionsTitlesHeader()[section]
     if var contacts = indexedContacts[key] {
       if let filter = filter {
@@ -207,10 +202,10 @@ class ContactListPresenterImpl: ContactListPresenter {
     repository.contactFactory.getContacts { result in
       // TODO return data inside a closure
       switch result {
-        case .success(let data):
+      case .success(let data):
         contacts = data
-        case.failure(let error):
-          print(error.localizedDescription)
+      case.failure(let error):
+        print(error.localizedDescription)
       }
     }
     return contacts
@@ -218,16 +213,16 @@ class ContactListPresenterImpl: ContactListPresenter {
   
   
   public func add(contact: Contact) {
-////     Add to Repository with error control Fail
-//    repository.contactFactory.add(contact: contact) { result in
-//      switch result {
-//      case .success:
-//        insertIndexed(contact: contact)
-//      case .failure(let error):
-//        print(error.localizedDescription)
-//      }
-//    }
-//
+    ////     Add to Repository with error control Fail
+    //    repository.contactFactory.add(contact: contact) { result in
+    //      switch result {
+    //      case .success:
+    //        insertIndexed(contact: contact)
+    //      case .failure(let error):
+    //        print(error.localizedDescription)
+    //      }
+    //    }
+    //
     
   }
   
@@ -256,24 +251,24 @@ class ContactListPresenterImpl: ContactListPresenter {
     
   }
   
-
+  
   public func update(contact: Contact, editedContact:Contact) {
     repository.contactFactory.update(contact: contact, dataToUpdate: editedContact) { result in
       switch result {
       case .success:
         // Update presenter
-               //key
-               let key = String(contact.name.prefix(1))
-               
-               var contacts = self.indexedContacts[key]!
-               if contacts.count == 1 {
-                 deleteSection = true
-                 indexedContacts.removeValue(forKey: key)
-               } else {
-                 let index = contacts.firstIndex(of: contact)!
-                 contacts.remove(at: index)
-                 self.indexedContacts[key] = contacts
-               }
+        //key
+        let key = String(contact.name.prefix(1))
+        
+        var contacts = self.indexedContacts[key]!
+        if contacts.count == 1 {
+          deleteSection = true
+          indexedContacts.removeValue(forKey: key)
+        } else {
+          let index = contacts.firstIndex(of: contact)!
+          contacts.remove(at: index)
+          self.indexedContacts[key] = contacts
+        }
       case .failure(let error):
         print(error.localizedDescription)
       }

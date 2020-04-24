@@ -65,7 +65,10 @@ class ContactListPresenterTest: XCTestCase {
   
   func testTitleForHeaderIn() {
     let exp1 = self.expectation(description: "Contact added")
+    let exp2 = self.expectation(description: "Contact added")
     let contact1 = Contact(name: "Bogan", phoneNumber: "123123123")
+    let contact2 = Contact(name: "Antoine", phoneNumber: "123123123")
+    
     contactListPresenter.add(contact: contact1) { result in
       switch result {
       case .success:
@@ -76,9 +79,21 @@ class ContactListPresenterTest: XCTestCase {
       }
       exp1.fulfill()
     }
-     wait(for: [exp1], timeout: 1)
     
-    XCTAssert(contactListPresenter.titleForHeaderIn(section: 0) == "B")
+    contactListPresenter.add(contact: contact2) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 2, "Numbers of section must be 0")
+        self.contacts.append(contact1)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp2.fulfill()
+    }
+    
+     wait(for: [exp1,exp2], timeout: 1)
+    
+    XCTAssert(contactListPresenter.titleForHeaderIn(section: 0) == "A")
     
   }
   
