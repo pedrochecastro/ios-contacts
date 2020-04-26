@@ -135,6 +135,55 @@ class ContactListPresenterTest: XCTestCase {
   
   func testContactsByIndexPath() {
     
+    let exp1 = self.expectation(description: "Add contact1")
+    let contact1 = Contact(name: "Abigail", phoneNumber: "123123123")
+    
+    let exp2 = self.expectation(description: "Add contact 2")
+    let contact2 = Contact(name: "Caroline", phoneNumber: "123123123")
+    
+    let exp3 = self.expectation(description: "Add contact 3")
+    let contact3 = Contact(name: "Celia", phoneNumber: "123123123")
+    
+    
+    contactListPresenter.add(contact: contact1) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+        self.contacts.append(contact1)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp1.fulfill()
+    }
+    
+    contactListPresenter.add(contact: contact2) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 2, "Numbers of section must be 0")
+        self.contacts.append(contact1)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp2.fulfill()
+    }
+    
+    contactListPresenter.add(contact: contact3) { result in
+         switch result {
+         case .success:
+           XCTAssert(contactListPresenter.numberOfSections() == 2, "Numbers of section must be 0")
+           self.contacts.append(contact1)
+         case .failure:
+           XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+         }
+         exp3.fulfill()
+       }
+    
+      wait(for: [exp1,exp2,exp3], timeout: 1)
+    
+    let indexPath = IndexPath(row: 1, section: 1)
+    let contactsExpected = [contact3]
+    XCTAssert(contactListPresenter.contactsBy(indexPaths: [indexPath]) == contactsExpected, "Differents contacts we expect \(contact3.name).")
+    
   }
   
   func testAddContact() {

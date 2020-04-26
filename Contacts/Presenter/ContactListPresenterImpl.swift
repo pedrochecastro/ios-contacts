@@ -14,7 +14,7 @@ protocol ContactListPresenter: class {
   func numberOfRowsIn(section: Int) -> Int
   func titleForHeaderIn(section: Int) -> String
   func contactsBy(section: Int) -> [Contact]
-  func contactsBy(indexPath: IndexPath) -> [Contact]
+  func contactsBy(indexPaths: [IndexPath]) -> [Contact]
   func add(contact: Contact, completion: (Result<Bool, Error>) -> Void)
   func remove(contact: Contact, completion: Result<Int, Error>)
   func update(contact: Contact,newContact:Contact, completion: Result<[Contact],Error>)
@@ -119,8 +119,16 @@ class ContactListPresenterImpl: ContactListPresenter {
     return contactsInSection
   }
   
-  func contactsBy(indexPath: IndexPath) -> [Contact] {
-    return []
+  func contactsBy(indexPaths: [IndexPath]) -> [Contact] {
+    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
+    var contacts: [Contact] = []
+    indexPaths.forEach { indexPath in
+      let key = keysSorted[indexPath.section]
+      guard let contactsInSection = indexedContacts[key] else { return } //Error must be handle
+      let contact = contactsInSection[indexPath.row]
+      contacts.append(contact)
+    }
+    return contacts
   }
   
   
