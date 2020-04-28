@@ -16,8 +16,8 @@ protocol ContactListPresenter: class {
   func contactsBy(section: Int) -> [Contact]
   func contactsBy(indexPaths: [IndexPath]) -> [Contact]
   func add(contact: Contact, completion: (Result<Bool, Error>) -> Void)
-  func remove(contact: Contact, completion: Result<Int, Error>)
-  func update(contact: Contact,newContact:Contact, completion: Result<[Contact],Error>)
+  func remove(contact: Contact, completion:(Result<Int, Error>) -> Void)
+  func update(contact: Contact,newContact:Contact, completion: (Result<[Contact],Error>) -> Void)
   // Output
   
 }
@@ -88,20 +88,6 @@ class ContactListPresenterImpl: ContactListPresenter {
     return indexedContacts.keys.count
   }
   
-  func add(contact: Contact, completion: (Result<Bool, Error>) -> Void) {
-    repository.contactFactory.add(contact: contact) { result in
-      switch result {
-      case .success(let ok):
-        // Update indexedContacts
-        insertIndexed(contact: contact)
-        //Completion
-        completion(.success(ok))
-      case .failure(let error):
-        completion(.failure(error))
-      }
-    }
-  }
-  
   func numberOfRowsIn(section: Int) -> Int {
     return contactsBy(section: section).count
   }
@@ -131,13 +117,32 @@ class ContactListPresenterImpl: ContactListPresenter {
     return contacts
   }
   
-  
-  
-  func remove(contact: Contact, completion: Result<Int, Error>) {
-    
+  func add(contact: Contact, completion: (Result<Bool, Error>) -> Void) {
+    repository.contactFactory.add(contact: contact) { result in
+      switch result {
+      case .success(let ok):
+        // Update indexedContacts
+        insertIndexed(contact: contact)
+        //Completion
+        completion(.success(ok))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
   }
   
-  func update(contact: Contact, newContact: Contact, completion: Result<[Contact], Error>) {
+  func remove(contact: Contact, completion: (Result<Int, Error>) -> Void) {
+    repository.contactFactory.delete(contact: contact) { result in
+      switch result {
+      case .success:
+        completion(.success(200))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
+  
+  func update(contact: Contact, newContact: Contact, completion: (Result<[Contact], Error>) -> Void) {
     
   }
   

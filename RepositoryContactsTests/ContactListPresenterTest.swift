@@ -187,7 +187,7 @@ class ContactListPresenterTest: XCTestCase {
   }
   
   func testAddContact() {
-     let exp = self.expectation(description: "Update with closure")
+     let exp = self.expectation(description: "Contact was added or error")
      let contact = Contact(name: "Abigail", phoneNumber: "123123123")
      contactListPresenter.add(contact: contact) { result in
        switch result {
@@ -206,7 +206,37 @@ class ContactListPresenterTest: XCTestCase {
    }
   
   func testRemoveContact() {
+    let exp1 = self.expectation(description: "Contact was added or Error")
+    let contact1 = Contact(name: "Abigail", phoneNumber: "123123123")
     
+    let exp2 = self.expectation(description: "Contact was removed or Error")
+    
+    
+    contactListPresenter.add(contact: contact1) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+        self.contacts.append(contact1)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp1.fulfill()
+    }
+    
+    contactListPresenter.remove(contact: contact1) { result in
+      XCTAssert(self.contacts.count == 1, "Numbers of Contacts must be one")
+      switch result {
+      case .success:
+        self.contacts.removeAll { $0 == contact1 }
+      case .failure:
+        print("Error removing")
+      }
+      exp2.fulfill()
+    }
+    
+    wait(for: [exp1,exp2], timeout: 1)
+    
+    XCTAssert(self.contacts.count == 0, "Numbers of Contacts must be 0")
   }
   
   func testUpdateContact() {
