@@ -17,7 +17,7 @@ protocol ContactListPresenter: class {
   func contactsBy(indexPaths: [IndexPath]) -> [Contact]
   func add(contact: Contact, completion: (Result<Bool, Error>) -> Void)
   func remove(contact: Contact, completion:(Result<Int, Error>) -> Void)
-  func update(contact: Contact,newContact:Contact, completion: (Result<[Contact],Error>) -> Void)
+  func update(contact: Contact,newContact:Contact, completion: (Result<Int,Error>) -> Void)
   // Output
   
 }
@@ -142,7 +142,15 @@ class ContactListPresenterImpl: ContactListPresenter {
     }
   }
   
-  func update(contact: Contact, newContact: Contact, completion: (Result<[Contact], Error>) -> Void) {
+  func update(contact: Contact, newContact: Contact, completion: (Result<Int, Error>) -> Void) {
+    repository.contactFactory.update(contact: contact,dataToUpdate: newContact) { result in
+         switch result {
+         case .success:
+           completion(.success(200))
+         case .failure(let error):
+           completion(.failure(error))
+         }
+       }
     
   }
   
