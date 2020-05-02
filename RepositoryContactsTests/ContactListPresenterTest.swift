@@ -14,12 +14,15 @@ class ContactListPresenterTest: XCTestCase {
   var contactFactory: ContactFactory!
   var repository: Repository!
   var contactListPresenter: ContactListPresenter!
+  var contactListPresenter2: ContactListPresenter!
   var contacts : [Contact] = []
   
   override func setUp() {
     self.contactFactory = MockFactoryImpl()
     self.repository = Repository(contactFactory: self.contactFactory)
     self.contactListPresenter = ContactListPresenterImpl(repository)
+    self.contactListPresenter2 = ContactListPresenterImpl(repository)
+    self.contactFactory.addPresenters(presenters: [contactListPresenter,contactListPresenter2])
   }
 
   
@@ -69,7 +72,7 @@ class ContactListPresenterTest: XCTestCase {
     let contact1 = Contact(name: "Bogan", phoneNumber: "123123123")
     let contact2 = Contact(name: "Antoine", phoneNumber: "123123123")
     
-    contactListPresenter.add(contact: contact1) { result in
+    contactListPresenter.add(contact: contact1) { result  in
       switch result {
       case .success:
         XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
@@ -273,7 +276,26 @@ class ContactListPresenterTest: XCTestCase {
     wait(for: [exp1,exp2], timeout: 1)
     
     XCTAssert(self.contacts[0].phoneNumber == "777777777", "Wrong new number")
+  }
+  
+  func testClosureMulticastingDelegation() {
+    
+    let exp1 = self.expectation(description: "Contact was added or error")
+//    let exp2 = self.expectation(description: "IndexedContacts Change")
+    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+    
+    contactListPresenter.add(contact: contact) { result in
+      switch result {
+      case .success:
+        XCTAssert(contactListPresenter.numberOfSections() == 1, "Numbers of section must be 0")
+        self.contacts.append(contact)
+      case .failure:
+        XCTAssert(contactListPresenter.numberOfSections() == 0, "Numbers of section must be 0")
+      }
+      exp1.fulfill()
+    }
+    wait(for: [exp1], timeout: 1)
+    XCTAssert(contactListPresenter2.numberOfSections() == 1, "Presenter 2 wasn't updated")
     
   }
-
 }

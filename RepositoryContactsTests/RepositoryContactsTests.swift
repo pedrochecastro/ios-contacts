@@ -52,7 +52,9 @@ class RepositoryContactsTests: XCTestCase {
     let exp1 = self.expectation(description: "Result complete. Contact Added.")
     let exp2 = self.expectation(description: "Result complete. There are contacts")
 
-  
+
+   
+    
     repository.contactFactory.add(contact: contact) { result in
       switch result {
       case .success:
@@ -68,7 +70,7 @@ class RepositoryContactsTests: XCTestCase {
       switch(result) {
       case .success(let contacts):
         exp2.fulfill()
-        XCTAssertTrue(contacts.count == 1, "There is no one contact as expected")
+        XCTAssertTrue(contacts.count == 1, "There is no one contact as expected: \(contacts.count)")
       case .failure(let error):
         XCTAssertNotNil(error, "Error")
       }
