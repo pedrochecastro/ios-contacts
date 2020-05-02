@@ -18,9 +18,16 @@ enum ContactFactoryError: Error {
 // Factories
 
 protocol ContactFactory {
+  func addPresenters(presenters: [ContactListPresenter])
   func getContacts(completionHandler: @escaping (Result<[Contact], Error>) -> Void)
-  func add(contact: Contact, completionHandler: (Result<Bool, Error>) -> Void)
+  func add(contact: Contact, requestFrom: ContactListPresenter?, completionHandler: (Result<Bool, Error>) -> Void)
   func delete(contact: Contact,  completionHandler: (Result<Bool, Error>) -> Void)
   func update(contact: Contact, dataToUpdate: Contact, completionHandler: (Result<Bool,Error>) -> Void)
   func contains(contact: Contact) -> Bool  
+}
+
+extension ContactFactory {
+  func add(contact: Contact, requestFrom: ContactListPresenter? = nil, completionHandler: (Result<Bool, Error>) -> Void) {
+    self.add(contact: contact, requestFrom: nil, completionHandler: completionHandler)
+  }
 }

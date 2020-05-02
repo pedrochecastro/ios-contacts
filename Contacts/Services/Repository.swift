@@ -13,5 +13,4 @@ class Repository {
   init(contactFactory: ContactFactory) {
     self.contactFactory = contactFactory
   }
-  
 }

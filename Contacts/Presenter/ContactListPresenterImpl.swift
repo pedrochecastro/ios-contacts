@@ -18,18 +18,26 @@ protocol ContactListPresenter: class {
   func add(contact: Contact, completion: (Result<Bool, Error>) -> Void)
   func remove(contact: Contact, completion:(Result<Int, Error>) -> Void)
   func update(contact: Contact,newContact:Contact, completion: (Result<Int,Error>) -> Void)
-  // Output
-  
+  // Output: Check this!
+  func didAdded(contact: Contact)
+  func didChange(completion: @escaping () -> Void)
 }
 
 class ContactListPresenterImpl: ContactListPresenter {
+  
   // MARK: - TypeDef
   typealias ContactIndexed = [String:[Contact]]
   
   // MARK: - Constants & Var
   
   let repository : Repository
-  var indexedContacts: ContactIndexed = [:]
+  var completionChange: (() -> Void)?
+  var indexedContacts: ContactIndexed = [:] {
+    didSet {
+      guard let completionChange = completionChange else {return}
+      completionChange()
+    }
+  }
   var indexedContactsFiltered : ContactIndexed = [:]
   var filter: String?
   var updateSection = false
@@ -40,7 +48,82 @@ class ContactListPresenterImpl: ContactListPresenter {
     self.repository = repository
   }
   
+  // MARK: - Protocol implementation
+  func numberOfSections() -> Int {
+    return indexedContacts.keys.count
+  }
   
+  func numberOfRowsIn(section: Int) -> Int {
+    return contactsBy(section: section).count
+  }
+  
+  func titleForHeaderIn(section: Int) -> String {
+    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
+    let titleForHeader = keysSorted[section]
+    return titleForHeader
+  }
+  
+  func contactsBy(section: Int) -> [Contact] {
+    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
+    let key = keysSorted[section]
+    guard let contactsInSection = indexedContacts[key] else { return [] } //Error must be handle
+    return contactsInSection
+  }
+  
+  func contactsBy(indexPaths: [IndexPath]) -> [Contact] {
+    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
+    var contacts: [Contact] = []
+    indexPaths.forEach { indexPath in
+      let key = keysSorted[indexPath.section]
+      guard let contactsInSection = indexedContacts[key] else { return } //Error must be handle
+      let contact = contactsInSection[indexPath.row]
+      contacts.append(contact)
+    }
+    return contacts
+  }
+  
+  func add(contact: Contact, completion: (Result<Bool, Error>)-> Void) {
+    repository.contactFactory.add(contact: contact) { result in
+      switch result {
+      case .success(let ok):
+        completion(.success(ok))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
+  
+  func remove(contact: Contact, completion: (Result<Int, Error>) -> Void) {
+    repository.contactFactory.delete(contact: contact) { result in
+      switch result {
+      case .success:
+        completion(.success(200))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
+  
+  func update(contact: Contact, newContact: Contact, completion: (Result<Int, Error>) -> Void) {
+    repository.contactFactory.update(contact: contact,dataToUpdate: newContact) { result in
+         switch result {
+         case .success:
+           completion(.success(200))
+         case .failure(let error):
+           completion(.failure(error))
+         }
+       }
+    
+  }
+  
+  func didChange(completion: @escaping () -> Void) {
+    self.completionChange = completion
+  }
+  
+  
+  func didAdded(contact: Contact) {
+    self.insertIndexed(contact: contact)
+  }
   
   // MARK: - Private functions
   
@@ -83,81 +166,8 @@ class ContactListPresenterImpl: ContactListPresenter {
     .filter {$0.name.contains(words) }
   }
   
-  // MARK: - Protocol implementation
-  func numberOfSections() -> Int {
-    return indexedContacts.keys.count
-  }
   
-  func numberOfRowsIn(section: Int) -> Int {
-    return contactsBy(section: section).count
-  }
-  
-  func titleForHeaderIn(section: Int) -> String {
-    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
-    let titleForHeader = keysSorted[section]
-    return titleForHeader
-  }
-  
-  func contactsBy(section: Int) -> [Contact] {
-    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
-    let key = keysSorted[section]
-    guard let contactsInSection = indexedContacts[key] else { return [] } //Error must be handle
-    return contactsInSection
-  }
-  
-  func contactsBy(indexPaths: [IndexPath]) -> [Contact] {
-    let keysSorted = Array(indexedContacts.keys).sorted(by: <)
-    var contacts: [Contact] = []
-    indexPaths.forEach { indexPath in
-      let key = keysSorted[indexPath.section]
-      guard let contactsInSection = indexedContacts[key] else { return } //Error must be handle
-      let contact = contactsInSection[indexPath.row]
-      contacts.append(contact)
-    }
-    return contacts
-  }
-  
-  func add(contact: Contact, completion: (Result<Bool, Error>) -> Void) {
-    repository.contactFactory.add(contact: contact) { result in
-      switch result {
-      case .success(let ok):
-        // Update indexedContacts
-        insertIndexed(contact: contact)
-        //Completion
-        completion(.success(ok))
-      case .failure(let error):
-        completion(.failure(error))
-      }
-    }
-  }
-  
-  func remove(contact: Contact, completion: (Result<Int, Error>) -> Void) {
-    repository.contactFactory.delete(contact: contact) { result in
-      switch result {
-      case .success:
-        completion(.success(200))
-      case .failure(let error):
-        completion(.failure(error))
-      }
-    }
-  }
-  
-  func update(contact: Contact, newContact: Contact, completion: (Result<Int, Error>) -> Void) {
-    repository.contactFactory.update(contact: contact,dataToUpdate: newContact) { result in
-         switch result {
-         case .success:
-           completion(.success(200))
-         case .failure(let error):
-           completion(.failure(error))
-         }
-       }
-    
-  }
-  
-  
-  
-  
-  // MARK: - Public functions
+  // MARK: - Public functions ⚠️ Change
   
   public func sectionsTitlesHeader() -> [String] {
     
@@ -306,7 +316,7 @@ class ContactListPresenterImpl: ContactListPresenter {
     self.indexedContactsFiltered = [:]
   }
   
-  func insertIndexed(contact: Contact) {
+  public func insertIndexed(contact: Contact) {
     
     let key = String(contact.name.prefix(1))
     if !sectionsTitlesHeader().contains(key) {

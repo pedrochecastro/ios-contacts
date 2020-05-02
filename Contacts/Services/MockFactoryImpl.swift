@@ -9,17 +9,28 @@ import Foundation
 
 
 
-final class MockFactoryImpl : ContactFactory { //1.) Insert Output protocol for updating
-  
-  //2.) Delegate trow protocol, with closures better
-  // weak var delegate: ContactListPresenter
+final class MockFactoryImpl : ContactFactory {
+ 
   
   
+  var presenters : [ContactListPresenter]?
+
   //Faking contacts with this property
   private var fakeContacts: [Contact] = []
   
   let mockError: ContactFactoryError? = nil
-
+  
+  init() {
+    
+  }
+  
+  init(presenters: [ContactListPresenter]) {
+    self.presenters = presenters
+  }
+  
+  func addPresenters(presenters: [ContactListPresenter]) {
+    self.presenters = presenters
+   }
   
   func getContacts(completionHandler: @escaping (Result<[Contact], Error>) -> Void) {
    // Error
@@ -32,12 +43,11 @@ final class MockFactoryImpl : ContactFactory { //1.) Insert Output protocol for 
       
       // Get the data parsing...
       // No contacts
-      // 3.) En el completion pasa el closure a traves del protocolo. Modificar el completion
       completionHandler(.success(self.fakeContacts))
     }
   }
   
-  func add(contact: Contact, completionHandler: (Result<Bool, Error>) -> Void) {
+  func add(contact: Contact, requestFrom: ContactListPresenter? = nil, completionHandler: (Result<Bool, Error>) -> Void ) {
     if let _ = mockError  {
       completionHandler(.failure(ContactFactoryError.insertError(message:"Insert Error")))
       return
@@ -46,8 +56,15 @@ final class MockFactoryImpl : ContactFactory { //1.) Insert Output protocol for 
       completionHandler(.failure(ContactFactoryError.duplicated(message: "Duplicated contact")))
       return
     }
-    
     fakeContacts.append(contact)
+    
+    // Update presenter from request
+      //    requestFrom?.didAdded(contact: contact)
+    // Update all related presenters
+    presenters?.forEach {
+      $0.didAdded(contact: contact)
+    }
+    // Completion ok
     completionHandler(.success(true))
   }
   

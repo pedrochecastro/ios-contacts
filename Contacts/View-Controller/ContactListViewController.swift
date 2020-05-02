@@ -19,10 +19,9 @@ class ContactListViewController: UITableViewController {
   
   // MARK: - Init
   required init?(coder: NSCoder) {
-    
     self.factory = MockFactoryImpl()
     self.repository = Repository(contactFactory: factory)
-    self.contactList = ContactListPresenterImpl(repository)
+    self.contactList = ContactListPresenterImpl(self.repository)
     super.init(coder: coder)
   }
   
