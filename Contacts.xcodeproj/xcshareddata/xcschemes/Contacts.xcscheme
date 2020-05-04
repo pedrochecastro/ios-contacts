@@ -46,11 +46,6 @@
                BlueprintName = "RepositoryContactsTests"
                ReferencedContainer = "container:Contacts.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "RepositoryContactsTests">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

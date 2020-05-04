@@ -58,7 +58,7 @@ class RepositoryContactsTests: XCTestCase {
     repository.contactFactory.add(contact: contact) { result in
       switch result {
       case .success:
-        print("Repositorytests contact added")
+        print("RepositoryTest contact added")
         exp1.fulfill()
       case .failure:
         print("Error")

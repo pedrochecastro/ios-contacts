@@ -15,11 +15,11 @@ protocol ContactListPresenter: class {
   func titleForHeaderIn(section: Int) -> String
   func contactsBy(section: Int) -> [Contact]
   func contactsBy(indexPaths: [IndexPath]) -> [Contact]
-  func add(contact: Contact, completion: (Result<Bool, Error>) -> Void)
+  func add(contact: Contact, completion: (Result<SuccessCode, Error>) -> Void)
   func remove(contact: Contact, completion:(Result<Int, Error>) -> Void)
   func update(contact: Contact,newContact:Contact, completion: (Result<Int,Error>) -> Void)
   // Output: Check this!
-  func didAdded(contact: Contact)
+  func didFinishAdding(contact: Contact)
   func didChange(completion: @escaping () -> Void)
 }
 
@@ -82,11 +82,11 @@ class ContactListPresenterImpl: ContactListPresenter {
     return contacts
   }
   
-  func add(contact: Contact, completion: (Result<Bool, Error>)-> Void) {
+  func add(contact: Contact, completion: (Result<SuccessCode, Error>)-> Void) {
     repository.contactFactory.add(contact: contact) { result in
       switch result {
-      case .success(let ok):
-        completion(.success(ok))
+      case .success:
+        completion(.success(.added))
       case .failure(let error):
         completion(.failure(error))
       }
@@ -116,14 +116,13 @@ class ContactListPresenterImpl: ContactListPresenter {
     
   }
   
-  func didChange(completion: @escaping () -> Void) {
-    self.completionChange = completion
-  }
-  
-  
-  func didAdded(contact: Contact) {
+  func didFinishAdding(contact: Contact) {
     self.insertIndexed(contact: contact)
   }
+  
+  func didChange(completion: @escaping () -> Void) {
+     self.completionChange = completion
+   }
   
   // MARK: - Private functions
   

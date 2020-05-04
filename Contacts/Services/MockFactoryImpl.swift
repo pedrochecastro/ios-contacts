@@ -11,8 +11,6 @@ import Foundation
 
 final class MockFactoryImpl : ContactFactory {
  
-  
-  
   var presenters : [ContactListPresenter]?
 
   //Faking contacts with this property
@@ -47,7 +45,7 @@ final class MockFactoryImpl : ContactFactory {
     }
   }
   
-  func add(contact: Contact, requestFrom: ContactListPresenter? = nil, completionHandler: (Result<Bool, Error>) -> Void ) {
+  func add(contact: Contact, requestFrom: ContactListPresenter? = nil, completionHandler: (Result<SuccessCode, Error>) -> Void ) {
     if let _ = mockError  {
       completionHandler(.failure(ContactFactoryError.insertError(message:"Insert Error")))
       return
@@ -56,17 +54,19 @@ final class MockFactoryImpl : ContactFactory {
       completionHandler(.failure(ContactFactoryError.duplicated(message: "Duplicated contact")))
       return
     }
+    // Could be async
     fakeContacts.append(contact)
+    didFinishAdding(contact: contact)
     
-    // Update presenter from request
-      //    requestFrom?.didAdded(contact: contact)
-    // Update all related presenters
-    presenters?.forEach {
-      $0.didAdded(contact: contact)
-    }
-    // Completion ok
-    completionHandler(.success(true))
+    completionHandler(.success(.added)) // OK
   }
+  
+  func didFinishAdding(contact: Contact) {
+      // Update all presenters if inyected
+        presenters?.forEach {
+          $0.didFinishAdding(contact: contact)
+        }
+   }
   
   func delete(contact: Contact, completionHandler: (Result<Bool, Error>) -> Void) {
     guard let i = fakeContacts.firstIndex(of: contact) else {

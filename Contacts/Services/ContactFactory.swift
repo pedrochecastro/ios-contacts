@@ -15,19 +15,33 @@ enum ContactFactoryError: Error {
   case notFound(message: String)
 }
 
+enum SuccessCode: String {
+  case added = "OK. Contact was added"
+  case updated = "OK. Contact was updated"
+  case delete = "OK. Contact was deleted"
+}
+
 // Factories
 
 protocol ContactFactory {
+   var presenters: [ContactListPresenter]? { get }
+  // Input
   func addPresenters(presenters: [ContactListPresenter])
   func getContacts(completionHandler: @escaping (Result<[Contact], Error>) -> Void)
-  func add(contact: Contact, requestFrom: ContactListPresenter?, completionHandler: (Result<Bool, Error>) -> Void)
+  func contains(contact: Contact) -> Bool
+  
+  func add(contact: Contact, requestFrom: ContactListPresenter?, completionHandler: (Result<SuccessCode, Error>) -> Void)
   func delete(contact: Contact,  completionHandler: (Result<Bool, Error>) -> Void)
   func update(contact: Contact, dataToUpdate: Contact, completionHandler: (Result<Bool,Error>) -> Void)
-  func contains(contact: Contact) -> Bool  
+  
+  // Output
+  func didFinishAdding(contact: Contact)
+  // ...
+  
 }
 
 extension ContactFactory {
-  func add(contact: Contact, requestFrom: ContactListPresenter? = nil, completionHandler: (Result<Bool, Error>) -> Void) {
+  func add(contact: Contact, requestFrom: ContactListPresenter? = nil, completionHandler: (Result<SuccessCode, Error>) -> Void) {
     self.add(contact: contact, requestFrom: nil, completionHandler: completionHandler)
   }
 }
