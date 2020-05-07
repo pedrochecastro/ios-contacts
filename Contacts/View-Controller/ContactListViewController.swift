@@ -19,9 +19,11 @@ class ContactListViewController: UITableViewController {
   
   // MARK: - Init
   required init?(coder: NSCoder) {
+//    Assembly components
     self.factory = MockFactoryImpl()
     self.repository = Repository(contactFactory: factory)
     self.contactList = ContactListPresenterImpl(self.repository)
+    self.factory.addPresenters(presenters: [contactList])
     super.init(coder: coder)
   }
   
@@ -44,7 +46,14 @@ class ContactListViewController: UITableViewController {
       //Spinner
       //GetContacts
       DispatchQueue.global().async {
-        self.contactList.indexedContacts
+        self.contactList.getContacts { result in
+          switch result {
+          case .success:
+            self.tableView.reloadData()
+          case .failure:
+            print("Error Loading")
+          }
+        }
       }
       
     }

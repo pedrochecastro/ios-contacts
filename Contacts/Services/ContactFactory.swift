@@ -34,9 +34,7 @@ protocol ContactFactory {
   func delete(contact: Contact,  completionHandler: (Result<Bool, Error>) -> Void)
   func update(contact: Contact, dataToUpdate: Contact, completionHandler: (Result<Bool,Error>) -> Void)
   
-  // Output
-  func didFinishAdding(contact: Contact)
-  // ...
+  // Output??
   
 }
 

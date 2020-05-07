@@ -189,6 +189,53 @@ class ContactListPresenterTest: XCTestCase {
     
   }
   
+  func testGetContacts() {
+//    Create a repository without adding presenters
+    let contactFactory = MockFactoryImpl()
+    let repository = Repository(contactFactory: contactFactory)
+    let contactListPresenter = ContactListPresenterImpl(repository)
+    
+    // Add 2 contacts to empty repository
+    let contact = Contact(name: "Abigail", phoneNumber: "123123123")
+    let contact2 = Contact(name: "Ana", phoneNumber: "123123123")
+    let exp1 = self.expectation(description: "Result complete. Contact Added.")
+    let exp2 = self.expectation(description: "Result complete. Contact Added")
+    let exp3 = self.expectation(description: "Result complete. Get Result from repository")
+    repository.contactFactory.add(contact: contact) { result in
+      exp1.fulfill()
+      switch result {
+      case .success:
+        print("RepositoryTest contact added")
+      case .failure:
+        print("Error")
+      }
+    }
+    
+    repository.contactFactory.add(contact: contact2) { result in
+      exp2.fulfill()
+      switch result {
+      case .success:
+        print("RepositoryTest contact added")
+      case .failure:
+        print("Error")
+      }
+    }
+    wait(for: [exp1,exp2], timeout: 2)
+    repository.contactFactory.addPresenters(presenters: [contactListPresenter])
+   //So presenter must be updated with 2 contacts from repository
+    contactListPresenter.getContacts { result in
+      exp3.fulfill()
+      switch result {
+      case .success:
+        print("ok")
+      case.failure:
+        print("error")
+      }
+    }
+    wait(for: [exp3], timeout: 2)
+    XCTAssert(contactListPresenter.contactsBy(section: 0).count == 2, "Presenter was Updated with 2 contacts from repository")
+  }
+  
   func testAddContact() {
      let exp = self.expectation(description: "Contact was added or error")
      let contact = Contact(name: "Abigail", phoneNumber: "123123123")

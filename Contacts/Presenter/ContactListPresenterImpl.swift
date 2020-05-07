@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ContactListPresenter: class {
-  // Input
+  // Presenter Owner <--> Presenter
   func numberOfSections() -> Int
   func numberOfRowsIn(section: Int) -> Int
   func sectionIndexTitles() -> [String]?
@@ -17,11 +17,14 @@ protocol ContactListPresenter: class {
   func contactsBy(section: Int) -> [Contact]
   func indexPathFrom(contact: Contact) -> IndexPath
   func contactsBy(indexPaths: [IndexPath]) -> [Contact]
+  // Presenter <--> Repository
+  func getContacts(completion: @escaping (Result<SuccessCode, Error>) -> Void)
   func add(contact: Contact, completion: (Result<SuccessCode, Error>) -> Void)
   func remove(contact: Contact, completion:(Result<Int, Error>) -> Void)
   func update(contact: Contact,newContact:Contact, completion: (Result<Int,Error>) -> Void)
-  // Output: Check this!
+  // Updates
   func didFinishAdding(contact: Contact)
+  func didFinishGetting(contacts: [Contact])
   func didChange(completion: @escaping () -> Void)
 }
 
@@ -88,9 +91,29 @@ class ContactListPresenterImpl: ContactListPresenter {
     }
     return contacts
   }
-  // TODO
+
   func indexPathFrom(contact: Contact) -> IndexPath {
-    return IndexPath()
+        //key
+        let key = String(contact.name.prefix(1))
+        //Section A..Z
+    guard let sectionTitlesHeader = sectionIndexTitles() else { return IndexPath()}
+    let section = (sectionTitlesHeader.firstIndex(of: key))!
+        //Row
+        let contacts = self.indexedContacts[key]!
+        let row = contacts.firstIndex(of: contact)!
+        return IndexPath(row: row, section: section)
+  }
+  
+  func getContacts(completion: @escaping (Result<SuccessCode, Error>) -> Void) {
+    repository.contactFactory.getContacts { result in
+      switch result {
+      case .success(let contacts):
+        self.didFinishGetting(contacts: contacts)
+        completion(.success(.added))
+      case .failure:
+        print ("Error")
+      }
+    }
   }
   
   func add(contact: Contact, completion: (Result<SuccessCode, Error>)-> Void) {
@@ -129,6 +152,10 @@ class ContactListPresenterImpl: ContactListPresenter {
   
   func didFinishAdding(contact: Contact) {
     self.insertIndexed(contact: contact)
+  }
+  
+  func didFinishGetting(contacts: [Contact]) {
+    self.indexedContacts = self.mapToDictionary(contacts: contacts)
   }
   
   func didChange(completion: @escaping () -> Void) {
@@ -179,34 +206,35 @@ class ContactListPresenterImpl: ContactListPresenter {
   }
   
   
-//  private func mapToDictionary(contacts: [Contact]) -> ContactIndexed {
-//
-//    var ci = ContactIndexed()
-//
-//    contacts.forEach {
-//      insertIndexed(contact: $0)
-//      updateSection = false
-//    }
-//
-//    func insertIndexed(contact: Contact) {
-//      let key = String(contact.name.prefix(1))
-//      if !sectionsTitlesHeader().contains(key) {
-//        updateSection = true
-//      }
-//
-//      if var contacts = ci[key] {
-//        contacts.append(contact)
-//        ci[key] = contacts.sorted()
-//      }
-//      else {
-//        var contacts = [Contact]()
-//        contacts.append(contact)
-//        ci[key] = contacts
-//      }
-//    }
-//
-//    return ci
-//  }
+  private func mapToDictionary(contacts: [Contact]) -> ContactIndexed {
+
+    var ci = ContactIndexed()
+
+    contacts.forEach {
+      insertIndexed(contact: $0)
+      updateSection = false
+    }
+
+    func insertIndexed(contact: Contact) {
+      let key = String(contact.name.prefix(1))
+      guard let sectionIndexTitles = sectionIndexTitles() else {return}
+      if !sectionIndexTitles.contains(key) {
+        updateSection = true
+      }
+
+      if var contacts = ci[key] {
+        contacts.append(contact)
+        ci[key] = contacts.sorted()
+      }
+      else {
+        var contacts = [Contact]()
+        contacts.append(contact)
+        ci[key] = contacts
+      }
+    }
+
+    return ci
+  }
   
   
   

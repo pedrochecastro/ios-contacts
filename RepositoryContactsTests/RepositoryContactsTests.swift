@@ -76,7 +76,7 @@ class RepositoryContactsTests: XCTestCase {
       }
     }
     
-    wait(for: [exp1,exp2], timeout: 2)
+    wait(for: [exp1,exp2], timeout: 0.501)
     
     
   }

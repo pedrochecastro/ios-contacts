@@ -14,7 +14,9 @@ final class MockFactoryImpl : ContactFactory {
   var presenters : [ContactListPresenter]?
 
   //Faking contacts with this property
-  private var fakeContacts: [Contact] = []
+  private var fakeContacts: [Contact] =
+    [Contact(name: "Abigail", phoneNumber: "123123123"),
+                Contact(name: "Steve Jobs", phoneNumber: "123123123"),]
   
   let mockError: ContactFactoryError? = nil
   
@@ -37,10 +39,13 @@ final class MockFactoryImpl : ContactFactory {
       return
     }
     // Code with delay from Network, CoreData, FileSystem... (Mock 2 seconds delay)
-    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-      
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
       // Get the data parsing...
       // No contacts
+      // Updade
+      self.presenters?.forEach {
+        $0.didFinishGetting(contacts: self.fakeContacts)
+      }
       completionHandler(.success(self.fakeContacts))
     }
   }
@@ -56,17 +61,12 @@ final class MockFactoryImpl : ContactFactory {
     }
     // Could be async
     fakeContacts.append(contact)
-    didFinishAdding(contact: contact)
+    presenters?.forEach {
+             $0.didFinishAdding(contact: contact)
+    }
     
     completionHandler(.success(.added)) // OK
   }
-  
-  func didFinishAdding(contact: Contact) {
-      // Update all presenters if inyected
-        presenters?.forEach {
-          $0.didFinishAdding(contact: contact)
-        }
-   }
   
   func delete(contact: Contact, completionHandler: (Result<Bool, Error>) -> Void) {
     guard let i = fakeContacts.firstIndex(of: contact) else {
