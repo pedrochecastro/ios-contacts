@@ -8,18 +8,21 @@
 
 import UIKit
 
-class ContactListViewController: UITableViewController {
+class ContactListViewController: UIViewController {
+  
   
   // MARK: - Variables & Constants
-  let factory: ContactFactory!
-  let repository: Repository!
-  var contactList: ContactListPresenterImpl!
+  let factory: ContactFactory
+  let repository: Repository
+  var contactList: ContactListPresenterImpl
   var imagePicker: ImagePicker?
+  
+  @IBOutlet weak var tableView: UITableView!
   
   
   // MARK: - Init
   required init?(coder: NSCoder) {
-//    Assembly components
+    // Assembly components
     self.factory = MockFactoryImpl()
     self.repository = Repository(contactFactory: factory)
     self.contactList = ContactListPresenterImpl(self.repository)
@@ -27,50 +30,116 @@ class ContactListViewController: UITableViewController {
     super.init(coder: coder)
   }
   
-  
   // MARK: - Outlets
-  
   @IBOutlet weak var searchBar: UISearchBar!
   @IBAction func cancel(_ sender: Any) {
     restarSearch()
   }
   
   // MARK: - Lifecycle Methods
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      
-        // UI
-        navigationController?.navigationBar.prefersLargeTitles = true
-      
-      //Spinner
-      //GetContacts
-      DispatchQueue.global().async {
-        self.contactList.getContacts { result in
-          switch result {
-          case .success:
-            self.tableView.reloadData()
-          case .failure:
-            print("Error Loading")
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    // UI
+    tableView.dataSource = self
+    tableView.delegate = self
+    // createSpinnerView()
+    navigationController?.navigationBar.prefersLargeTitles = true
+    //Spinner Pending
+    //GetContacts
+    DispatchQueue.global().async {
+      self.contactList.getContacts { result in
+        switch result {
+        case .success:
+          self.tableView.reloadData() // Load Table View?
+          print("Ok 😁")
+        case .failure:
+          print("Error Loading")
+        }
+      }
+    }
+    
+  }
+  
+  // MARK: - Functions
+  @objc func didTap(sender: CustomGestureRecognizer) {// present the view controller
+    //ImagePicker
+    self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+    self.imagePicker?.indexPath = sender.indexPath
+    self.imagePicker?.present(from: view)
+  }
+  
+  func restarSearch() {
+    self.searchBar.text = nil
+    self.contactList.removeFilter()
+    if let searchField = self.searchBar.value(forKey: "searchField") as? UIControl {
+      searchField.isEnabled = true
+    }
+    // We apply this to a tableViewController. Change!
+    //    tableView.restore()
+    self.searchBar.showsCancelButton = false
+    tableView.reloadData()
+    navigationController?.isToolbarHidden = true
+  }
+  
+  func createSpinnerView() {
+    let child = SpinnerViewController()
+    
+    // add the spinner view controller
+    addChild(child)
+    child.view.frame = view.frame
+    view.addSubview(child.view)
+    child.didMove(toParent: self)
+    
+    // wait two seconds to simulate some work happening
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+      // then remove the spinner view controller
+      child.willMove(toParent: nil)
+      child.view.removeFromSuperview()
+      child.removeFromParent()
+    }
+  }
+  
+  // MARK: - Navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "addNewContact" {
+      if let contactEditionVC = segue.destination as? ContactEditionViewController {
+        contactEditionVC.delegate = self
+        //                contactEditionVC.repository = Repository.coredata
+      }
+    }
+    else if segue.identifier == "detailContact" {
+      if let contactDetailVC = segue.destination as? ContactDetailViewController {
+        contactDetailVC.contact = sender as? Contact
+        contactDetailVC.editionContactListDelegate = self
+        contactDetailVC.editionActionHandler = { (contact, editedContact) in
+          self.contactList.update(contact: contact, newContact: editedContact) { result in
+            switch result {
+            case .success:
+              print ("Contact Updated")
+              let indexPath = self.contactList.indexPathFrom(contact: contact)
+              self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            case .failure:
+              print ("Error")
+            }
           }
         }
       }
-      
     }
+  }
   
-  
-  
-  // MARK: - Table View
+}
 
-  override func numberOfSections(in tableView: UITableView) -> Int {
+// MARK: - TableView Delegate & DataSource
+extension ContactListViewController: UITableViewDataSource, UITableViewDelegate {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return contactList.numberOfSections()
   }
-
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return contactList.contactsBy(section: section).count
   }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "ContactlistItem",
                                              for: indexPath) as! CustomCell
     //Gesture recognizer
@@ -90,12 +159,12 @@ class ContactListViewController: UITableViewController {
     }
     return cell
   }
-
-  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return contactList.titleForHeaderIn(section: section)
   }
-
-   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     let contact = contactList.contactsBy(indexPaths: [indexPath])[0]
     contactList.remove(contact: contact) { result in
       switch result {
@@ -105,83 +174,31 @@ class ContactListViewController: UITableViewController {
         print ("Error deleteing...")
       }
     }
-        if contactList.deleteSection {
-            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
-            contactList.deleteSection = false
-        } else {
-             tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      let contact = contactList.contactsBy(indexPaths: [indexPath])
-        performSegue(withIdentifier: "detailContact", sender: contact)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return indexPath
-    }
-
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-      return contactList.sectionIndexTitles()
-    }
-  
-  
-  // MARK: - Navigation
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "addNewContact" {
-      if let contactEditionVC = segue.destination as? ContactEditionViewController {
-        contactEditionVC.delegate = self
-        //                contactEditionVC.repository = Repository.coredata
-      }
-    }
-    else if segue.identifier == "detailContact" {
-      if let contactDetailVC = segue.destination as? ContactDetailViewController {
-        contactDetailVC.contact = sender as? Contact
-        contactDetailVC.editionContactListDelegate = self
-        contactDetailVC.editionActionHandler = { (contact, editedContact) in
-        self.contactList.update(contact: contact, newContact: editedContact) { result in
-            switch result {
-            case .success:
-              print ("Contact Updated")
-              let indexPath = self.contactList.indexPathFrom(contact: contact)
-              self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            case .failure:
-              print ("Error")
-            }
-          }
-        }
-      }
+    if contactList.deleteSection {
+      tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+      contactList.deleteSection = false
+    } else {
+      tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
-  // MARK: - Functions
   
-  @objc func didTap(sender: CustomGestureRecognizer) {// present the view controller
-    //ImagePicker
-    self.imagePicker = ImagePicker(presentationController: self, delegate: self)
-    self.imagePicker?.indexPath = sender.indexPath
-    self.imagePicker?.present(from: view)
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let contact = contactList.contactsBy(indexPaths: [indexPath])
+    performSegue(withIdentifier: "detailContact", sender: contact)
+    tableView.deselectRow(at: indexPath, animated: true)
   }
   
-    func restarSearch() {
-      self.searchBar.text = nil
-      self.contactList.removeFilter()
-      if let searchField = self.searchBar.value(forKey: "searchField") as? UIControl {
-        searchField.isEnabled = true
-      }
-      self.restore()
-      self.searchBar.showsCancelButton = false
-      tableView.reloadData()
-      navigationController?.isToolbarHidden = true
-    }
-    
-    
+  func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    return indexPath
+  }
+  
+  func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+    return contactList.sectionIndexTitles()
+  }
+  
 }
 
 // MARK: - ContactEditionViewControllerDelegate
-
 extension ContactListViewController: ContactEditionViewControllerDelegate {
   
   func contactEditionViewController(_ controller: ContactEditionViewController, didFinishAdding contact: Contact) {
@@ -232,17 +249,16 @@ extension ContactListViewController: ContactEditionViewControllerDelegate {
 }
 
 // MARK: - UISearchBarDelegate
-
 extension ContactListViewController: UISearchBarDelegate {
   
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
     if (searchBar.value(forKey: "searchField") as? UITextField) != nil {
-//      searchField.clearButtonMode = UITextField.ViewMode.never
+      //      searchField.clearButtonMode = UITextField.ViewMode.never
     }
   }
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-  // We search while texting
+    // We search while texting
   }
   
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -252,25 +268,25 @@ extension ContactListViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     var textBefore = searchBar.text!
     var currentText : String {
-       return (textBefore as NSString).replacingCharacters(in: range, with: text)
+      return (textBefore as NSString).replacingCharacters(in: range, with: text)
     }
     if !currentText.isEmpty {
       contactList.filter = currentText
-      if !contactList.containsIndexedContact(with: currentText){
-                  setEmptyView(title: "Not Found", completion: ({() -> () in
-                    self.restarSearch()
-                  }))
-      } else {
-        restore()
-      }
-
+//      if !contactList.containsIndexedContact(with: currentText){
+//        setEmptyView(title: "Not Found", completion: ({() -> () in
+//          self.restarSearch()
+//        }))
+//      } else {
+//        restore()
+//      }
+      
     } else {
       restarSearch()
     }
     tableView.reloadData()
-
+    
     return true
-  
+    
   }
   
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -279,7 +295,6 @@ extension ContactListViewController: UISearchBarDelegate {
 }
 
 // MARK: - ImagePickerDelegate
-
 extension ContactListViewController: ImagePickerDelegate {
   func didSelect(image: UIImage?, indexPath: IndexPath) {
     guard let image = image else { return }
@@ -303,6 +318,5 @@ extension ContactListViewController: ImagePickerDelegate {
   func didSelect(image: UIImage?) {
     
   }
-  
 }
 
