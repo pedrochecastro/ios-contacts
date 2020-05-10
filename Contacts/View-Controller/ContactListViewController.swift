@@ -116,7 +116,7 @@ class ContactListViewController: UIViewController {
             switch result {
             case .success:
               print ("Contact Updated")
-              let indexPath = self.contactList.indexPathFrom(contact: contact)
+              let indexPath = self.contactList.indexPathFrom(contact: editedContact)
               self.tableView.reloadRows(at: [indexPath], with: .automatic)
             case .failure:
               print ("Error")
@@ -150,7 +150,7 @@ extension ContactListViewController: UITableViewDataSource, UITableViewDelegate 
     cell.contactImage.addGestureRecognizer(tapGestureRecognizer)
     
     let contacts = contactList.contactsBy(indexPaths: [indexPath])
-    let contact = contacts[indexPath.row]
+    let contact = contacts[0]
     cell.nameLabel.text = contact.name
     if let contactImage = contact.contactImage {
       cell.contactImage.image = contactImage
@@ -183,7 +183,7 @@ extension ContactListViewController: UITableViewDataSource, UITableViewDelegate 
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let contact = contactList.contactsBy(indexPaths: [indexPath])
+    let contact = contactList.contactsBy(indexPaths: [indexPath])[0]
     performSegue(withIdentifier: "detailContact", sender: contact)
     tableView.deselectRow(at: indexPath, animated: true)
   }

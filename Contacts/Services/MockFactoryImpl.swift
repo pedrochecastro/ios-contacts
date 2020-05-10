@@ -73,6 +73,9 @@ final class MockFactoryImpl : ContactFactory {
       completionHandler(.failure(ContactFactoryError.notFound(message: "Contact was't found")))
       return}
     fakeContacts.remove(at: i)
+    presenters?.forEach {
+      $0.didFinishDeleting(contact: contact)
+    }
     completionHandler(.success(true))
   }
   
@@ -83,6 +86,9 @@ final class MockFactoryImpl : ContactFactory {
         add(contact: dataToUpdate) { result in
           switch result {
           case .success:
+            presenters?.forEach {
+              $0.didFinishEditing(contact: contact, newData: dataToUpdate)
+            }
             completionHandler(.success(true))
           case .failure(let error):
             completionHandler(.failure(error.localizedDescription))
