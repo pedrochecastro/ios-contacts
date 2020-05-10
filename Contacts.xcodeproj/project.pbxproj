@@ -215,7 +215,7 @@
 				CFAC29DB23257EBE0055DCFA /* AppDelegate.swift */,
 				CF0A4BFF2343BE1B004AB372 /* View-Controller */,
 				CFF794EA245C456B003A3702 /* Presenter */,
-				CFF533CF239A827A001BB606 /* View->Cells */,
+				CFF533CF239A827A001BB606 /* View-Cells */,
 				CF148A2323FD3EF300C162FB /* View-GR */,
 				CF0A4BFE2343BDDF004AB372 /* Model */,
 				CF1B6FA724488BA000F8863F /* Services */,
@@ -226,12 +226,12 @@
 			path = Contacts;
 			sourceTree = "<group>";
 		};
-		CFF533CF239A827A001BB606 /* View->Cells */ = {
+		CFF533CF239A827A001BB606 /* View-Cells */ = {
 			isa = PBXGroup;
 			children = (
 				CF5D7CBE234B74B9003FACEB /* CustomCell.swift */,
 			);
-			path = "View->Cells";
+			path = "View-Cells";
 			sourceTree = "<group>";
 		};
 		CFF794EA245C456B003A3702 /* Presenter */ = {
